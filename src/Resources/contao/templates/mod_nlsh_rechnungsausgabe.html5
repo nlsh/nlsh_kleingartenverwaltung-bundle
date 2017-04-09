@@ -1,0 +1,309 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de" lang="de">
+<head>
+<title>Rechnungsausgabe</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<link rel="stylesheet" href="<?php echo $this->replaceInsertTags('{{env::path}}'); ?>system/modules/nlsh_Kleingartenverwaltung/html/style.css" type="text/css" media="all" />
+</head>
+<body class = "rg_body">
+<div class = "rgseite">
+    <div class = "header">
+        <?php echo $this->rg_outPut['stammdaten_verein']['name']; ?>
+    </div>
+    <div class = "adress">
+    <div class = "header_adress">
+        <?php echo $this->rg_outPut['stammdaten_verein']['name'] . " * " . $this->rg_outPut['stammdaten_verein']['strasse'] . " * " . $this->rg_outPut['stammdaten_verein']['plzort']; ?>
+     </div>
+    <div class = "adress_adress">
+        <?php echo $this->rg_outPut['garten_abrechnung']['member']['nlsh_member_anrede'] . '<br />'; ?>
+        <?php echo $this->rg_outPut['garten_abrechnung']['member']['lastname'] . ", " . $this->rg_outPut['garten_abrechnung']['member']['firstname'] . '<br />'; ?>
+        <?php echo $this->rg_outPut['garten_abrechnung']['member']['street'] . '<br />'; ?>
+        <?php echo $this->rg_outPut['garten_abrechnung']['member']['postal'] . " " . $this->rg_outPut['garten_abrechnung']['member']['city'] . '<br />'; ?>
+     </div>
+    <div class = "adress_date">
+        <?php echo date("d.m.Y") ?>
+    </div>
+    </div>
+    <div class = "rg_betreff">
+        <?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['rg_betreff'] . " " . $this->rg_outPut['ausgabejahr'] . "/" . $this->rg_outPut['garten_abrechnung']['nr'] ?>
+    </div>
+    <div class = "rg_anrede">
+        <?php echo $this->rg_outPut['garten_abrechnung']['member']['nlsh_member_anrede_2'] . " " . $this->rg_outPut['garten_abrechnung']['member']['lastname'] ?>
+    </div>
+
+    <!-- Rechnungstext für Verbrauchsdatenabrechnung, wenn vorhanden -->
+    <?php if ( ($this->rg_outPut['garten_abrechnung']['strom'] == true) || ($this->rg_outPut['garten_abrechnung']['wasser'] == true)): ?>
+        <div class = "rg_verbrauch">
+            <?php echo $this->rg_outPut['einstellungen']['nlsh_garten_ausgabejahr_verbrauchsdaten_formated']; ?>
+        </div>
+    <?php endif; ?>
+
+    <!--Rechnungstext ausgeben-->
+    <div class = "rg_pacht_beitrag">
+        <?php    echo $this->rg_outPut['einstellungen'][nlsh_garten_text_rg_pacht_beitrag_formated]; ?>
+    </div>
+    <div class = "rg_aufforder_zahlung">
+        <?php echo $this->rg_outPut['einstellungen']['nlsh_garten_text_rg_aufforder_zahlung'] ?>
+    </div>
+
+    <!--jetzt die Ausgabe der einezelnen Abrechnungseinheiten -->
+    <div class = "rg_table_ausgabe">
+        <table class = "table_ausgabe">
+
+            <!--Tabellenfuß-->
+            <tfoot>
+                <tr class = "rg_gesamt">
+                    <td class = "td_1">
+                        <?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['rg_gesamt'] ?>
+                    </td>
+                    <td class = "td_2">
+                        <?php echo $this->rg_outPut['garten_abrechnung']['gesamt_einzel_garten_formated'] ?>
+                    </td>
+                </tr>
+            </tfoot>
+
+            <!--Tabellen- Body-->
+            <tbody>
+                <!--wenn Beitrag vorhanden, dann ausgeben-->
+                <?php if ($this->rg_outPut['garten_abrechnung']['beitrag'] == true): ?>
+                    <tr>
+                        <td class = "td_1">
+                            <?php echo str_replace('%jahr', $this->rg_outPut['einstellungen']['nlsh_garten_ausgabejahr_beitrag'], $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['rg_beitrag']); ?>
+                        </td>
+                        <td class = "td_2">
+                            <?php echo $this->rg_outPut['garten_abrechnung']['beitrag_formated'] ?>
+                        </td>
+                    </tr>
+                <?php endif; ?>
+
+                <!--wenn Pacht vorhanden, dann ausgeben-->
+                <?php if ($this->rg_outPut['garten_abrechnung']['pacht'] == true): ?>
+                    <?php
+                    $rg_pacht = str_replace('%jahr', $this->rg_outPut['einstellungen']['nlsh_garten_ausgabejahr_pacht'], $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['rg_pacht']);
+                    $rg_pacht = str_replace('%gartenr', $this->rg_outPut['garten_abrechnung']['nr'], $rg_pacht);
+                    $rg_pacht = str_replace('%grosse', $this->rg_outPut['garten_abrechnung']['grosse_formated'], $rg_pacht);
+                    ?>
+                    <tr>
+                        <td class = "td_1">
+                            <?php echo $rg_pacht; ?>
+                        </td>
+                        <td class = "td_2">
+                            <?php echo $this->rg_outPut['garten_abrechnung']['pacht_formated']; ?>
+                        </td>
+                    </tr>
+                <?php endif; ?>
+
+                <!--wenn Strom vorhanden, dann ausgeben-->
+                <?php if ($this->rg_outPut['garten_abrechnung']['strom'] == true): ?>
+                    <tr>
+                        <td class = "td_1">
+                            <?php echo str_replace('%energie', $this->rg_outPut['garten_abrechnung']['strom_formated'], $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['rg_strom']); ?>
+                        </td>
+                        <td class = "td_2">
+                            <?php echo $this->rg_outPut['garten_abrechnung']['strom_kosten_formated']; ?>
+                        </td>
+                    </tr>
+                <?php endif; ?>
+
+                <!--wenn Wasser vorhanden, dann ausgeben-->
+                <?php if ($this->rg_outPut['garten_abrechnung']['wasser'] == true): ?>
+                    <tr>
+                        <td class = "td_1">
+                            <?php echo str_replace('%wasser', $this->rg_outPut['garten_abrechnung']['wasser_formated'], $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['rg_wasser']); ?>
+                        </td>
+                        <td class = "td_2">
+                            <?php echo $this->rg_outPut['garten_abrechnung']['wasser_kosten_formated']; ?>
+                        </td>
+                    </tr>
+                <?php endif; ?>
+
+                <!--wenn 1. individuelle Abrechnung Gartenstamm vorhanden, dann ausgeben-->
+                <?php if ( ($this->rg_outPut['garten_abrechnung']['abrechnung_stammdaten_individuell_01_name'] == true) || ($this->rg_outPut['garten_abrechnung']['abrechnung_stammdaten_individuell_01_wert'] == true)): ?>
+                    <tr>
+                        <td class = "td_1">
+                            <?php echo $this->rg_outPut['garten_abrechnung']['abrechnung_stammdaten_individuell_01_name']; ?>
+                        </td>
+                        <td class = "td_2">
+                            <?php echo $this->rg_outPut['garten_abrechnung']['abrechnung_stammdaten_individuell_01_wert_formated']; ?>
+                        </td>
+                    </tr>
+                <?php endif; ?>
+
+                <!--wenn 2. individuelle Abrechnung Gartenstamm vorhanden, dann ausgeben-->
+                <?php if ( ($this->rg_outPut['garten_abrechnung']['abrechnung_stammdaten_individuell_02_name'] == true) || ($this->rg_outPut['garten_abrechnung']['abrechnung_stammdaten_individuell_02_wert'] == true)): ?>
+                    <tr>
+                        <td class = "td_1">
+                            <?php echo $this->rg_outPut['garten_abrechnung']['abrechnung_stammdaten_individuell_02_name']; ?>
+                        </td>
+                        <td class = "td_2">
+                            <?php echo $this->rg_outPut['garten_abrechnung']['abrechnung_stammdaten_individuell_02_wert_formated']; ?>
+                        </td>
+                    </tr>
+                <?php endif; ?>
+
+                <!--wenn 3. individuelle Abrechnung Gartenstamm vorhanden, dann ausgeben-->
+                <?php if ( ($this->rg_outPut['garten_abrechnung']['abrechnung_stammdaten_individuell_03_name'] == true) || ($this->rg_outPut['garten_abrechnung']['abrechnung_stammdaten_individuell_03_wert'] == true)): ?>
+                    <tr>
+                        <td class = "td_1">
+                            <?php echo $this->rg_outPut['garten_abrechnung']['abrechnung_stammdaten_individuell_03_name']; ?>
+                        </td>
+                        <td class = "td_2">
+                            <?php echo $this->rg_outPut['garten_abrechnung']['abrechnung_stammdaten_individuell_03_wert_formated']; ?>
+                        </td>
+                    </tr>
+                <?php endif; ?>
+
+                <!--wenn 4. individuelle Abrechnung Gartenstamm vorhanden, dann ausgeben-->
+                <?php if ( ($this->rg_outPut['garten_abrechnung']['abrechnung_stammdaten_individuell_04_name'] == true) || ($this->rg_outPut['garten_abrechnung']['abrechnung_stammdaten_individuell_04_wert'] == true)): ?>
+                    <tr>
+                        <td class = "td_1">
+                            <?php echo $this->rg_outPut['garten_abrechnung']['abrechnung_stammdaten_individuell_04_name']; ?>
+                        </td>
+                        <td class = "td_2">
+                            <?php echo $this->rg_outPut['garten_abrechnung']['abrechnung_stammdaten_individuell_04_wert_formated']; ?>
+                        </td>
+                    </tr>
+                <?php endif; ?>
+
+                <!--wenn 1. individuelle Abrechnung Garten vorhanden, dann ausgeben-->
+                <?php if ( ($this->rg_outPut['garten_abrechnung']['abrechnung_garten_individuell_01_name'] == true) || ($this->rg_outPut['garten_abrechnung']['abrechnung_garten_individuell_01_wert'] == true)): ?>
+                    <tr>
+                        <td class = "td_1">
+                            <?php echo $this->rg_outPut['garten_abrechnung']['abrechnung_garten_individuell_01_name']; ?>
+                        </td>
+                        <td class = "td_2">
+                            <?php echo $this->rg_outPut['garten_abrechnung']['abrechnung_garten_individuell_01_wert_formated']; ?>
+                        </td>
+                    </tr>
+                <?php endif; ?>
+
+                <!--wenn 2. individuelle Abrechnung Garten vorhanden, dann ausgeben-->
+                <?php if ( ($this->rg_outPut['garten_abrechnung']['abrechnung_garten_individuell_02_name'] == true) || ($this->rg_outPut['garten_abrechnung']['abrechnung_garten_individuell_02_wert'] == true)): ?>
+                    <tr>
+                        <td class = "td_1">
+                            <?php echo $this->rg_outPut['garten_abrechnung']['abrechnung_garten_individuell_02_name']; ?>
+                        </td>
+                        <td class = "td_2">
+                            <?php echo $this->rg_outPut['garten_abrechnung']['abrechnung_garten_individuell_02_wert_formated']; ?>
+                        </td>
+                    </tr>
+                <?php endif; ?>
+
+                <!--wenn 3. individuelle Abrechnung Garten vorhanden, dann ausgeben-->
+                <?php if ( ($this->rg_outPut['garten_abrechnung']['abrechnung_garten_individuell_03_name'] == true) || ($this->rg_outPut['garten_abrechnung']['abrechnung_garten_individuell_03_wert'] == true)): ?>
+                    <tr>
+                        <td class = "td_1">
+                            <?php echo $this->rg_outPut['garten_abrechnung']['abrechnung_garten_individuell_03_name']; ?>
+                        </td>
+                        <td class = "td_2">
+                            <?php echo $this->rg_outPut['garten_abrechnung']['abrechnung_garten_individuell_03_wert_formated']; ?>
+                        </td>
+                    </tr>
+                <?php endif; ?>
+
+                <!--wenn 4. individuelle Abrechnung Garten vorhanden, dann ausgeben-->
+                <?php if ( ($this->rg_outPut['garten_abrechnung']['abrechnung_garten_individuell_04_name'] == true) || ($this->rg_outPut['garten_abrechnung']['abrechnung_garten_individuell_04_wert'] == true)): ?>
+                    <tr>
+                        <td class = "td_1">
+                            <?php echo $this->rg_outPut['garten_abrechnung']['abrechnung_garten_individuell_04_name']; ?>
+                        </td>
+                        <td class = "td_2">
+                            <?php echo $this->rg_outPut['garten_abrechnung']['abrechnung_garten_individuell_04_wert_formated']; ?>
+                        </td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
+    <div class = "rg_hinweis">
+        <?php echo $this->rg_outPut['einstellungen']['nlsh_garten_text_rg_hinweis']; ?>
+    </div>
+    <div class = "rg_zahlung_wohin">
+        <?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['rg_zahlung_wohin']; ?>
+    </div>
+    <div class = "bank">
+        <table class = "table_bank">
+        <tbody>
+            <tr>
+                <td colspan = "2">
+                    <?php echo $this->rg_outPut['stammdaten_verein']['bankname']; ?>
+                </td>
+            </tr>
+
+            <!--Ausgabe Konto und BLZ der Bank, wenn angegeben-->
+            <?php if ( ($this->rg_outPut['stammdaten_verein']['konto'] == true && $this->rg_outPut['stammdaten_verein']['blz'] == true)): ?>
+                <tr>
+                    <td class = "td_1">
+                        <?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['rg_konto']; ?>
+                    </td>
+                    <td class = "td_2">
+                        <?php echo $this->rg_outPut['stammdaten_verein']['konto']; ?>
+                    </td>
+                    <td class = "td_3">
+                        <?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['rg_blz']; ?>
+                    </td>
+                    <td class = "td_4">
+                        <?php echo $this->rg_outPut['stammdaten_verein']['blz']; ?>
+                    </td>
+                </tr>
+            <?php endif; ?>
+
+            <!--Ausgabe vin IBAN und BIC wenn vorhanden-->
+            <?php if ( ($this->rg_outPut['stammdaten_verein']['iban'] == true && $this->rg_outPut['stammdaten_verein']['bic'] == true)): ?>
+                <tr>
+                    <td class = "td_1">
+                        <?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['rg_iban']; ?>
+                    </td>
+                    <td class = "td_2">
+                        <?php echo $this->rg_outPut['stammdaten_verein']['iban']; ?>
+                    </td>
+                    <td class = "td_3">
+                        <?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['rg_bic']; ?>
+                    </td>
+                    <td class = "td_">
+                        <?php echo $this->rg_outPut['stammdaten_verein']['bic']; ?>
+                    </td>
+                </tr>
+            <?php endif; ?>
+        </tbody>
+        </table>
+    </div>
+    <div class = "rg_gruss">
+        <?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['rg_gruss'] . "<br /> - "
+        . $this->rg_outPut['stammdaten_verein']['vereinsvorsitzender'] . " -<br />"
+        . $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['rg_gruss_funktion']; ?>
+    </div>
+
+    <!--Zum Schluß die Fußzeile-->
+    <div class = "fuss">
+        <div class = "fuss_adress_verein">
+            <?php echo $this->rg_outPut['stammdaten_verein']['name']; ?>
+
+            <?php if ($this->rg_outPut['stammdaten_verein']['telefon'] == true): ?>
+                <br />
+                 <?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['telefon'] . ": " . $this->rg_outPut['stammdaten_verein']['telefon'] . "&nbsp;&nbsp;"; ?>
+            <?php endif; ?>
+
+            <?php if ($this->rg_outPut['stammdaten_verein']['email'] == true): ?>
+                 <?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['email'] . ": " . $this->rg_outPut['stammdaten_verein']['email']; ?>
+            <?php endif; ?>
+            <br />
+            <?php echo $this->rg_outPut['stammdaten_verein']['strasse']; ?>
+            <br />
+            <?php echo $this->rg_outPut['stammdaten_verein']['plzort']; ?>
+        </div>
+        <div class = "fuss_rechtliches">
+         <?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['rg_gruss_funktion'] . ": " . $this->rg_outPut['stammdaten_verein']['vereinsvorsitzender']; ?>
+         <br />
+         <?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['rg_finanzamt'] . " " . $this->rg_outPut['stammdaten_verein']['finanzamt'] . ';'; ?>
+         <?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['rg_steuernummer'] . " " . $this->rg_outPut['stammdaten_verein']['steuernummer']; ?>
+         <br />
+         <?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['rg_amtsgericht'] . " " . $this->rg_outPut['stammdaten_verein']['amtsgericht'] .';'; ?>
+         <?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['rg_vereinsregister'] . " " . $this->rg_outPut['stammdaten_verein']['amtsgericht_nummer']; ?>
+        </div>
+    </div>
+</div>
+</body>
+</html>

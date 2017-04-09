@@ -1,0 +1,175 @@
+.mod_nlsh_gesamtausgabe {
+         color: black;
+}
+
+.mod_nlsh_gesamtausgabe table {
+    border: 1px solid black;
+    width: 95%;
+    margin: auto;
+    }
+
+.mod_nlsh_gesamtausgabe th{
+         border: 1px solid black;
+         text-align:center;
+         padding-top: 1em;
+         padding-bottom:1em;
+}
+
+.mod_nlsh_gesamtausgabe tr {
+         vertical-align:top;
+         text-align: right;
+}
+
+.mod_nlsh_gesamtausgabe td{
+         padding: 0 5px 2px;
+         border: 1px solid black;
+}
+.mod_nlsh_gesamtausgabe .nr{
+         text-align:center;
+}
+
+.mod_nlsh_gesamtausgabe .adresse{
+         text-align:left;
+}
+
+.mod_nlsh_gesamtausgabe .betrag{
+         font-weight:bold;
+}
+
+.mod_nlsh_gesamtausgabe .garten_button{
+margin-top: 1em;
+}
+
+.mod_nlsh_gesamtausgabe #AusgabeLatex, #AusgabeDatev{
+  display: inline-block;
+}
+
+
+.mod_nlsh_gesamtausgabe input .tex sub, .latex sub, .latex sup {
+  text-transform: uppercase;
+}
+
+.mod_nlsh_gesamtausgabe input .tex sub, .latex sub {
+  vertical-align: -0.5ex;
+  margin-left: -0.1667em;
+  margin-right: -0.125em;
+}
+
+.mod_nlsh_gesamtausgabe input .tex, .latex, .tex sub, .latex sub {
+  font-size: 1em;
+}
+
+.mod_nlsh_gesamtausgabe input .latex sup {
+  font-size: 0.85em;
+  vertical-align: 0.15em;
+  margin-left: -0.36em;
+  margin-right: -0.15em;
+}
+
+
+.rg_body {
+         margin: 0;
+         padding:0;
+         font-family: Tahoma,arial,verdana,helvetica;
+         font-size: 9pt;
+}
+
+.rgseite {
+height: 260mm;
+width: 180mm;
+position: relative;
+}
+
+.header {
+height: 100px;
+font-family: Cambria;
+font-size: 18pt;
+font-weight: bold;
+}
+
+.adress {
+height: 110px;
+}
+
+.header_adress {
+height: 10pt;
+font-size: 5pt;
+}
+
+.adress_adress {
+float:left;
+margin-top: 1em;
+}
+
+.adress_date {
+float:right;
+margin-right: 5em;
+margin-top: 5em;
+}
+
+.rg_betreff {
+font-family: Calibri;
+font-size: 16pt;
+font-weight: bold;
+margin-top: 2em;
+}
+
+.rg_anrede {
+margin-top: 3em;
+margin-bottom: 2em;
+}
+
+.table_ausgabe {
+width: 80%;
+}
+
+.table_ausgabe .td_2 {
+text-align: right;
+}
+
+.rg_verbrauch, .rg_pacht_beitrag, .rg_aufforder_zahlung , .rg_zahlung_wohin, .rg_hinweis{
+margin-top: 1em;
+}
+
+.rg_gesamt td {
+font-weight: bold;
+border-bottom: 1px solid black;
+}
+
+.rg_table_ausgabe, .table_bank {
+margin-left: 50px;
+margin-top: 1em;
+}
+
+.table_bank {
+font-weight: bold;
+}
+
+.table_bank .td_1 {
+width: 8em;
+}
+
+.table_bank .td_3 {
+width: 8em;
+padding-left: 5em;
+}
+
+
+.rg_gruss {
+margin-top: 2em;
+}
+
+.fuss {
+    bottom: 0;
+    position: absolute;
+    width: 100%;
+    font-size: 8pt;
+}
+
+.fuss_adress_verein {
+float:left;
+}
+
+.fuss_rechtliches {
+float: right;
+}

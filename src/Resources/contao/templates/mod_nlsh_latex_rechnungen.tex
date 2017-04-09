@@ -1,0 +1,187 @@
+% Standardvorlage für Rechnungen des Kleingartenvereins "Bullenwiese" Prenzlau e.V.
+%
+% Erläuterungen beziehen sich auf dieses PDF- Dokument
+% http://sunsite.informatik.rwth-aachen.de/ftp/pub/mirror/ctan/macros/latex/contrib/koma-script/doc/scrguide.pdf
+
+
+\documentclass%%
+%---------------------------------------------------------------------------
+  [fontsize = 12pt,                % Schriftgroesse
+%-----------------------------------------------------------------
+% Optionen der Dokumentenklasse
+% Satzspiegel
+   paper            = a4,         % Papierformat
+   enlargefirstpage = on,         % Erste Seite anders
+   pagenumber       = headright,  % Seitenzahl unten Rechts; S. 20 
+   firstfoot        = on,         % erster Fuß ja/nein
+%-----------------------------------------------------------------
+% Layout
+   headsepline = on,              % Linie unter der Seitenzahl
+   parskip     = half,            % Abstand zwischen Absaetzen
+%-----------------------------------------------------------------
+% Briefkopf und Anschrift
+   firsthead     = on,            % Briefkopf an/aus; S 179
+   fromalign     = left,          % Plazierung des Briefkopfs; S. 180
+   fromrule      = off,           % Linie im Absender (aftername, afteraddress); S. 181
+   fromphone     = on,            % Absender- Telefonnummer anzeigen; S. 185
+   fromfax       = off,           % Absender- Faxnummer anzeigen; S. 185
+   fromemail     = off,           % Absender- Emailadresse anzeigen; S. 185
+   fromurl       = off,           % Absender- Homepage anzeigen; S. 185
+   symbolicnames = on,            % Symble oder Text o.g. Absenderangaben; S. 185
+   fromlogo      = off,           % Firmenlogo anzeigen; S. 188
+   addrfield     = on,            % Adressfeld fuer Fensterkuverts; S. 192
+   backaddress   = on,            % ...und Absender im Fenster; S. 193
+   subject       = beforeopening, % Plazierung der Betreffzeile; S. 202
+   locfield      = narrow,        % zusaetzliches Feld fuer Absender
+   						          % abhängig von fromalign; S. 195
+   foldmarks     = on,            % Faltmarken setzen off/on, oder hier DIN; Seite 177
+   numericaldate = off,           % Datum numerisch ausgeben; S. 196
+   							      % off: xx. string xxx
+   							      % on : xx. xx. xxxx
+   refline       = narrow,        % Geschaeftszeile im Satzspiegel; S. 198
+   	                              % wenn keine Variablen gesetzt, dann nicht gezeigt
+%-----------------------------------------------------------------
+% Formatierung
+   draft         = off            % Entwurfsmodus, als Formatierungshilfe -> on/off
+]{scrlttr2}
+
+%---------------------------------------------------------------------------
+% zu ladene Packete
+\usepackage[utf8]{inputenc}      % ein Muss für Deutsche Texte
+\usepackage[T1]{fontenc}         % ein Muss für Deutsche Texte
+\usepackage[ngerman]{babel}      % ein Muss für Deutsche Texte
+\usepackage{lmodern}             % ein Muss für Deutsche Texte
+
+% zusätzliche Pakete
+\usepackage{ulem}                % durchstreichen von Text
+\usepackage{lipsum}              % zum Test Text simulieren
+\usepackage{color}               % Farbe hinzufügen
+
+% Briefkörper bündig am Briefkopf ausrichten
+
+\setlength{\oddsidemargin}{\useplength{toaddrhpos}}
+\addtolength{\oddsidemargin}{-1in}
+\setlength{\textwidth}{\useplength{firstheadwidth}}
+
+%---------------------------------------------------------------------------
+% Variablen; S. 185
+
+%Absender
+\setkomavar{fromname}{Kleingartenverein „Bullenwiese“ Prenzlau e.V.}
+\setkomavar{fromaddress}{Seeweg 3\\17291 Prenzlau}
+\setkomavar{fromphone}{+49 172 951 590}
+\setkomavar{fromemail}{nils@nilsheinold.de}
+\setkomavar{frombank}{Volksbank Uckermark e.V.\\IBAN DE22 1509 1704 0300 0039 58}
+
+%Layout
+
+% Kopfzeile --------------------------------------------------------
+\newcommand{\kopfZeile}{
+	\makebox{\LARGE\textbf{\usekomavar{fromname}}}
+	\makebox{
+		\rule[10mm]{13cm}{0mm}\scriptsize
+		\parbox[t]{\textwidth}{
+			\usekomavar*{fromphone}\usekomavar{fromphone} \\
+			\usekomavar*{fromemail}\usekomavar{fromemail} \\ \\
+			\begin{tabular}[t]{l@{}}%
+				\multicolumn{1}{@{}l@{}}{%
+				\usekomavar*{frombank}:}\\
+				\usekomavar{frombank}
+			\end{tabular}%
+		}
+	}
+}
+
+% Fußzeile --------------------------------------------------------
+\newcommand{\fussZeile}{
+	\parbox[t]{\textwidth}{\footnotesize
+		\begin{tabular}[t]{l@{}}%
+			\multicolumn{1}{@{}l@{}}{Vereinsvorsitzender:}\\
+			Wilfried Launhardt\\
+		\end{tabular}%
+		\hfill
+		\begin{tabular}[t]{l@{}}%
+			\multicolumn{1}{@{}l@{}}{Finanzamt:}\\
+			Angermünde : St- Nr.: 062/141/01929
+		\end{tabular}%
+		\hfill
+		\begin{tabular}[t]{l@{}}%
+			\multicolumn{1}{@{}l@{}}{Vereinsregister:}\\
+			Amtsgericht Neuruppin VR 2520 NP
+		\end{tabular}%
+	}%
+}	
+% Kopf erste Seite --------------------------------------------------------
+
+\setkomavar{firsthead}{\kopfZeile}
+
+% Fuß erste Seite ---------------------------------------------------------
+
+\setkomavar{firstfoot}{\fussZeile}
+
+% Fuß Folgeseiten ---------------------------------------------------
+
+%---------------------------------------------------------------------------
+% Beginn des Briefes
+\begin{document}
+
+%---------------------------------------------------------------------------
+% Global
+
+\setkomavar{place}{Prenzlau} % den Ort vor das Datum des Briefes stellen
+%\setkomavar{date}{1.1.1999} % Datum des Briefes, wenn nicht gesetzt, aktuelles
+						     % wenn gesetzt, dann numericaldate außer Kraft
+						     % S. 196
+
+%---------------------------------------------------------------------------
+% Briefinterna
+
+% Geschäftszeile S. 197
+%\setkomavar{yourref}{Ihr Zeichen}         % Ihr Zeichen
+%\setkomavar{yourmail}{ihr schreiben von}  % Ihr Schreiben vom
+%\setkomavar{myref}{mein zeichen}          % Unser Zeichen
+%\setkomavar{customer}{kundennummer}       % Kundennummer
+%\setkomavar{invoice}{rgnummer}            % Rechnungsnummer
+%\setkomavar{date}{date}                   % Datum
+
+% Signatur
+\setkomavar{signature}{- Wilfried Launhardt -\\Vereinsvorsitzender}
+%\renewcommand*{\raggedsignature}{\raggedright}  % Rechtsausrichtung der Signatur; S. 211           
+%---------------------------------------------------------------------------
+
+	\begin{letter}{Name, Vorname\\ Straße Hausnummer\\ PZL Ort}
+
+		\setkomavar{title}{Rechnung Nr 2015/....}        % Brieftitel, S. 200/ 201 
+					
+		\opening{Anrede}
+		
+		Für das Geschäftsjahr 2015 berechnen wir Ihnen die von uns für Sie verauslagten
+		Beträge, entsprechend der Ablesung der Messgeräte über Ihren Verbrauch.
+
+		Es sind die Mitgliedsbeiträge für das Jahr 2016 und die Pacht für das Jahr 2016 fällig.
+
+		Im Einzelnen bitten wir Sie, folgende Beträge zu entrichten: 
+		
+		\addvspace{1cm}
+		\addmargin{1cm}
+		\begin{tabular}{p{10cm}l}
+		• & • \\ 
+		• & • \\ 
+		• & • \\ 
+		• & • \\ 
+		• & • \\ 
+		\hline 
+		\end{tabular} 
+		\addmargin{-1cm}
+		\addvspace{1cm}
+
+		Sollten von Ihnen Abbuchungsaufträge für Mitgliedsbeitrags- und Pachtzahlungen erteilt
+		worden sein, bitten wir diese entsprechend zu berücksichtigen. 
+		
+		\closing{Mit freundlichen Grüßen}
+		
+		%\ps PS: HDL % wenn gesetzt, dann PS- Zeile; S. 166
+
+	\end{letter}
+
+\end{document}
