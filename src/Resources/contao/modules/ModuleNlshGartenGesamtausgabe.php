@@ -10,7 +10,7 @@ namespace Nlsh\KleingartenverwaltungBundle;
  *
  * @copyright Nils Heinold (c) 2013
  * @author    Nils Heinold
- * @package   nlsh_kleingartenverwaltung-bundle
+ * @package   nlsh/nlsh_kleingartenverwaltung-bundle
  * @link      https://github.com/nlsh/nlsh_kleingartenverwaltung-bundle
  * @license   LGPL
  */

@@ -5,7 +5,7 @@
  *
  * Copyright (C) 2005-2017 Leo Feyer
  *
- * @package   nlsh_kleingartenverwaltung-bundle
+ * @package   nlsh/nlsh_kleingartenverwaltung-bundle
  * @author    Nils Heinold
  * @link      http://github.com/nlsh/nlsh_kleingartenverwaltung-bundle
  * @license   LGPL
