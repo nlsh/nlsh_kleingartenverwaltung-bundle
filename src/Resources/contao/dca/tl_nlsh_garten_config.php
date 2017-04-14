@@ -1,6 +1,9 @@
 <?php
 
 
+use Contao\NlshGartenConfigModel;
+use Contao\NlshGartenGartenDataModel;
+
 /**
  * Erweiterung des tl_nlsh_garten_config DCA`s
  *
@@ -23,6 +26,7 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_config'] = array
     (
         'dataContainer'               => 'Table',
         'enableVersioning'            => TRUE,
+        'onload_callback'             => array(array('tl_nlsh_garten_config','nameReadonly')),
         'sql' => array
         (
             'keys' => array
@@ -412,6 +416,31 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_config'] = array
   */
 class tl_nlsh_garten_config extends Backend
 {
+
+
+
+    /**
+     * Feld 'name' auf 'readonly' => TRUE setzen
+     *
+     * Sollte es sich nicht um eine Neuanlage der Konfiguration handeln,
+     * soll so verhindert werden, das Jahr zu ändern
+     *
+     * onload_callback des DataContainers
+     *
+     * @param \DataContainer  $dc Contao- DataContainer- Objekt
+     *
+     * @return void
+     */
+    public function nameReadonly(\DataContainer $dc) {
+        // Neuenlage einer Konfiguration kontrollieren
+        // dazu den tstamp des Datensatzes heraussuchen
+       $tstamp = NlshGartenConfigModel::findOneBy('id', $dc->id);
+
+         // wenn tstamp vorhanden, dann Nr nicht veränderbar
+        if ($tstamp->tstamp == TRUE) {
+            $GLOBALS['TL_DCA']['tl_nlsh_garten_config']['fields']['jahr']['eval'] = array('readonly' => TRUE);
+        }
+    }
 
 
     /**
