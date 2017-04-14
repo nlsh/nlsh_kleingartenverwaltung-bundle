@@ -1,6 +1,8 @@
 <?php
 
 
+use Contao\NlshGartenConfigModel;
+
 /**
  * Erweiterung des tl_nlsh_garten_verein_stammdaten DCA`s
  *
@@ -555,6 +557,21 @@ class tl_nlsh_garten_verein_stammdaten extends Backend{
 
                      // und speichern
                     $tempNewGarten->save();
+                }
+
+                 // Einstellungen vortragen
+
+                 // Kontrolle, ob schon vorhanden
+                $arrAnz = Contao\NlshGartenConfigModel::countBy('jahr', $lastStammdatenJahr->jahr + 1);
+
+                if ($arrAnz == 0) {
+                    $einstellungen = Contao\NlshGartenConfigModel::findOneBy('jahr', $lastStammdatenJahr->jahr);
+
+                    if ($einstellungen != FALSE) {
+                        $newEinstellungen = clone $einstellungen;
+                        $newEinstellungen->jahr = $lastStammdatenJahr->jahr + 1;
+                        $newEinstellungen->save();
+                    }
                 }
             }
         }
