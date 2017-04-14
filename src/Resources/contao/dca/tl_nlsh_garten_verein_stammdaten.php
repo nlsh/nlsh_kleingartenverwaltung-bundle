@@ -3,6 +3,7 @@
 
 use Contao\NlshGartenConfigModel;
 use Contao\NlshGartenVereinStammdatenModel;
+use Contao\NlshGartenGartenDataModel;
 
 /**
  * Erweiterung des tl_nlsh_garten_verein_stammdaten DCA`s
@@ -470,18 +471,14 @@ class tl_nlsh_garten_verein_stammdaten extends Backend{
          // Neuanlage, wenn tstamp = 0, deshalb nur dann weiter
         if ($newStammdatenJahr->tstamp == FALSE) {
              // Anzahl der Datensätze herausfinden
-            $arrAnz = $this->Database->execute('
-                                            SELECT  `id`
-                                            FROM    `tl_nlsh_garten_verein_stammdaten`'
-            );
 
-            $arrAnz = $arrAnz->numRows;
+            $arrAnz = NlshGartenVereinStammdatenModel::countAll();
 
              // Wenn mehr als ein Datensatz,
              // dann vorbelegen des neuen Jahres mit den Daten des alten Jahr
             if (($arrAnz > 1) && ($dc->id == TRUE)) {
                  // Daten des letzen Jahres auslesen
-                $lastStammdatenJahr = Contao\NlshGartenVereinStammdatenModel::findAll(array(
+                $lastStammdatenJahr = NlshGartenVereinStammdatenModel::findAll(array(
                                                                     'order' => '`jahr` DESC')
                 );
 
@@ -517,11 +514,11 @@ class tl_nlsh_garten_verein_stammdaten extends Backend{
 
                  // jetzt auch die Gärten vortragen
                  // jetzt alle Gärten des Vorjahres auslesen
-                $garten = Contao\NlshGartenGartenDataModel::findByPid($lastStammdatenJahr->id);
+                $garten = NlshGartenGartenDataModel::findByPid($lastStammdatenJahr->id);
 
                  // jetzt speichern
                 while ($garten->next()) {
-                    $tempNewGarten = Contao\NlshGartenGartenDataModel::findOneBy('id', $garten->id);
+                    $tempNewGarten = NlshGartenGartenDataModel::findOneBy('id', $garten->id);
                     $tempNewGarten = clone $tempNewGarten;
 
                      // wenn dauerhaft, dann übernehmen
@@ -563,10 +560,10 @@ class tl_nlsh_garten_verein_stammdaten extends Backend{
                  // Einstellungen vortragen
 
                  // Kontrolle, ob schon vorhanden
-                $arrAnz = Contao\NlshGartenConfigModel::countBy('jahr', $lastStammdatenJahr->jahr + 1);
+                $arrAnz = NlshGartenConfigModel::countBy('jahr', $lastStammdatenJahr->jahr + 1);
 
                 if ($arrAnz == 0) {
-                    $einstellungen = Contao\NlshGartenConfigModel::findOneBy('jahr', $lastStammdatenJahr->jahr);
+                    $einstellungen = NlshGartenConfigModel::findOneBy('jahr', $lastStammdatenJahr->jahr);
 
                     if ($einstellungen != FALSE) {
                         $newEinstellungen = clone $einstellungen;
