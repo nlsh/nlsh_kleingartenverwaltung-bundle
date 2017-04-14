@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta http-equiv="Content-Style-Type" content="text/css" />
 <meta http-equiv="Content-Script-Type" content="text/javascript" />
-<link rel="stylesheet" href="<?php echo $this->replaceInsertTags('{{env::path}}'); ?>system/modules/nlsh_Kleingartenverwaltung/html/style.css" type="text/css" media="all" />
+<link rel="stylesheet" href="<?php echo $this->replaceInsertTags('{{env::path}}'); ?>bundles/nlshkleingartenverwaltung/style.css" type="text/css" media="all" />
 </head>
 <body class = "rg_body">
 <div class = "rgseite">

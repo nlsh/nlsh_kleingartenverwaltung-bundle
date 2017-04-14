@@ -1,6 +1,6 @@
 <?php
-$GLOBALS['TL_CSS']['nlsh_Kleingartenverwaltung'] = 'system/modules/nlsh_Kleingartenverwaltung/html/style.css';
-$GLOBALS['TL_JAVASCRIPT']['nlsh_Kleingartenverwaltung'] = 'system/modules/nlsh_Kleingartenverwaltung/html/java.js'; ?>
+$GLOBALS['TL_CSS']['nlsh_Kleingartenverwaltung'] = 'bundles/nlshkleingartenverwaltung/style.css';
+$GLOBALS['TL_JAVASCRIPT']['nlsh_Kleingartenverwaltung'] = 'bundles/nlshkleingartenverwaltung/java.js'; ?>
 
 <div class="<?php echo $this->class; ?> block"<?php echo $this->cssID; ?><?php if ($this->style): ?> style="<?php echo $this->style; ?>"<?php endif; ?>>
 <?php if ($this->headline): ?>

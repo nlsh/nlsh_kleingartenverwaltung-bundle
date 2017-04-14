@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title>Ausgabe Buchungsdatei im DATEV- Standardformat</title>
-<link rel="stylesheet" href="system/modules/nlsh_Kleingartenverwaltung/html/style.css" type="text/css" media="all">
+<link rel="stylesheet" href="<?php echo $this->replaceInsertTags('{{env::path}}'); ?>bundles/nlshkleingartenverwaltung/style.css" type="text/css" media="all">
 </head>
 <body class = "fibu_body">
 <?php echo $this->buchSatz; ?>

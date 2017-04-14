@@ -1,12 +1,16 @@
 <?php
 
 
+use Contao\NlshGartenConfigModel;
+use Contao\NlshGartenVereinStammdatenModel;
+use Contao\NlshGartenGartenDataModel;
+
 /**
  * Erweiterung des tl_nlsh_garten_verein_stammdaten DCA`s
  *
  * @copyright Nils Heinold (c) 2017
  * @author    Nils Heinold
- * @package   nlsh_kleingartenverwaltung-bundle
+ * @package   nlsh/nlsh_kleingartenverwaltung-bundle
  * @link      https://github.com/nlsh/nlsh_kleingartenverwaltung-bundle
  * @license   LGPL
  */
@@ -418,9 +422,9 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_verein_stammdaten'] = array
 
 
 /**
- * DCA- Klasser der Tabelle tl_nlsh_garten_verein_stammdaten
+ * DCA- Klassen der Tabelle tl_nlsh_garten_verein_stammdaten
  *
- * @package   nlshKleingartenverwaltung
+ * @package   nlsh/nlsh_kleingartenverwaltung-bundle
  */
 
 /**
@@ -428,10 +432,10 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_verein_stammdaten'] = array
  *
  * Enthält Funktionen einzelner Felder der Konfiguration
  *
- * @copyright Nils Heinold (c) 2013
+ * @copyright Nils Heinold (c) 2017
  * @author    Nils Heinold
- * @package   nlshKleingartenverwaltung
- * @link      https://github.com/nlsh/nlsh_Kleingartenverwaltung
+ * @package   nlsh/nlsh_kleingartenverwaltung-bundle
+ * @link      https://github.com/nlsh/nlsh_kleingartenverwaltung-bundle
  * @license   LGPL
  */
 class tl_nlsh_garten_verein_stammdaten extends Backend{
@@ -467,18 +471,14 @@ class tl_nlsh_garten_verein_stammdaten extends Backend{
          // Neuanlage, wenn tstamp = 0, deshalb nur dann weiter
         if ($newStammdatenJahr->tstamp == FALSE) {
              // Anzahl der Datensätze herausfinden
-            $arrAnz = $this->Database->execute('
-                                            SELECT  `id`
-                                            FROM    `tl_nlsh_garten_verein_stammdaten`'
-            );
 
-            $arrAnz = $arrAnz->numRows;
+            $arrAnz = NlshGartenVereinStammdatenModel::countAll();
 
              // Wenn mehr als ein Datensatz,
              // dann vorbelegen des neuen Jahres mit den Daten des alten Jahr
             if (($arrAnz > 1) && ($dc->id == TRUE)) {
                  // Daten des letzen Jahres auslesen
-                $lastStammdatenJahr = Contao\NlshGartenVereinStammdatenModel::findAll(array(
+                $lastStammdatenJahr = NlshGartenVereinStammdatenModel::findAll(array(
                                                                     'order' => '`jahr` DESC')
                 );
 
@@ -514,32 +514,32 @@ class tl_nlsh_garten_verein_stammdaten extends Backend{
 
                  // jetzt auch die Gärten vortragen
                  // jetzt alle Gärten des Vorjahres auslesen
-                $garten = Contao\NlshGartenGartenDataModel::findByPid($lastStammdatenJahr->id);
+                $garten = NlshGartenGartenDataModel::findByPid($lastStammdatenJahr->id);
 
                  // jetzt speichern
                 while ($garten->next()) {
-                    $tempNewGarten = Contao\NlshGartenGartenDataModel::findOneBy('id', $garten->id);
+                    $tempNewGarten = NlshGartenGartenDataModel::findOneBy('id', $garten->id);
                     $tempNewGarten = clone $tempNewGarten;
 
                      // wenn dauerhaft, dann übernehmen
-                    if ($garten->individuell_01_dauer == 1) {
-                        $tempNewGarten->abrechnung_garten_individuell_01_name = $garten->abrechnung_garten_individuell_01_name;
-                        $tempNewGarten->abrechnung_garten_individuell_01_wert = $garten->abrechnung_garten_individuell_01_wert;
+                    if ($garten->individuell_01_dauer == FALSE) {
+                        $tempNewGarten->abrechnung_garten_individuell_01_name = '';
+                        $tempNewGarten->abrechnung_garten_individuell_01_wert = '';
                     }
 
-                    if ($garten->individuell_02_dauer == 1) {
-                        $tempNewGarten->abrechnung_garten_individuell_02_name = $garten->abrechnung_garten_individuell_02_name;
-                        $tempNewGarten->abrechnung_garten_individuell_02_wert = $garten->abrechnung_garten_individuell_02_wert;
+                    if ($garten->individuell_02_dauer == FALSE) {
+                        $tempNewGarten->abrechnung_garten_individuell_02_name = '';
+                        $tempNewGarten->abrechnung_garten_individuell_02_wert = '';
                     }
 
-                    if ($garten->individuell_03_dauer == 1) {
-                        $tempNewGarten->abrechnung_garten_individuell_03_name = $garten->abrechnung_garten_individuell_03_name;
-                        $tempNewGarten->abrechnung_garten_individuell_03_wert = $garten->abrechnung_garten_individuell_03_wert;
+                    if ($garten->individuell_03_dauer == FALSE) {
+                        $tempNewGarten->abrechnung_garten_individuell_03_name = '';
+                        $tempNewGarten->abrechnung_garten_individuell_03_wert = '';
                     }
 
-                    if ($garten->individuell_04_dauer == 1) {
-                        $tempNewGarten->abrechnung_garten_individuell_04_name = $garten->abrechnung_garten_individuell_04_name;
-                        $tempNewGarten->abrechnung_garten_individuell_04_wert = $garten->abrechnung_garten_individuell_04_wert;
+                    if ($garten->individuell_04_dauer == FALSE) {
+                        $tempNewGarten->abrechnung_garten_individuell_04_name = '';
+                        $tempNewGarten->abrechnung_garten_individuell_04_wert = '';
                     }
 
                     $tempNewGarten->pid                                = $dc->id;
@@ -556,13 +556,28 @@ class tl_nlsh_garten_verein_stammdaten extends Backend{
                      // und speichern
                     $tempNewGarten->save();
                 }
+
+                 // Einstellungen vortragen
+
+                 // Kontrolle, ob schon vorhanden
+                $arrAnz = NlshGartenConfigModel::countBy('jahr', $lastStammdatenJahr->jahr + 1);
+
+                if ($arrAnz == 0) {
+                    $einstellungen = NlshGartenConfigModel::findOneBy('jahr', $lastStammdatenJahr->jahr);
+
+                    if ($einstellungen != FALSE) {
+                        $newEinstellungen = clone $einstellungen;
+                        $newEinstellungen->jahr = $lastStammdatenJahr->jahr + 1;
+                        $newEinstellungen->save();
+                    }
+                }
             }
         }
     }
 
 
     /**
-     * Vorbelegung Stammdatenjahr
+     * Vorbelegung für Auswahl des Stammdatenjahres
      *
      * Kontrolle, ob Stammdaten im aktuellen Jahr schon vorhanden sind
      *      <ul>
@@ -585,11 +600,6 @@ class tl_nlsh_garten_verein_stammdaten extends Backend{
             $jahr[] = $dc->activeRecord->jahr;
         } else {
              // Wenn keiner vorhanden, dann Kontrolle ob Stammdaten schon vorhanden
-            $arrAnz = $this->Database
-                           ->execute('
-                                        SELECT  *
-                                        FROM    `tl_nlsh_garten_verein_stammdaten`
-                           ');
 
              // dummerweise ist immer mindestens ein Wert vorhanden,
              // wenn die Dateneingabe aufgerufen wird
@@ -597,7 +607,7 @@ class tl_nlsh_garten_verein_stammdaten extends Backend{
              // else brauch ich nicht, da wenn mehr als zwei Einträge,
              //                        schlägt der onload_callback zu
 
-            $arrAnz = $arrAnz->numRows;
+            $arrAnz = NlshGartenVereinStammdatenModel::countAll();
 
              // wenn nur ein Eintrag, dann ab aktuellem Jahr bis -5 Jahre wählbar
             if ($arrAnz == 1) {
