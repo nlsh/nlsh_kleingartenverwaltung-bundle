@@ -2,6 +2,7 @@
 
 
 use Contao\NlshGartenConfigModel;
+use Contao\NlshGartenVereinStammdatenModel;
 
 /**
  * Erweiterung des tl_nlsh_garten_verein_stammdaten DCA`s
@@ -602,11 +603,6 @@ class tl_nlsh_garten_verein_stammdaten extends Backend{
             $jahr[] = $dc->activeRecord->jahr;
         } else {
              // Wenn keiner vorhanden, dann Kontrolle ob Stammdaten schon vorhanden
-            $arrAnz = $this->Database
-                           ->execute('
-                                        SELECT  *
-                                        FROM    `tl_nlsh_garten_verein_stammdaten`
-                           ');
 
              // dummerweise ist immer mindestens ein Wert vorhanden,
              // wenn die Dateneingabe aufgerufen wird
@@ -614,7 +610,7 @@ class tl_nlsh_garten_verein_stammdaten extends Backend{
              // else brauch ich nicht, da wenn mehr als zwei Einträge,
              //                        schlägt der onload_callback zu
 
-            $arrAnz = $arrAnz->numRows;
+            $arrAnz = NlshGartenVereinStammdatenModel::countAll();
 
              // wenn nur ein Eintrag, dann ab aktuellem Jahr bis -5 Jahre wählbar
             if ($arrAnz == 1) {
