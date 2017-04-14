@@ -522,24 +522,24 @@ class tl_nlsh_garten_verein_stammdaten extends Backend{
                     $tempNewGarten = clone $tempNewGarten;
 
                      // wenn dauerhaft, dann übernehmen
-                    if ($garten->individuell_01_dauer == 1) {
-                        $tempNewGarten->abrechnung_garten_individuell_01_name = $garten->abrechnung_garten_individuell_01_name;
-                        $tempNewGarten->abrechnung_garten_individuell_01_wert = $garten->abrechnung_garten_individuell_01_wert;
+                    if ($garten->individuell_01_dauer == FALSE) {
+                        $tempNewGarten->abrechnung_garten_individuell_01_name = '';
+                        $tempNewGarten->abrechnung_garten_individuell_01_wert = '';
                     }
 
-                    if ($garten->individuell_02_dauer == 1) {
-                        $tempNewGarten->abrechnung_garten_individuell_02_name = $garten->abrechnung_garten_individuell_02_name;
-                        $tempNewGarten->abrechnung_garten_individuell_02_wert = $garten->abrechnung_garten_individuell_02_wert;
+                    if ($garten->individuell_02_dauer == FALSE) {
+                        $tempNewGarten->abrechnung_garten_individuell_02_name = '';
+                        $tempNewGarten->abrechnung_garten_individuell_02_wert = '';
                     }
 
-                    if ($garten->individuell_03_dauer == 1) {
-                        $tempNewGarten->abrechnung_garten_individuell_03_name = $garten->abrechnung_garten_individuell_03_name;
-                        $tempNewGarten->abrechnung_garten_individuell_03_wert = $garten->abrechnung_garten_individuell_03_wert;
+                    if ($garten->individuell_03_dauer == FALSE) {
+                        $tempNewGarten->abrechnung_garten_individuell_03_name = '';
+                        $tempNewGarten->abrechnung_garten_individuell_03_wert = '';
                     }
 
-                    if ($garten->individuell_04_dauer == 1) {
-                        $tempNewGarten->abrechnung_garten_individuell_04_name = $garten->abrechnung_garten_individuell_04_name;
-                        $tempNewGarten->abrechnung_garten_individuell_04_wert = $garten->abrechnung_garten_individuell_04_wert;
+                    if ($garten->individuell_04_dauer == FALSE) {
+                        $tempNewGarten->abrechnung_garten_individuell_04_name = '';
+                        $tempNewGarten->abrechnung_garten_individuell_04_wert = '';
                     }
 
                     $tempNewGarten->pid                                = $dc->id;
