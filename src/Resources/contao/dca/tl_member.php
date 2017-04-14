@@ -110,10 +110,10 @@ $GLOBALS['TL_DCA']['tl_member']['fields']['nlsh_member_beitrag_ja_nein'] = array
 /**
  * Class tl_member_nlsh_garten
  *
- * @copyright Nils Heinold (c) 2013
+ * @copyright Nils Heinold (c) 2017
  * @author    Nils Heinold
- * @package   nlshKleingartenverwaltung
- * @link      https://github.com/nlsh/nlsh_Kleingartenverwaltung
+ * @package   nlsh/nlsh_kleingartenverwaltung-bundle
+ * @link      https://github.com/nlsh/nlsh_kleingartenverwaltung-bundle
  * @license   LGPL
  */
 class tl_member_nlsh_garten extends \Backend

@@ -396,7 +396,7 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_config'] = array
 /**
  * DCA- Klasser der Tabelle tl_nlsh_garten_config
  *
- * @package   nlshKleingartenverwaltung
+ * @package   nlsh/nlsh_kleingartenverwaltung-bundle
  */
 
  /**
@@ -404,10 +404,10 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_config'] = array
   *
   * Enthält Funktionen einzelner Felder der Konfiguration
   *
-  * @copyright Nils Heinold (c) 2013
+  * @copyright Nils Heinold (c) 2017
   * @author    Nils Heinold
-  * @package   nlshKleingartenverwaltung
-  * @link      https://github.com/nlsh/nlsh_Kleingartenverwaltung
+  * @package   nlsh/nlsh_kleingartenverwaltung-bundle
+  * @link      https://github.com/nlsh/nlsh_kleingartenverwaltung-bundle
   * @license   LGPL
   */
 class tl_nlsh_garten_config extends Backend

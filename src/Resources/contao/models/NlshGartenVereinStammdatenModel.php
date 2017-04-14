@@ -9,7 +9,7 @@ namespace Contao;
 /**
  * Class NlshGartenVereinStammdatenModel
  *
- * @copyright Nils Heinold (c) 2013
+ * @copyright Nils Heinold (c) 2017
  * @author    Nils Heinold
  * @package   nlsh/nlsh_kleingartenverwaltung-bundle
  * @link      https://github.com/nlsh/nlsh_kleingartenverwaltung-bundle
