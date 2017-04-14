@@ -548,7 +548,7 @@ class tl_nlsh_garten_garten_data extends Backend
     public function holeNamen(\DataContainer $dc) {
         $couples = array();
         $jahr    = array();
-         $gruppe  = array();
+        $gruppe  = array();
 
          // Tabelle der Gartenbesitzer auslesen
          // zuerst das Jahr holen
