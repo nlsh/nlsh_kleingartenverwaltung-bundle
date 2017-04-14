@@ -282,14 +282,14 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_garten_data'] = array
             'label'            => &$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['individuell_01_dauer'],
             'inputType'        => 'checkbox',
             'exclude'          => TRUE,
-            'eval'             => array('tl_class' => 'long'),
+            'eval'             => array('tl_class' => 'w50'),
             'sql'              => "char(1) NOT NULL default '0'"
         ),
         'abrechnung_garten_individuell_02_name' => array
         (
             'label'            => &$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['abrechnung_garten_individuell_02_name'],
             'inputType'        => 'text',
-            'eval'             => array('tl_class' => 'w50'),
+            'eval'             => array('tl_class' => 'w50 clr'),
             'sql'              => "varchar(80) NOT NULL default ''"
         ),
         'abrechnung_garten_individuell_02_wert' => array
@@ -304,14 +304,14 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_garten_data'] = array
             'label'            => &$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['individuell_02_dauer'],
             'inputType'        => 'checkbox',
             'exclude'          => TRUE,
-            'eval'             => array('tl_class' => 'long'),
+            'eval'             => array('tl_class' => 'w50'),
             'sql'              => "char(1) NOT NULL default '0'"
         ),
         'abrechnung_garten_individuell_03_name' => array
         (
             'label'            => &$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['abrechnung_garten_individuell_03_name'],
             'inputType'        => 'text',
-            'eval'             => array('tl_class' => 'w50'),
+            'eval'             => array('tl_class' => 'w50 clr'),
             'sql'              => "varchar(80) NOT NULL default ''"
         ),
         'abrechnung_garten_individuell_03_wert' => array
@@ -326,14 +326,14 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_garten_data'] = array
             'label'            => &$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['individuell_03_dauer'],
             'inputType'        => 'checkbox',
             'exclude'          => TRUE,
-            'eval'             => array('tl_class' => 'long'),
+            'eval'             => array('tl_class' => 'w50 '),
             'sql'              => "char(1) NOT NULL default '0'"
         ),
         'abrechnung_garten_individuell_04_name' => array
         (
             'label'            => &$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['abrechnung_garten_individuell_04_name'],
             'inputType'        => 'text',
-            'eval'             => array('tl_class' => 'w50'),
+            'eval'             => array('tl_class' => 'w50 clr'),
             'sql'              => "varchar(80) NOT NULL default ''"
         ),
         'abrechnung_garten_individuell_04_wert' => array
@@ -348,7 +348,7 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_garten_data'] = array
             'label'            => &$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['individuell_04_dauer'],
             'inputType'        => 'checkbox',
             'exclude'          => TRUE,
-            'eval'             => array('tl_class' => 'long'),
+            'eval'             => array('tl_class' => 'w50'),
             'sql'              => "char(1) NOT NULL default '0'"
         ),
     )
