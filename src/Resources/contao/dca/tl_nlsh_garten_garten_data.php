@@ -94,30 +94,40 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_garten_data'] = array
     'palettes' => array
     (
         '__selector__'      => array(''),
-        'default'           => '{gartennummer_legend},nr;
-                               {groesse_legend},grosse;
-                               {verbrauchsdaten_legend},strom,wasser,abrechnungVorjahre;
-                               {gartenbesitzer_legend},nutzung_user_id;
-                               {besonderheiten_legend:hide},
-                                   pacht_ja_nein,
-                                   beitrag_ja_nein,
-                                   individuell_01_gartenstamm_ja_nein,
-                                   individuell_02_gartenstamm_ja_nein,
-                                   individuell_03_gartenstamm_ja_nein,
-                                   individuell_04_gartenstamm_ja_nein;
-                               {abrechnung_garten_individuell_legend:hide},
-                                   abrechnung_garten_individuell_01_name,
-                                   abrechnung_garten_individuell_01_wert,
-                                   individuell_01_dauer,
-                                   abrechnung_garten_individuell_02_name,
-                                   abrechnung_garten_individuell_02_wert,
-                                   individuell_02_dauer,
-                                   abrechnung_garten_individuell_03_name,
-                                   abrechnung_garten_individuell_03_wert,
-                                   individuell_03_dauer,
-                                   abrechnung_garten_individuell_04_name,
-                                   abrechnung_garten_individuell_04_wert,
-                                   individuell_04_dauer;'
+        'default'           => '{gartennummer_legend},
+                                    nr;
+                                {groesse_legend},
+                                    grosse;
+                                {verbrauchsdaten_legend},
+                                    strom,wasser,
+                                    abrechnungVorjahre;
+                                {gartenbesitzer_legend},
+                                    nutzung_user_id;
+                                {zaehler_legend},
+                                    wasserzaehler_1,
+                                    stromzaehler_1,
+                                    wasserzaehler_2,
+                                    stromzaehler_2;
+                                {besonderheiten_legend:hide},
+                                    pacht_ja_nein,
+                                    beitrag_ja_nein,
+                                    individuell_01_gartenstamm_ja_nein,
+                                    individuell_02_gartenstamm_ja_nein,
+                                    individuell_03_gartenstamm_ja_nein,
+                                    individuell_04_gartenstamm_ja_nein;
+                                {abrechnung_garten_individuell_legend:hide},
+                                    abrechnung_garten_individuell_01_name,
+                                    abrechnung_garten_individuell_01_wert,
+                                    individuell_01_dauer,
+                                    abrechnung_garten_individuell_02_name,
+                                    abrechnung_garten_individuell_02_wert,
+                                    individuell_02_dauer,
+                                    abrechnung_garten_individuell_03_name,
+                                    abrechnung_garten_individuell_03_wert,
+                                    individuell_03_dauer,
+                                    abrechnung_garten_individuell_04_name,
+                                    abrechnung_garten_individuell_04_wert,
+                                    individuell_04_dauer;'
     ),
 
      // Subpalettes
@@ -214,6 +224,34 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_garten_data'] = array
             'inputType'        => 'text',
             'search'           => TRUE,
             'sql'              => "varchar(512) NOT NULL default ''"
+        ),
+        'wasserzaehler_1' => array
+        (
+            'label'            => &$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['wasserzaehler_1'],
+            'inputType'        => 'text',
+                'eval'             => array('maxlength' => 50, 'tl_class' => 'w50'),
+            'sql'              => "varchar(50) NOT NULL default ''"
+        ),
+        'wasserzaehler_2' => array
+        (
+            'label'            => &$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['wasserzaehler_2'],
+            'inputType'        => 'text',
+                'eval'             => array('maxlength' => 50, 'tl_class' => 'w50'),
+            'sql'              => "varchar(50) NOT NULL default ''"
+        ),
+        'stromzaehler_1' => array
+        (
+            'label'            => &$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['stromzaehler_1'],
+            'inputType'        => 'text',
+            'eval'             => array('maxlength' => 50, 'tl_class' => 'w50'),
+            'sql'              => "varchar(50) NOT NULL default ''"
+        ),
+        'stromzaehler_2' => array
+        (
+            'label'            => &$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['stromzaehler_2'],
+            'inputType'        => 'text',
+                'eval'             => array('maxlength' => 50, 'tl_class' => 'w50'),
+            'sql'              => "varchar(50) NOT NULL default ''"
         ),
         'pacht_ja_nein' => array
         (
@@ -680,7 +718,7 @@ class tl_nlsh_garten_garten_data extends Backend
          rsort($arrOutYears);
 
           // Ausgabe starten für Verbrauch vorhandene Jahre
-         $getOut  = '<div style="float:left; width:50%">';
+         $getOut  = '<div style="float:left; width:50%; margin: 0px 0 0px 2%;">';
          $getOut .= '<span style="font-weight:bold; display: block; margin-top:1em;">';
          $getOut .= $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['vorjahreswerte'] . '</span>';
          $getOut .= '<table style = "margin:10px 2px; text-align: right;">';
