@@ -81,6 +81,7 @@ $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['gartennummer_legend']        
 $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['groesse_legend']                             = 'Gartengr&ouml;&szlig;e in qm';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['verbrauchsdaten_legend']                     = 'Verbrauchsdaten';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['gartenbesitzer_legend']                      = 'Nutzer des Gartens';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['zaehler_legend']                             = 'Z&auml;hlernummern der Wasseruhren und Stromz&auml;hler (nur Informativ, noch keine Auswertung!)';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['besonderheiten_legend']                      = 'Besonderheiten bei der Jahresbrechnung';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['abrechnung_garten_individuell_legend']       = 'Individuelle Abrechnungsdaten f&uuml;r dieses Jahr';
 
