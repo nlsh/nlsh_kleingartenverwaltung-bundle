@@ -75,7 +75,7 @@ $GLOBALS['TL_JAVASCRIPT']['nlsh_Kleingartenverwaltung'] = 'bundles/nlshkleingart
     <tfoot>
         <tr>
             <td colspan = "2">
-
+<!--
                 <form id = "AusgabeLatex" action ="JavaScript:popup('{{env::request}}<?php
 
                     // Kontrolle, ob Request vorhanden; dann ? und wenn nicht,dann & für get- Parameter
@@ -95,7 +95,7 @@ $GLOBALS['TL_JAVASCRIPT']['nlsh_Kleingartenverwaltung'] = 'bundles/nlshkleingart
                         <input type="hidden" name = "Buchungssatz" value = "true">
                     </div>
                 </form>
-
+-->
                 <form id = "AusgabeDatev" action ="JavaScript:popup('{{env::request}}<?php
 
                     // Kontrolle, ob Request vorhanden; dann ? und wenn nicht,dann & für get- Parameter
