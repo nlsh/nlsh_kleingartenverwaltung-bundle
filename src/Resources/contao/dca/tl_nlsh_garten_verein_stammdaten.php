@@ -142,6 +142,7 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_verein_stammdaten'] = array
                                     'maxlength' => 4,
                                     'rgxp'      => 'digit',
                                     'unique'    => TRUE,
+                                    'tl_class'  => 'w50'
             ),
                 'sql'              => "varchar(4) NOT NULL default ''"
         ),
@@ -311,7 +312,7 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_verein_stammdaten'] = array
         'landgrosse' => array
         (   'label'             => &$GLOBALS['TL_LANG']['tl_nlsh_garten_verein_stammdaten']['landgrosse'],
             'inputType'         => 'text',
-            'eval'              => array('mandatory' => TRUE, 'rgxp' => 'digit'),
+                'eval'              => array('mandatory' => TRUE, 'rgxp' => 'digit','tl_class' => 'w50'),
             'sql'               => "double NOT NULL default '0'"
         ),
         'abrechnung_stammdaten_individuell_01_name' => array
