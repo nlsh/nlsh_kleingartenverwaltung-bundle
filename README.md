@@ -1,5 +1,5 @@
-nlsh_Kleingartenverwaltung
-==========================
+nlsh_Kleingartenverwaltung-bundle
+=================================
 
 Verwaltung eines kleinen Gartenvereines
 ---------------------------------------
@@ -15,31 +15,30 @@ Dokumentation
 
 Alle Informationen zur Installation und Nutzung des Moduls finden Sie in der nachfolgenden Dokumentation:
 
- - [https://www.gitbook.com/book/nlsh/nlsh_kleingartenverwaltung](https://www.gitbook.com/book/nlsh/nlsh_kleingartenverwaltung)
+ - [https://nlsh.gitbooks.io/nlsh_kleingartenverwaltung-bundle/](https://nlsh.gitbooks.io/nlsh_kleingartenverwaltung-bundle/)
 
 Abhängigkeiten
 --------------
 
-Dies ist eine Erweiterung für das CMS Contao
+Dies ist eine Erweiterung für das CMS Contao ab der Version 4.4.
 
 - [http://www.contao.org](http://www.contao.org)
 
 Download
 --------
 
- - [http://github.com/nlsh/nlsh_Kleingartenverwaltung](http://github.com/nlsh/nlsh_Kleingartenverwaltung)
+ - [http://github.com/nlsh/nlsh_kleingartenverwaltung-bundle](http://github.com/nlsh/nlsh_kleingartenverwaltung-bundle)
 
 Installation/ Aktualisierungen
 ------------------------------
-Für die Installation, bzw. zur Aktualisierung benötigen Sie [die neue Paketverwaltung für Contao](https://c-c-a.org/ueber-composer).
+Für die Installation, bzw. zur Aktualisierung benötigen Sie den [Contao- Manager](https://contao.org/de/download.html).
 
-**Das alte ER2 wird nicht mehr gepflegt!!!**
 
 Weitere Informationen in der Dokumentation:
 
-- [http://nlsh.gitbooks.io/nlsh_kleingartenverwaltung/content/de/installation.html](http://nlsh.gitbooks.io/nlsh_kleingartenverwaltung/content/de/installation.html)
+- [https://docs.contao.org/books/manager/de/installation-manager.html](https://docs.contao.org/books/manager/de/installation-manager.html)
 
-Kontakt und Fehlermeldungen
----------------------------
+Fehlermeldungen
+---------------
 
-- [http://github.com/nlsh/nlsh_Kleingartenverwaltung](http://github.com/nlsh/nlsh_Kleingartenverwaltung)
+- [https://github.com/nlsh/nlsh_kleingartenverwaltung-bundle/issues](https://github.com/nlsh/nlsh_kleingartenverwaltung-bundle/issues)
