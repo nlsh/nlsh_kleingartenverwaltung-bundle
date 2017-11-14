@@ -13,7 +13,7 @@
         "Kleingartenverein"
     ],
     "license" : "LGPL-3.0+",
-    "version" : "0.1.1",
+    "version" : "0.1.2",
     "authors" : [{
             "name" : "Nils Heinold",
             "homepage" : "https://github.com/nlsh"
@@ -21,9 +21,9 @@
     ],
     "support" : {
         "email" : "github@nilsheinold.de",
-        "issues" : "https://github.com/nlsh/nlsh_Kleingartenverwaltung/issues",
-        "wiki" : "https://github.com/nlsh/nlsh_Kleingartenverwaltung/wiki",
-        "source" : "https://github.com/nlsh/nlsh_Kleingartenverwaltung"
+        "issues" : "https://github.com/nlsh/nlsh_kleingartenverwaltung-bundle/issues",
+        "wiki" : "https://nlsh.gitbooks.io/nlsh_kleingartenverwaltung-bundle",
+        "source" : "https://github.com/nlsh/nlsh_kleingartenverwaltung-bundle"
     },
     "require" : {
         "contao/core-bundle" : "^4.4"

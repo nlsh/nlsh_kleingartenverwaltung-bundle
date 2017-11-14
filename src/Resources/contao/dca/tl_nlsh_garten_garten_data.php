@@ -160,7 +160,8 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_garten_data'] = array
             'eval'             => array(
                                      'mandatory' => TRUE,
                                      'maxlength' => 20,
-                                     'unique' => TRUE
+                                     'unique' => TRUE,
+                                     'tl_class' => 'w50'
             ),
             'sql'              => "varchar(20) NOT NULL default ''"
         ),
@@ -169,7 +170,7 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_garten_data'] = array
             'label'            => &$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['grosse'],
             'exclude'          => TRUE,
             'inputType'        => 'text',
-            'eval'             => array('mandatory' => TRUE, 'rgxp' => 'digit'),
+            'eval'             => array('mandatory' => TRUE, 'rgxp' => 'digit', 'tl_class' => 'w50'),
             'sql'              => "double NOT NULL default '0'"
         ),
         'strom' => array
@@ -213,7 +214,8 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_garten_data'] = array
             'eval'             => array(
                                      'alwaysSave' => TRUE,
                                      'includeBlankOption' => TRUE,
-                                     'blankOptionLabel'   => $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['nicht_vergeben']
+                                     'blankOptionLabel'   => $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['nicht_vergeben'],
+                                     'tl_class'           => 'w50'
             ),
             'sql'              => "int(11) NOT NULL default '0'"
         ),
@@ -342,7 +344,7 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_garten_data'] = array
             'label'            => &$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['individuell_02_dauer'],
             'inputType'        => 'checkbox',
             'exclude'          => TRUE,
-            'eval'             => array('tl_class' => 'w50'),
+            'eval'             => array('tl_class' => 'w50 clr'),
             'sql'              => "char(1) NOT NULL default '0'"
         ),
         'abrechnung_garten_individuell_03_name' => array
@@ -364,7 +366,7 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_garten_data'] = array
             'label'            => &$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['individuell_03_dauer'],
             'inputType'        => 'checkbox',
             'exclude'          => TRUE,
-            'eval'             => array('tl_class' => 'w50 '),
+            'eval'             => array('tl_class' => 'w50 clr'),
             'sql'              => "char(1) NOT NULL default '0'"
         ),
         'abrechnung_garten_individuell_04_name' => array
@@ -386,7 +388,7 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_garten_data'] = array
             'label'            => &$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['individuell_04_dauer'],
             'inputType'        => 'checkbox',
             'exclude'          => TRUE,
-            'eval'             => array('tl_class' => 'w50'),
+            'eval'             => array('tl_class' => 'w50 clr'),
             'sql'              => "char(1) NOT NULL default '0'"
         ),
     )
@@ -449,7 +451,8 @@ class tl_nlsh_garten_garten_data extends Backend
          // wenn tstamp vorhanden, dann Nr nicht veränderbar
         if ($tstamp->tstamp == TRUE) {
             $GLOBALS['TL_DCA']['tl_nlsh_garten_garten_data']['fields']['nr']['eval'] = array(
-                                                                            'readonly' => TRUE
+                                                                            'readonly' => TRUE,
+                                                                            'tl_class' => 'w50'
             );
         }
     }
