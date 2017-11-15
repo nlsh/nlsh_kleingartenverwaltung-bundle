@@ -1,14 +1,22 @@
-nlsh_Kleingartenverwaltung-bundle
-=================================
+# nlsh_Kleingartenverwaltung-bundle
+----------------------------------
 
-Verwaltung eines kleinen Gartenvereines
----------------------------------------
+Dieses Bundle fügt dem CMS [Contao](http://www.contao.org "http://www.contao.org") die Möglichkeit hinzu, die jährlich anfallenden Abrechnungen eines Kleingartenvereines zu erleichtern.
 
-Diese Erweiterung ermöglicht es, einen Gartenverein für einen Kassierer einfach abzurechnen, Rechnungen zu schreiben und diese dann per Datentransfer in das Rechnungswesen zu übergeben ( im DATEV- Standardformat). Die Konten können selbst vorbelegt werden.
+Diese Erweiterung soll hauptsächlich die Arbeit des Kassierers erleichtern!
 
-Die Möglichkeiten der Abrechnung beschränken sich nicht nur auf Abrechnungen von Beiträgen, Pacht sowie Wasser- und Stromabrechnungen, sondern können um individuelle Abrechnungsmöglichkeiten je einzelner Gärten, sowie auch individueller Abrechnungsmöglichkeiten des gesamten Vereines erweitert werden.
+Mit dieser Erweiterung werden die Stammdaten des Gartenvereines, die Daten aller Gärten, sowie aller Mitglieder des Vereines je Jahr erfasst.
+Es können die Mitgliedsbeiträge, die Pacht, die Jahresverbräuche an Strom und Wasser, sowie individuelle Abrechnungseinheiten je Jahr für den gesamten Verein oder einzelnen Vereinsmitgliedern gegenüber in Rechnung gestellt werden.
 
-Die Mitglieder des Vereines werden über die Mitgliedergruppe und die Mitglieder verwaltet. Dadurch können auch Internetauftritte mit Zugangsberechtigungen aufgebaut werden, die sich in die Contao- Architektur einbinden.
+Ein Modul "Gesamtausgabe der Abrechnungsdaten"  je Jahr ist vorhanden.
+
+Für die zu erstellenden Rechnungen existiert ein Template zur Ausgabe der Rechnung.
+
+Die so erstellten Abrechnungen können im DATEV- Standardformat an eine Finanzbuchhaltungssoftware detailliert übergeben werden.
+Eine individuelle Vorbelegung der Konten in der Finanzbuchhaltung für die einzelnen, abgerechneten Posten ist dafür natürlich Pflicht!
+
+Die Mitglieder des Vereines werden über die Mitgliedergruppe und die Mitglieder verwaltet.
+Dadurch können die Internetauftritte mit Zugangsberechtigungen aufgebaut werden, die sich in die Contao- Architektur einbinden.
 
 Dokumentation
 -------------
