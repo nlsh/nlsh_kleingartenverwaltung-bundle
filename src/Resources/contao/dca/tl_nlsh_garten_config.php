@@ -156,7 +156,7 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_config'] = array
             'eval'          => array(
                                 'mandatory' => TRUE,
                                 'maxlength' => 4,
-                                'rgxp' => 'digit',
+                                'rgxp'   => 'digit',
                                 'unique' => TRUE,
             ),
                 'sql'           => "varchar(4) NOT NULL default ''"
@@ -255,7 +255,7 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_config'] = array
             'exclude'       => TRUE,
             'inputType'     => 'text',
             'eval'          => array(
-                                  rgxp        => 'digit',
+                                  'rgxp'      => 'digit',
                                   'maxlength' => 10,
                                   'tl_class'  => 'w50'
             ),
@@ -267,7 +267,7 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_config'] = array
             'exclude'       => TRUE,
             'inputType'     => 'text',
             'eval'          => array(
-                                  rgxp        => 'digit',
+                                  'rgxp'      => 'digit',
                                   'maxlength' => 10,
                                   'tl_class'  => 'w50'
             ),
@@ -279,7 +279,7 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_config'] = array
             'exclude'       => TRUE,
             'inputType'     => 'text',
             'eval'          => array(
-                                  rgxp        => 'digit',
+                                  'rgxp'      => 'digit',
                                   'maxlength' => 10,
                                   'tl_class'  => 'w50'
             ),
@@ -291,7 +291,7 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_config'] = array
             'exclude'       => TRUE,
             'inputType'     => 'text',
             'eval'          => array(
-                                  rgxp        => 'digit',
+                                  'rgxp'      => 'digit',
                                   'maxlength' => 10,
                                   'tl_class'  => 'w50'
             ),
@@ -303,7 +303,7 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_config'] = array
             'exclude'       => TRUE,
             'inputType'     => 'text',
             'eval'          => array(
-                                  rgxp        => 'digit',
+                                  'rgxp'      => 'digit',
                                   'maxlength' => 10,
                                   'tl_class'  => 'w50'
             ),
@@ -315,7 +315,7 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_config'] = array
             'exclude'       => TRUE,
             'inputType'     => 'text',
             'eval'          => array(
-                                  rgxp        => 'digit',
+                                  'rgxp'      => 'digit',
                                   'maxlength' => 10,
                                   'tl_class'  => 'w50'
             ),
@@ -327,7 +327,7 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_config'] = array
             'exclude'       => TRUE,
             'inputType'     => 'text',
             'eval'          => array(
-                                  rgxp        => 'digit',
+                                  'rgxp'      => 'digit',
                                   'maxlength' => 10,
                                   'tl_class'  => 'w50'
             ),
@@ -339,7 +339,7 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_config'] = array
             'exclude'       => TRUE,
             'inputType'     => 'text',
             'eval'          => array(
-                                  rgxp        => 'digit',
+                                  'rgxp'      => 'digit',
                                   'maxlength' => 10,
                                   'tl_class'  => 'w50'
             ),
@@ -351,7 +351,7 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_config'] = array
             'exclude'       => TRUE,
             'inputType'     => 'text',
             'eval'          => array(
-                                  rgxp        => 'digit',
+                                  'rgxp'      => 'digit',
                                   'maxlength' => 10,
                                   'tl_class'  => 'w50'
             ),
@@ -363,7 +363,7 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_config'] = array
             'exclude'       => TRUE,
             'inputType'     => 'text',
             'eval'          => array(
-                                  rgxp        => 'digit',
+                                  'rgxp'      => 'digit',
                                   'maxlength' => 10,
                                   'tl_class'  => 'w50'
             ),
@@ -375,7 +375,7 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_config'] = array
             'exclude'       => TRUE,
             'inputType'     => 'text',
             'eval'          => array(
-                                  rgxp        => 'digit',
+                                  'rgxp'      => 'digit',
                                   'maxlength' => 10,
                                   'tl_class'  => 'w50'
             ),
@@ -387,7 +387,7 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_config'] = array
             'exclude'       => TRUE,
             'inputType'     => 'text',
             'eval'          => array(
-                                  rgxp        => 'digit',
+                                  'rgxp'        => 'digit',
                                   'maxlength' => 10,
                                   'tl_class'  => 'w50'
             ),
