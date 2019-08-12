@@ -6,345 +6,347 @@ $GLOBALS['TL_JAVASCRIPT']['nlsh_Kleingartenverwaltung'] = 'bundles/nlshkleingart
 <?php if ($this->headline): ?>
 <<?php echo $this->hl; ?>><?php echo $this->headline; ?></<?php echo $this->hl; ?>>
 <?php endif; ?>
-<?php echo $this->formSelectYear; ?>
 
 <!--Fehlermeldung ausgeben-->
 <?php if ($this->gesamtAusgabe['error'] == true): ?>
     <p class = "error">
         <?php echo $this->gesamtAusgabe['error'] ?>
     </p>
-<?php endif; ?>
+<?php else: ?>
+
+<?php echo $this->formSelectYear; ?>
 
 <!--Ausgabetabelle erzeugen-->
-<table>
+    <table>
 
-    <!-- Tabellenkopf -->
-    <thead>
-        <tr>
-            <th><?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['nr'] ?></th>
-            <th><?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['name_adresse'] ?></th>
+        <!-- Tabellenkopf -->
+        <thead>
+            <tr>
+                <th><?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['nr'] ?></th>
+                <th><?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['name_adresse'] ?></th>
 
-            <?php if ($this->gesamtAusgabe['gesamt_beitrag'] != 0): ?>
-                <th><?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['beitrag'] ?></th>
-            <?php endif; ?>
+                <?php if ($this->gesamtAusgabe['gesamt_beitrag'] != 0): ?>
+                    <th><?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['beitrag'] ?></th>
+                <?php endif; ?>
 
-            <?php if ($this->gesamtAusgabe['gesamt_pacht'] != 0): ?>
+                <?php if ($this->gesamtAusgabe['gesamt_pacht'] != 0): ?>
+                    <th>
+                        <?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['pacht'] . "<br><br>" . $this->gesamtAusgabe['stammdaten_verein']['pacht_formated']; ?>
+                    </th>
+                <?php endif; ?>
+
+                <?php if ($this->gesamtAusgabe['gesamt_strom'] != 0): ?>
+                    <th>
+                        <?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['strom'] . "<br><br>" . $this->gesamtAusgabe['stammdaten_verein']['strom_formated']; ?>
+                        <?php if ($this->gesamtAusgabe['stammdaten_verein']['strom_grundpreis'] == true): ?>
+                            <br> <?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['zzgl'] . " " . $this->gesamtAusgabe['stammdaten_verein']['strom_grundpreis_formated']; ?>
+                        <?php endif; ?>
+                    </th>
+                <?php endif; ?>
+
+                <?php if ($this->gesamtAusgabe['gesamt_wasser'] != 0): ?>
+                    <th>
+                        <?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['wasser'] . "<br><br>" . $this->gesamtAusgabe['stammdaten_verein']['wasser_formated']; ?>
+
+                        <?php if ($this->gesamtAusgabe['stammdaten_verein']['wasser_grundpreis'] == true): ?>
+                            <br><?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['zzgl'] . " " . $this->gesamtAusgabe['stammdaten_verein']['wasser_grundpreis_formated']; ?>
+                        <?php endif; ?>
+                    </th>
+                <?php endif; ?>
+
+                <?php if ($this->gesamtAusgabe['gesamt_abrechnung_stammdaten_individuell'] != 0): ?>
+                    <th>
+                        <?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['individuelle_abrechnung'] . "<br><br>" . $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['allgemein']; ?>
+                    </th>
+                <?php endif; ?>
+
+                <?php if ($this->gesamtAusgabe['gesamt_abrechnung_garten_individuell'] != 0): ?>
+                    <th>
+                        <?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['individuelle_abrechnung'] . "<br><br>" . $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['allgemein_gaerten']; ?>
+                    </th>
+                <?php endif; ?>
+
                 <th>
-                    <?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['pacht'] . "<br><br>" . $this->gesamtAusgabe['stammdaten_verein']['pacht_formated']; ?>
+                    <?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['Gesamt']; ?>
                 </th>
-            <?php endif; ?>
+            </tr>
+        </thead>
 
-            <?php if ($this->gesamtAusgabe['gesamt_strom'] != 0): ?>
-                <th>
-                    <?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['strom'] . "<br><br>" . $this->gesamtAusgabe['stammdaten_verein']['strom_formated']; ?>
-                    <?php if ($this->gesamtAusgabe['stammdaten_verein']['strom_grundpreis'] == true): ?>
-                        <br> <?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['zzgl'] . " " . $this->gesamtAusgabe['stammdaten_verein']['strom_grundpreis_formated']; ?>
+        <!-- Tabbellenfuss -->
+        <tfoot>
+            <tr>
+                <td colspan = "2">
+    <!--
+                    <form id = "AusgabeLatex" action ="JavaScript:popup('{{env::request}}<?php
+
+                        // Kontrolle, ob Request vorhanden; dann ? und wenn nicht,dann & für get- Parameter
+                        if ( strpos($this->Environment->request, "?") === false )
+                        {
+                            echo '?';
+                        }
+                        else
+                        {
+                            echo '&amp;';
+                        }
+
+                        ?>Buchungssatz=true&amp;ausgabejahr=<?php echo $this->gesamtAusgabe['ausgabejahr']; ?>',-1,-1,800,500);" method = "post">
+                        <div class ="garten_button">
+                            <input type="hidden" name="FORM_SUBMIT" value="Buchungssatz">
+                            <input type="submit" value= "<?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['AusgabeDatev']; ?>">
+                            <input type="hidden" name = "Buchungssatz" value = "true">
+                        </div>
+                    </form>
+    -->
+                    <form id = "AusgabeDatev" action ="JavaScript:popup('{{env::request}}<?php
+
+                        // Kontrolle, ob Request vorhanden; dann ? und wenn nicht,dann & für get- Parameter
+                        if ( strpos($this->Environment->request, "?") === false )
+                        {
+                            echo '?';
+                        }
+                        else
+                        {
+                            echo '&amp;';
+                        }
+
+                        ?>Buchungssatz=true&amp;ausgabejahr=<?php echo $this->gesamtAusgabe['ausgabejahr']; ?>',-1,-1,800,500);" method = "post">
+                        <div class ="garten_button">
+                            <input type="hidden" name="FORM_SUBMIT" value="Buchungssatz">
+                            <input type="submit" value= "<?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['AusgabeDatev']; ?>">
+                            <input type="hidden" name = "Buchungssatz" value = "true">
+                        </div>
+                    </form>
+
+                    <?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['Gesamt']; ?>
+                </td>
+
+                <!--Spalte Beitrag, wenn vorhanden-->
+                <?php if ($this->gesamtAusgabe['gesamt_beitrag'] != 0): ?>
+                    <td class = "betrag">
+                        <?php echo $this->gesamtAusgabe['gesamt_beitrag_formated']; ?>
+                    </td>
+                <?php endif; ?>
+
+                <!--Spalte Pacht, wenn vorhanden-->
+                <?php if ($this->gesamtAusgabe['gesamt_pacht'] != 0): ?>
+                    <td>
+                        <span class = "erlauterung"><?php echo $this->gesamtAusgabe['gesamt_grosse_formated']; ?> -> </span>
+                        <span class = "betrag"><?php echo $this->gesamtAusgabe['gesamt_pacht_formated']; ?></span>
+                    </td>
+                <?php endif; ?>
+
+                <!--Spalte Strom, wenn vorhanden-->
+                <?php if ($this->gesamtAusgabe['gesamt_strom'] != 0): ?>
+                    <td>
+                        <span class = "erlauterung"><?php echo $this->gesamtAusgabe['gesamt_strom_formated']; ?> -> </span>
+                        <span class = "betrag"><?php echo $this->gesamtAusgabe['gesamt_stromkosten_formated']; ?></span>
+                    </td>
+                <?php endif; ?>
+
+                <!--Spalte Wasser, wenn vorhanden-->
+                <?php if ($this->gesamtAusgabe['gesamt_wasser'] != 0): ?>
+                    <td>
+                        <span class = "erlauterung"><?php echo $this->gesamtAusgabe['gesamt_wasser_formated']; ?> -> </span>
+                        <span class = "betrag"><?php echo $this->gesamtAusgabe['gesamt_wasserkosten_formated']; ?></span>
+                    </td>
+                <?php endif; ?>
+
+                <!--jetzt die Summen der individuellen Abrechnungen aus dem Gartenstamm, wenn vorhanden-->
+                <?php if ($this->gesamtAusgabe['gesamt_abrechnung_stammdaten_individuell'] != 0): ?>
+                    <td>
+                    <?php if ($this->gesamtAusgabe['gesamt_abrechnung_stammdaten_individuell_01'] == true): ?>
+                        <span class = "erlauterung"><?php echo $this->gesamtAusgabe['stammdaten_verein']['abrechnung_stammdaten_individuell_01_name']; ?></span>
+                        <span class = "betrag"><?php echo $this->gesamtAusgabe['gesamt_abrechnung_stammdaten_individuell_01_formated']; ?></span>
+                        <br>
                     <?php endif; ?>
-                </th>
-            <?php endif; ?>
 
-            <?php if ($this->gesamtAusgabe['gesamt_wasser'] != 0): ?>
-                <th>
-                    <?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['wasser'] . "<br><br>" . $this->gesamtAusgabe['stammdaten_verein']['wasser_formated']; ?>
-
-                    <?php if ($this->gesamtAusgabe['stammdaten_verein']['wasser_grundpreis'] == true): ?>
-                        <br><?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['zzgl'] . " " . $this->gesamtAusgabe['stammdaten_verein']['wasser_grundpreis_formated']; ?>
+                    <?php if ($this->gesamtAusgabe['gesamt_abrechnung_stammdaten_individuell_02'] == true): ?>
+                        <span class = "erlauterung"><?php echo $this->gesamtAusgabe['stammdaten_verein']['abrechnung_stammdaten_individuell_02_name']; ?></span>
+                        <span class = "betrag"><?php echo $this->gesamtAusgabe['gesamt_abrechnung_stammdaten_individuell_02_formated']; ?></span>
+                        <br>
                     <?php endif; ?>
-                </th>
-            <?php endif; ?>
 
-            <?php if ($this->gesamtAusgabe['gesamt_abrechnung_stammdaten_individuell'] != 0): ?>
-                <th>
-                    <?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['individuelle_abrechnung'] . "<br><br>" . $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['allgemein']; ?>
-                </th>
-            <?php endif; ?>
+                    <?php if ($this->gesamtAusgabe['gesamt_abrechnung_stammdaten_individuell_03'] == true): ?>
+                        <span class = "erlauterung"><?php echo $this->gesamtAusgabe['stammdaten_verein']['abrechnung_stammdaten_individuell_03_name']; ?></span>
+                        <span class = "betrag"><?php echo $this->gesamtAusgabe['gesamt_abrechnung_stammdaten_individuell_03_formated']; ?></span>
+                        <br>
+                    <?php endif; ?>
 
-            <?php if ($this->gesamtAusgabe['gesamt_abrechnung_garten_individuell'] != 0): ?>
-                <th>
-                    <?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['individuelle_abrechnung'] . "<br><br>" . $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['allgemein_gaerten']; ?>
-                </th>
-            <?php endif; ?>
+                    <?php if ($this->gesamtAusgabe['gesamt_abrechnung_stammdaten_individuell_04'] == true): ?>
+                        <span class = "erlauterung"><?php echo $this->gesamtAusgabe['stammdaten_verein']['abrechnung_stammdaten_individuell_04_name']; ?></span>
+                        <span class = "betrag"><?php echo $this->gesamtAusgabe['gesamt_abrechnung_stammdaten_individuell_04_formated']; ?></span>
+                        <br>
+                    <?php endif; ?>
+                    </td>
+                <?php endif; ?>
 
-            <th>
-                <?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['Gesamt']; ?>
-            </th>
-        </tr>
-    </thead>
+                <!--jetzt noch die Summer der individuellen Abrechnungen der einzelnen Gärten, wenn vorhanden-->
+                <?php if ($this->gesamtAusgabe['gesamt_abrechnung_garten_individuell'] != 0): ?>
+                    <td>
+                        <span class = "betrag"><?php echo $this->gesamtAusgabe['gesamt_abrechnung_garten_individuell_formated']; ?></span>
+                    </td>
+                <?php endif; ?>
 
-    <!-- Tabbellenfuss -->
-    <tfoot>
-        <tr>
-            <td colspan = "2">
-<!--
-                <form id = "AusgabeLatex" action ="JavaScript:popup('{{env::request}}<?php
+                <td class = "gesamteinzelgarten">
+                    <span class = "betrag"><?php echo $this->gesamtAusgabe['gesamt_alle_garten_formated']; ?></span>
+                </td>
+            </tr>
+        </tfoot>
 
-                    // Kontrolle, ob Request vorhanden; dann ? und wenn nicht,dann & für get- Parameter
-                    if ( strpos($this->Environment->request, "?") === false )
-                    {
-                        echo '?';
-                    }
-                    else
-                    {
-                        echo '&amp;';
-                    }
+        <!-- Tabbellenbody -->
+        <tbody>
+        <?php for ( $i = 0; $i < count($this->gesamtAusgabe['garten_abrechnung']); $i++ ): ?>
+            <!--auf gerade und ungerade auszeichnen-->
+            <?php if ($i % 2 == 0) $td_class = "even";
+            else $td_class = "odd"; ?>
 
-                    ?>Buchungssatz=true&amp;ausgabejahr=<?php echo $this->gesamtAusgabe['ausgabejahr']; ?>',-1,-1,800,500);" method = "post">
-                    <div class ="garten_button">
-                        <input type="hidden" name="FORM_SUBMIT" value="Buchungssatz">
-                        <input type="submit" value= "<?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['AusgabeDatev']; ?>">
-                        <input type="hidden" name = "Buchungssatz" value = "true">
-                    </div>
-                </form>
--->
-                <form id = "AusgabeDatev" action ="JavaScript:popup('{{env::request}}<?php
+            <tr class = "<?php echo $td_class; ?>">
 
-                    // Kontrolle, ob Request vorhanden; dann ? und wenn nicht,dann & für get- Parameter
-                    if ( strpos($this->Environment->request, "?") === false )
-                    {
-                        echo '?';
-                    }
-                    else
-                    {
-                        echo '&amp;';
-                    }
+            <!--die Gartennummer zum Button machen-->
+            <?php
+            $buttonNr = "<form id = \"rechnung$i\" action =\"JavaScript:popup('{{env::request}}";
 
-                    ?>Buchungssatz=true&amp;ausgabejahr=<?php echo $this->gesamtAusgabe['ausgabejahr']; ?>',-1,-1,800,500);" method = "post">
-                    <div class ="garten_button">
-                        <input type="hidden" name="FORM_SUBMIT" value="Buchungssatz">
-                        <input type="submit" value= "<?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['AusgabeDatev']; ?>">
-                        <input type="hidden" name = "Buchungssatz" value = "true">
-                    </div>
-                </form>
+            // Kontrolle, ob Request vorhanden; dann ? und wenn nicht,dann & für get- Parameter
+            if ( strpos($this->Environment->request, "?") === false )
+            {
+                $buttonNr .= "?";
+            }
+            else
+            {
+                $buttonNr .= "&amp;";
+            }
+            $buttonNr .= "rechnung=" . $this->gesamtAusgabe['garten_abrechnung'][$i]['id'];
+            $buttonNr .= "&amp;ausgabejahr=" . $this->gesamtAusgabe['ausgabejahr'];
+            $buttonNr .= "',-1,-1,800,500);\" method = \"post\">\n";
+            $buttonNr .= "<div class =\"garten_button\">\n";
+            $buttonNr .= "<input type=\"hidden\" name=\"FORM_SUBMIT\" value=\"Rechnung$i\" />\n";
 
-                <?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['Gesamt']; ?>
+            // Referer- Prüfung, oder was auch immer
+            $buttonNr .= "<input type=\"hidden\" name=\"REQUEST_TOKEN\" value=\"{{request_token}}\" />\n";
+
+            $buttonNr .= "<input type=\"submit\" value= \"" . $this->gesamtAusgabe['garten_abrechnung'][$i]['nr'] . "\" />\n";
+            $buttonNr .= "<input type=\"hidden\" name = \"rechnung\" value = \"" . $this->gesamtAusgabe['garten_abrechnung'][$i]['id'] . "\" />\n";
+            $buttonNr .= "</div>\n</form>\n"; ?>
+
+            <!--und übergeben-->
+            <td class = "nr">
+                <?php echo $buttonNr; ?>
             </td>
 
-            <!--Spalte Beitrag, wenn vorhanden-->
+            <!--wenn Garten nicht vergeben, dann Adresse leer-->
+            <?php if ($this->gesamtAusgabe['garten_abrechnung'][$i]['nutzung_user_id'] != 0): ?>
+                <td class = "adresse">
+                    <?php echo $this->gesamtAusgabe['garten_abrechnung'][$i]['member']['name_komplett'] . "<br>";
+                          echo $this->gesamtAusgabe['garten_abrechnung'][$i]['member']['street'] . "<br>";
+                          echo $this->gesamtAusgabe['garten_abrechnung'][$i]['member']['postal'] . " " . $this->gesamtAusgabe['garten_abrechnung'][$i]['member']['city']; ?>
+                </td>
+            <?php else: ?>
+                <td class = "adresse">
+                    nicht vergeben
+                </td>
+            <?php endif ?>
+
+            <!--wenn gesamt_beitrag vorhanden, dann Spalte-->
             <?php if ($this->gesamtAusgabe['gesamt_beitrag'] != 0): ?>
-                <td class = "betrag">
-                    <?php echo $this->gesamtAusgabe['gesamt_beitrag_formated']; ?>
+                <td class = "beitrag">
+                    <span class = "betrag"><?php echo $this->gesamtAusgabe['garten_abrechnung'][$i]['beitrag_formated']; ?></span>
                 </td>
             <?php endif; ?>
 
-            <!--Spalte Pacht, wenn vorhanden-->
+            <!--wenn gesamt_pacht vorhanden, dann Spalte-->
             <?php if ($this->gesamtAusgabe['gesamt_pacht'] != 0): ?>
-                <td>
-                    <span class = "erlauterung"><?php echo $this->gesamtAusgabe['gesamt_grosse_formated']; ?> -> </span>
-                    <span class = "betrag"><?php echo $this->gesamtAusgabe['gesamt_pacht_formated']; ?></span>
+                <td class = "pacht">
+                    <span class = "erlauterung"><?php echo $this->gesamtAusgabe['garten_abrechnung'][$i]['grosse_formated']; ?> -> </span>
+                    <span class = "betrag"><?php echo $this->gesamtAusgabe['garten_abrechnung'][$i]['pacht_formated']; ?></span>
                 </td>
             <?php endif; ?>
 
-            <!--Spalte Strom, wenn vorhanden-->
+            <!--wenn gesamt_strom vorhanden, dann Spalte-->
             <?php if ($this->gesamtAusgabe['gesamt_strom'] != 0): ?>
-                <td>
-                    <span class = "erlauterung"><?php echo $this->gesamtAusgabe['gesamt_strom_formated']; ?> -> </span>
-                    <span class = "betrag"><?php echo $this->gesamtAusgabe['gesamt_stromkosten_formated']; ?></span>
+                <td class = "strom">
+                    <span class = "erlauterung"><?php echo $this->gesamtAusgabe['garten_abrechnung'][$i]['strom_formated']; ?> -> </span>
+                    <span class = "betrag"><?php echo $this->gesamtAusgabe['garten_abrechnung'][$i]['strom_kosten_formated']; ?></span>
                 </td>
             <?php endif; ?>
 
-            <!--Spalte Wasser, wenn vorhanden-->
+            <!--wenn gesamt_wasser vorhanden, dann Spalte-->
             <?php if ($this->gesamtAusgabe['gesamt_wasser'] != 0): ?>
-                <td>
-                    <span class = "erlauterung"><?php echo $this->gesamtAusgabe['gesamt_wasser_formated']; ?> -> </span>
-                    <span class = "betrag"><?php echo $this->gesamtAusgabe['gesamt_wasserkosten_formated']; ?></span>
+                <td class = "wasser">
+                    <span class = "erlauterung"><?php echo $this->gesamtAusgabe['garten_abrechnung'][$i]['wasser_formated']; ?> -> </span>
+                    <span class = "betrag"><?php echo $this->gesamtAusgabe['garten_abrechnung'][$i]['wasser_kosten_formated']; ?></span>
                 </td>
             <?php endif; ?>
 
-            <!--jetzt die Summen der individuellen Abrechnungen aus dem Gartenstamm, wenn vorhanden-->
+            <!--Hier die individuellen Abrechnungen aus dem Gartenstammdaten-->
             <?php if ($this->gesamtAusgabe['gesamt_abrechnung_stammdaten_individuell'] != 0): ?>
-                <td>
-                <?php if ($this->gesamtAusgabe['gesamt_abrechnung_stammdaten_individuell_01'] == true): ?>
-                    <span class = "erlauterung"><?php echo $this->gesamtAusgabe['stammdaten_verein']['abrechnung_stammdaten_individuell_01_name']; ?></span>
-                    <span class = "betrag"><?php echo $this->gesamtAusgabe['gesamt_abrechnung_stammdaten_individuell_01_formated']; ?></span>
+
+                <td class = "individuell_stammdaten">
+
+                <?php if ( ($this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_01_name'] == true) || ($this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_01_wert'] == true)): ?>
+                    <span class = "erlauterung"><?php echo $this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_01_name']; ?></span>
+                    <span class = "betrag"><?php echo $this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_01_wert_formated']; ?></span>
                     <br>
                 <?php endif; ?>
 
-                <?php if ($this->gesamtAusgabe['gesamt_abrechnung_stammdaten_individuell_02'] == true): ?>
-                    <span class = "erlauterung"><?php echo $this->gesamtAusgabe['stammdaten_verein']['abrechnung_stammdaten_individuell_02_name']; ?></span>
-                    <span class = "betrag"><?php echo $this->gesamtAusgabe['gesamt_abrechnung_stammdaten_individuell_02_formated']; ?></span>
+                <?php if ( ($this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_02_name'] == true) || ($this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_02_wert'] == true)): ?>
+                    <span class = "erlauterung"><?php echo $this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_02_name']; ?></span>
+                    <span class = "betrag"><?php echo $this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_02_wert_formated']; ?></span>
                     <br>
                 <?php endif; ?>
 
-                <?php if ($this->gesamtAusgabe['gesamt_abrechnung_stammdaten_individuell_03'] == true): ?>
-                    <span class = "erlauterung"><?php echo $this->gesamtAusgabe['stammdaten_verein']['abrechnung_stammdaten_individuell_03_name']; ?></span>
-                    <span class = "betrag"><?php echo $this->gesamtAusgabe['gesamt_abrechnung_stammdaten_individuell_03_formated']; ?></span>
+                <?php if ( ($this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_03_name'] == true) || ($this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_03_wert'] == true)): ?>
+                    <span class = "erlauterung"><?php echo $this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_03_name']; ?></span>
+                    <span class = "betrag"><?php echo $this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_03_wert_formated']; ?></span>
                     <br>
                 <?php endif; ?>
 
-                <?php if ($this->gesamtAusgabe['gesamt_abrechnung_stammdaten_individuell_04'] == true): ?>
-                    <span class = "erlauterung"><?php echo $this->gesamtAusgabe['stammdaten_verein']['abrechnung_stammdaten_individuell_04_name']; ?></span>
-                    <span class = "betrag"><?php echo $this->gesamtAusgabe['gesamt_abrechnung_stammdaten_individuell_04_formated']; ?></span>
+                <?php if ( ($this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_04_name'] == true) || ($this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_04_wert'] == true)): ?>
+                    <span class = "erlauterung"><?php echo $this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_04_name']; ?></span>
+                    <span class = "betrag"><?php echo $this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_04_wert_formated']; ?></span>
                     <br>
                 <?php endif; ?>
                 </td>
             <?php endif; ?>
 
-            <!--jetzt noch die Summer der individuellen Abrechnungen der einzelnen Gärten, wenn vorhanden-->
+            <!--Jetzt die individuellen Abrechnungen aus den Gärten-->
             <?php if ($this->gesamtAusgabe['gesamt_abrechnung_garten_individuell'] != 0): ?>
-                <td>
-                    <span class = "betrag"><?php echo $this->gesamtAusgabe['gesamt_abrechnung_garten_individuell_formated']; ?></span>
+
+                <td class = "individuell_garten">
+
+                <?php if ( ($this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_garten_individuell_01_name'] == true) || ($this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_garten_individuell_01_wert'] == true)): ?>
+                    <span class = "erlauterung"><?php echo $this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_garten_individuell_01_name']; ?></span>
+                    <span class = "betrag"><?php echo $this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_garten_individuell_01_wert_formated']; ?></span>
+                    <br>
+                <?php endif; ?>
+
+                <?php if ( ($this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_garten_individuell_02_name'] == true) || ($this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_garten_individuell_02_wert'] == true)): ?>
+                    <span class = "erlauterung"><?php echo $this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_garten_individuell_02_name']; ?></span>
+                    <span class = "betrag"><?php echo $this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_garten_individuell_02_wert_formated']; ?></span>
+                    <br>
+                <?php endif; ?>
+
+                <?php if ( ($this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_garten_individuell_03_name'] == true) || ($this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_garten_individuell_03_wert'] == true)): ?>
+                    <span class = "erlauterung"><?php echo $this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_garten_individuell_03_name']; ?></span>
+                    <span class = "betrag"><?php echo $this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_garten_individuell_03_wert_formated']; ?></span>
+                    <br>
+                <?php endif; ?>
+
+                <?php if ( ($this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_garten_individuell_04_name'] == true) || ($this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_garten_individuell_04_wert'] == true)): ?>
+                    <span class = "erlauterung"><?php echo $this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_garten_individuell_04_name']; ?></span>
+                    <span class = "betrag"><?php echo $this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_garten_individuell_04_wert_formated']; ?></span>
+                    <br>
+                <?php endif; ?>
+
                 </td>
             <?php endif; ?>
 
+            <!--ab hier der Gesamtbetrag der Gartenabrechnung-->
             <td class = "gesamteinzelgarten">
-                <span class = "betrag"><?php echo $this->gesamtAusgabe['gesamt_alle_garten_formated']; ?></span>
+                <span class = "betrag"><?php echo $this->gesamtAusgabe['garten_abrechnung'][$i]['gesamt_einzel_garten_formated']; ?></span>
             </td>
         </tr>
-    </tfoot>
-
-    <!-- Tabbellenbody -->
-    <tbody>
-    <?php for ( $i = 0; $i < count($this->gesamtAusgabe['garten_abrechnung']); $i++ ): ?>
-        <!--auf gerade und ungerade auszeichnen-->
-        <?php if ($i % 2 == 0) $td_class = "even";
-        else $td_class = "odd"; ?>
-
-        <tr class = "<?php echo $td_class; ?>">
-
-        <!--die Gartennummer zum Button machen-->
-        <?php
-        $buttonNr = "<form id = \"rechnung$i\" action =\"JavaScript:popup('{{env::request}}";
-
-        // Kontrolle, ob Request vorhanden; dann ? und wenn nicht,dann & für get- Parameter
-        if ( strpos($this->Environment->request, "?") === false )
-        {
-            $buttonNr .= "?";
-        }
-        else
-        {
-            $buttonNr .= "&amp;";
-        }
-        $buttonNr .= "rechnung=" . $this->gesamtAusgabe['garten_abrechnung'][$i]['id'];
-        $buttonNr .= "&amp;ausgabejahr=" . $this->gesamtAusgabe['ausgabejahr'];
-        $buttonNr .= "',-1,-1,800,500);\" method = \"post\">\n";
-        $buttonNr .= "<div class =\"garten_button\">\n";
-        $buttonNr .= "<input type=\"hidden\" name=\"FORM_SUBMIT\" value=\"Rechnung$i\" />\n";
-
-        // Referer- Prüfung, oder was auch immer
-        $buttonNr .= "<input type=\"hidden\" name=\"REQUEST_TOKEN\" value=\"{{request_token}}\" />\n";
-
-        $buttonNr .= "<input type=\"submit\" value= \"" . $this->gesamtAusgabe['garten_abrechnung'][$i]['nr'] . "\" />\n";
-        $buttonNr .= "<input type=\"hidden\" name = \"rechnung\" value = \"" . $this->gesamtAusgabe['garten_abrechnung'][$i]['id'] . "\" />\n";
-        $buttonNr .= "</div>\n</form>\n"; ?>
-
-        <!--und übergeben-->
-        <td class = "nr">
-            <?php echo $buttonNr; ?>
-        </td>
-
-        <!--wenn Garten nicht vergeben, dann Adresse leer-->
-        <?php if ($this->gesamtAusgabe['garten_abrechnung'][$i]['nutzung_user_id'] != 0): ?>
-            <td class = "adresse">
-                <?php echo $this->gesamtAusgabe['garten_abrechnung'][$i]['member']['name_komplett'] . "<br>";
-                      echo $this->gesamtAusgabe['garten_abrechnung'][$i]['member']['street'] . "<br>";
-                      echo $this->gesamtAusgabe['garten_abrechnung'][$i]['member']['postal'] . " " . $this->gesamtAusgabe['garten_abrechnung'][$i]['member']['city']; ?>
-            </td>
-        <?php else: ?>
-            <td class = "adresse">
-                nicht vergeben
-            </td>
-        <?php endif ?>
-
-        <!--wenn gesamt_beitrag vorhanden, dann Spalte-->
-        <?php if ($this->gesamtAusgabe['gesamt_beitrag'] != 0): ?>
-            <td class = "beitrag">
-                <span class = "betrag"><?php echo $this->gesamtAusgabe['garten_abrechnung'][$i]['beitrag_formated']; ?></span>
-            </td>
-        <?php endif; ?>
-
-        <!--wenn gesamt_pacht vorhanden, dann Spalte-->
-        <?php if ($this->gesamtAusgabe['gesamt_pacht'] != 0): ?>
-            <td class = "pacht">
-                <span class = "erlauterung"><?php echo $this->gesamtAusgabe['garten_abrechnung'][$i]['grosse_formated']; ?> -> </span>
-                <span class = "betrag"><?php echo $this->gesamtAusgabe['garten_abrechnung'][$i]['pacht_formated']; ?></span>
-            </td>
-        <?php endif; ?>
-
-        <!--wenn gesamt_strom vorhanden, dann Spalte-->
-        <?php if ($this->gesamtAusgabe['gesamt_strom'] != 0): ?>
-            <td class = "strom">
-                <span class = "erlauterung"><?php echo $this->gesamtAusgabe['garten_abrechnung'][$i]['strom_formated']; ?> -> </span>
-                <span class = "betrag"><?php echo $this->gesamtAusgabe['garten_abrechnung'][$i]['strom_kosten_formated']; ?></span>
-            </td>
-        <?php endif; ?>
-
-        <!--wenn gesamt_wasser vorhanden, dann Spalte-->
-        <?php if ($this->gesamtAusgabe['gesamt_wasser'] != 0): ?>
-            <td class = "wasser">
-                <span class = "erlauterung"><?php echo $this->gesamtAusgabe['garten_abrechnung'][$i]['wasser_formated']; ?> -> </span>
-                <span class = "betrag"><?php echo $this->gesamtAusgabe['garten_abrechnung'][$i]['wasser_kosten_formated']; ?></span>
-            </td>
-        <?php endif; ?>
-
-        <!--Hier die individuellen Abrechnungen aus dem Gartenstammdaten-->
-        <?php if ($this->gesamtAusgabe['gesamt_abrechnung_stammdaten_individuell'] != 0): ?>
-
-            <td class = "individuell_stammdaten">
-
-            <?php if ( ($this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_01_name'] == true) || ($this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_01_wert'] == true)): ?>
-                <span class = "erlauterung"><?php echo $this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_01_name']; ?></span>
-                <span class = "betrag"><?php echo $this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_01_wert_formated']; ?></span>
-                <br>
-            <?php endif; ?>
-
-            <?php if ( ($this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_02_name'] == true) || ($this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_02_wert'] == true)): ?>
-                <span class = "erlauterung"><?php echo $this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_02_name']; ?></span>
-                <span class = "betrag"><?php echo $this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_02_wert_formated']; ?></span>
-                <br>
-            <?php endif; ?>
-
-            <?php if ( ($this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_03_name'] == true) || ($this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_03_wert'] == true)): ?>
-                <span class = "erlauterung"><?php echo $this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_03_name']; ?></span>
-                <span class = "betrag"><?php echo $this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_03_wert_formated']; ?></span>
-                <br>
-            <?php endif; ?>
-
-            <?php if ( ($this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_04_name'] == true) || ($this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_04_wert'] == true)): ?>
-                <span class = "erlauterung"><?php echo $this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_04_name']; ?></span>
-                <span class = "betrag"><?php echo $this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_04_wert_formated']; ?></span>
-                <br>
-            <?php endif; ?>
-            </td>
-        <?php endif; ?>
-
-        <!--Jetzt die individuellen Abrechnungen aus den Gärten-->
-        <?php if ($this->gesamtAusgabe['gesamt_abrechnung_garten_individuell'] != 0): ?>
-
-            <td class = "individuell_garten">
-
-            <?php if ( ($this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_garten_individuell_01_name'] == true) || ($this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_garten_individuell_01_wert'] == true)): ?>
-                <span class = "erlauterung"><?php echo $this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_garten_individuell_01_name']; ?></span>
-                <span class = "betrag"><?php echo $this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_garten_individuell_01_wert_formated']; ?></span>
-                <br>
-            <?php endif; ?>
-
-            <?php if ( ($this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_garten_individuell_02_name'] == true) || ($this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_garten_individuell_02_wert'] == true)): ?>
-                <span class = "erlauterung"><?php echo $this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_garten_individuell_02_name']; ?></span>
-                <span class = "betrag"><?php echo $this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_garten_individuell_02_wert_formated']; ?></span>
-                <br>
-            <?php endif; ?>
-
-            <?php if ( ($this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_garten_individuell_03_name'] == true) || ($this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_garten_individuell_03_wert'] == true)): ?>
-                <span class = "erlauterung"><?php echo $this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_garten_individuell_03_name']; ?></span>
-                <span class = "betrag"><?php echo $this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_garten_individuell_03_wert_formated']; ?></span>
-                <br>
-            <?php endif; ?>
-
-            <?php if ( ($this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_garten_individuell_04_name'] == true) || ($this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_garten_individuell_04_wert'] == true)): ?>
-                <span class = "erlauterung"><?php echo $this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_garten_individuell_04_name']; ?></span>
-                <span class = "betrag"><?php echo $this->gesamtAusgabe['garten_abrechnung'][$i]['abrechnung_garten_individuell_04_wert_formated']; ?></span>
-                <br>
-            <?php endif; ?>
-
-            </td>
-        <?php endif; ?>
-
-        <!--ab hier der Gesamtbetrag der Gartenabrechnung-->
-        <td class = "gesamteinzelgarten">
-            <span class = "betrag"><?php echo $this->gesamtAusgabe['garten_abrechnung'][$i]['gesamt_einzel_garten_formated']; ?></span>
-        </td>
-    </tr>
-    <?php endfor; ?>
-    </tbody>
-</table>
+        <?php endfor; ?>
+        </tbody>
+    </table>
+<?php endif; ?>
 </div>
