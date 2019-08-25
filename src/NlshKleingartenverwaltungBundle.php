@@ -18,4 +18,4 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 class NlshKleingartenverwaltungBundle extends Bundle
 {
-}
+}//end class

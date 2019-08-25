@@ -115,7 +115,7 @@ $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['neuanlage_nicht']            
 /**
  * Buttons
  */
-$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['new'][0]                                     = 'Neuen Garten';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['new'][0]                                     = 'Einen neuen Garten anlegen';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['new'][1]                                     = 'Hier k&ouml;nnen Sie einen neuen Garten anlegen!';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['show'][0]                                    = 'Informationen';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['show'][1]                                    = 'Informationen zum Garten ID %s anzeigen';

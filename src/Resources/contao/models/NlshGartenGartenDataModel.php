@@ -33,24 +33,25 @@ class NlshGartenGartenDataModel extends \Model
      * @return  array  Array mit den doppelt vergebenen Gärten
      */
     public static function findDoubleGarten($gartenPid) {
+        $return = array();
         $gartenGartenData = static::findBy(
                                         'pid',
                                         $gartenPid,
                                         array('order' => '`nutzung_user_id` ASC, `nr` ASC'));
-
-        while ($gartenGartenData->next()) {
-            $newArr[] = $gartenGartenData->row();
-        }
-
-        $count = count($newArr);
-
-        for ($i = 0; $i < $count; $i++) {
-            if ((       $newArr[$i]['nutzung_user_id'] == $newArr[$i - 1]['nutzung_user_id'])
-                    && ($newArr[$i]['nutzung_user_id'] == TRUE)) {
-                $return[$newArr[$i]['nr']] = 1;
+        if ($gartenGartenData !== null) {
+            while ($gartenGartenData->next()) {
+                $newArr[] = $gartenGartenData->row();
+            }
+    
+            $count = count($newArr);
+    
+            for ($i = 0; $i < $count; $i++) {
+                if ((       $newArr[$i]['nutzung_user_id'] == $newArr[$i - 1]['nutzung_user_id'])
+                        && ($newArr[$i]['nutzung_user_id'] == TRUE)) {
+                    $return[$newArr[$i]['nr']] = 1;
+                }
             }
         }
-
         return $return;
     }
 }
