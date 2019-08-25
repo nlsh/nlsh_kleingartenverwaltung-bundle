@@ -12,7 +12,7 @@ $GLOBALS['TL_JAVASCRIPT']['nlsh_Kleingartenverwaltung'] = 'bundles/nlshkleingart
     <p class = "error">
         <?php echo $this->gesamtAusgabe['error'] ?>
     </p>
-<?php else: ?>
+<?php endif; ?>
 
 <?php echo $this->formSelectYear; ?>
 
@@ -97,7 +97,7 @@ $GLOBALS['TL_JAVASCRIPT']['nlsh_Kleingartenverwaltung'] = 'bundles/nlshkleingart
                         </div>
                     </form>
     -->
-                    <form id = "AusgabeDatev" action ="JavaScript:popup('{{env::request}}<?php
+                    <form id = "AusgabeDatev" action ="{{env::request}}<?php
 
                         // Kontrolle, ob Request vorhanden; dann ? und wenn nicht,dann & für get- Parameter
                         if ( strpos($this->Environment->request, "?") === false )
@@ -109,11 +109,12 @@ $GLOBALS['TL_JAVASCRIPT']['nlsh_Kleingartenverwaltung'] = 'bundles/nlshkleingart
                             echo '&amp;';
                         }
 
-                        ?>Buchungssatz=true&amp;ausgabejahr=<?php echo $this->gesamtAusgabe['ausgabejahr']; ?>',-1,-1,800,500);" method = "post">
+                        ?>Buchungssatz=true&amp;ausgabejahr=<?php echo $this->gesamtAusgabe['ausgabejahr']; ?>;" method = "post">
                         <div class ="garten_button">
                             <input type="hidden" name="FORM_SUBMIT" value="Buchungssatz">
                             <input type="submit" value= "<?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['AusgabeDatev']; ?>">
                             <input type="hidden" name = "Buchungssatz" value = "true">
+                            <input type="hidden" name="REQUEST_TOKEN" value="{{request_token}}" />
                         </div>
                     </form>
 
@@ -348,5 +349,4 @@ $GLOBALS['TL_JAVASCRIPT']['nlsh_Kleingartenverwaltung'] = 'bundles/nlshkleingart
         <?php endfor; ?>
         </tbody>
     </table>
-<?php endif; ?>
 </div>

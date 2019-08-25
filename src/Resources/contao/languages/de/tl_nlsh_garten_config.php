@@ -23,6 +23,8 @@ $GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlsh_garten_vorschuss_pacht'][0]  
 $GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlsh_garten_vorschuss_pacht'][1]                  = 'Geben Sie an, ob die Pacht f&uuml;r das n&auml;chste Jahr abkassiert werden soll!';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlsh_garten_verbrauchsdaten_vorjahr'][0]          = 'Abrechnung der Verbrauchsdaten aus dem Vorjahr?';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlsh_garten_verbrauchsdaten_vorjahr'][1]          = 'Geben Sie an, ob die Abrechnung der Verbrauchsdaten f&uuml;r das Vorjahr abgerechnet werden sollen!';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlsh_rgvorbelegung_datum'][0]                     = 'Rechnungsdatum';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlsh_rgvorbelegung_datum'][1]                     = 'Geben Sie hier bitte das Rechnungsdatum ein, ansonsten wird das aktuelle Datum herangezogen!';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlsh_garten_text_rg_verbrauchsdaten'][0]          = 'Text f&uuml;r Abrechnung der Verbrauchsdaten';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlsh_garten_text_rg_verbrauchsdaten'][1]          = 'Geben Sie hier bitte Ihren Text f&uuml;r die Abrechnung der Verbrauchsdaten ein!';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlsh_garten_text_rg_pacht_beitrag'][0]            = 'Text f&uuml;r Abrechnung des Beitrages und der Pacht';
@@ -31,6 +33,12 @@ $GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlsh_garten_text_rg_aufforder_zahl
 $GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlsh_garten_text_rg_aufforder_zahlung'][1]        = 'Geben Sie hier bitte Ihren Text zur Aufforderung zur Zahlung ein!';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlsh_garten_text_rg_hinweis'][0]                  = 'Text f&uuml;r einen Hinweis';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlsh_garten_text_rg_hinweis'][1]                  = 'Geben Sie hier bitte Ihren Text f&uuml;r einen Hinweis ein!';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlsh_garten_beraternummer'][0]                    = 'Beraternummer in DATEV';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlsh_garten_beraternummer'][1]                    = 'Geben Sie hier bitte die Beraternummer aus DATEV- Rechnungswesen ein!';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlsh_garten_mandantennummer'][0]                  = 'Mandantennummer in DATEV';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlsh_garten_mandantennummer'][1]                  = 'Geben Sie hier bitte die Mandantennummer aus DATEV- Rechnungswesen ein!';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlsh_garten_debitorenkonto'][0]                   = 'Debitorennummer in DATEV';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlsh_garten_debitorenkonto'][1]                   = 'Geben Sie hier bitte die Debitorennummer in DATEV- Rechnungswesen ein, ansonsten wird 6000 + Jahr vorbelegt.';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlsh_garten_konto_pacht'][0]                      = 'Pacht';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlsh_garten_konto_pacht'][1]                      = 'Geben Sie bitte das Konto f&uuml;r die Verbuchung der Pachteinnahmen an!';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlsh_garten_konto_beitrag'][0]                    = 'Beitrag';
@@ -63,7 +71,8 @@ $GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlsh_garten_konto_individuell_04_g
  */
 $GLOBALS['TL_LANG']['tl_nlsh_garten_config']['Vorschuss_beitrag_pacht_legend']                  = 'Vorschussabrechnung f&uuml;r Beitr&auml;ge und Pacht?';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_config']['Verbrauchsdaten_vorjahr_legend']                  = 'Abrechnung der Verbrausdaten aus dem Vorjahr?';
-$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['Rechnung_texte_legend']                           = 'Vorbelegung des Rechnungstextes';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['Rechnung_vorbelegung_legend']                     = 'Vorbelegungen zur Rechnungserstellung';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['DATEV_allgemein_legend']                          = 'Allgemeine DATEV Angaben';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_config']['Kontenrahmen_legend']                             = 'Kontenvorbelegung &Uuml;bergabe Buchf&uuml;hrung allgemeine Abrechnung';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_config']['Individuell_gartenstamm_legend']                  = 'Kontenvorbelegung &Uuml;bergabe Buchf&uuml;hrung aus dem individuellen Abrechnungen aus den Stammdaten des Vereins';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_config']['Individuell_garten_legend']                       = 'Kontenvorbelegung &Uuml;bergabe Buchf&uuml;hrung aus dem individuellen Abrechnungen aus den G&auml;rten';
@@ -72,7 +81,7 @@ $GLOBALS['TL_LANG']['tl_nlsh_garten_config']['Individuell_garten_legend']       
 /**
  * Buttons
  */
-$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['new'][0]                                          = 'Neues Jahr f&uuml;r Einstellungen';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['new'][0]                                          = 'Ein neues Jahr f&uuml;r Einstellungen anlegen';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_config']['new'][1]                                          = 'Hier k&ouml;nnen Sie ein neues Jahr f&uuml;r Einstellungen anlegen.';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_config']['edit'][0]                                         = 'Grundeinstellungen der Gartenverwaltung';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_config']['edit'][1]                                         = 'Grundeinstellung der Gartenverwaltung von ID %s';

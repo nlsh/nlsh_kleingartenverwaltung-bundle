@@ -25,7 +25,7 @@ $GLOBALS['TL_LANG']['tl_nlsh_garten_verein_stammdaten']['strasse'][1]           
 $GLOBALS['TL_LANG']['tl_nlsh_garten_verein_stammdaten']['plzort'][0]                                    = 'PLZ und Ort';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_verein_stammdaten']['plzort'][1]                                    = 'Geben Sie bitte die Postleitzahl und den Ort Ihres Vereines ein!';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_verein_stammdaten']['vereinsvorsitzender'][0]                       = 'Vereinsvorsitzender';
-$GLOBALS['TL_LANG']['tl_nlsh_garten_verein_stammdaten']['vereinsvorsitzender'][0]                       = 'Geben Sie bitte den Namen des Vereinsvorsitzenden ein!';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_verein_stammdaten']['vereinsvorsitzender'][1]                       = 'Geben Sie bitte den Namen des Vereinsvorsitzenden ein!';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_verein_stammdaten']['telefon'][0]                                   = 'Telefon';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_verein_stammdaten']['telefon'][1]                                   = 'Geben Sie bitte die Telefonnummer Ihres Vereines ein!';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_verein_stammdaten']['email'][0]                                     = 'E- Mail Adresse';
@@ -97,7 +97,7 @@ $GLOBALS['TL_LANG']['tl_nlsh_garten_verein_stammdaten']['Rechtliches_legend']   
 /**
  * Buttons
  */
-$GLOBALS['TL_LANG']['tl_nlsh_garten_verein_stammdaten']['new'][0]                                       = 'Neues Jahr';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_verein_stammdaten']['new'][0]                                       = 'Ein neues Jahr anlegen';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_verein_stammdaten']['new'][1]                                       = 'Hier k&ouml;nnen Sie eine neue Abrechnungsperiode anlegen.';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_verein_stammdaten']['show'][0]                                      = 'Informationen';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_verein_stammdaten']['show'][1]                                      = 'Informationen zum Abrechnungsjahr ID %s anzeigen lassen';

@@ -22,7 +22,9 @@
 
  $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['noconfig']                = 'Sie m&uuml;ssen zuerst die Einstellungen f&uuml;r dieses Jahr anlegen!';
  $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['nogarten']                = 'Sie m&uuml;ssen zuerst abzurechnende G&auml;rten anlegen!';
- $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['nodata']                  = "Es sind keine Daten zur Auswertung vorhanden!";
+ $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['nodatastamm']             = 'Es sind keine Stammdaten des Vereins zur Auswertung vorhanden!';
+ $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['nodatagarten']            = 'Es sind keine G&auml;rten im Ausgabejahr vorhanden!';
+ $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['nodataconfig']            = 'Es sind keine Einstellungen für das Ausgabejahr vorhanden!';
 
  $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['waehrung']                = 'EUR';
  $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['zzgl']                    = 'zzgl.';

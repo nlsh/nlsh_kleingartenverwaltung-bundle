@@ -15,6 +15,10 @@
 namespace Nlsh\KleingartenverwaltungBundle;
 
 
+use Symfony\Component\PropertyAccess\Tests\Fixtures\ReturnTyped;
+use Symfony\Bundle\FrameworkBundle\Templating\GlobalVariables;
+use Contao\NlshGartenGartenDataModel;
+use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\VarDumper\VarDumper;
 
 /**
@@ -33,18 +37,39 @@ class ModuleNlshGartenGesamtausgabe extends \Module
     protected $strTemplate = 'mod_nlsh_gesamtausgabe';
 
     /**
-     * Existing years
+     * Existierende Jahre
      *
      * @var array
      */
     public $arrYears = array();
 
     /**
-     * Output year
+     * Ausgabejahr
      *
      * @var integer
      */
     public $intYear = 0;
+
+    /**
+     * Pid aus `tl_nlsh_garten_verein_stammdaten` für `tl_nlsh_garten_garten_data`
+     *
+     * @var integer
+     */
+    public $intPid = 0;
+
+    /**
+     * Sind Gärten im Ausgabejahr vorhanden?
+     *
+     * @var boolean
+     */
+    public $boolGartenExist = false;
+
+    /**
+     * Sind Einstellungen im Ausgabejahr vorhanden?
+     *
+     * @var boolean
+     */
+    public $boolEinstellungenExist = false;
 
     /**
      * All data
@@ -73,17 +98,27 @@ class ModuleNlshGartenGesamtausgabe extends \Module
             return $objTemplate->parse();
         }
 
-         // Ausgabejahr und vorhandene Jahre holen.
-        $getOutputTimes = $this->getTimes();
+         // Initialisierung
+         // Ausgabejahr, vorhandene Jahre und pid für Gärten holen und eintragen.
+        $initial = $this->initial();
 
          // Wenn nicht vorhanden, dann Tschüß.
-        if ($getOutputTimes === false) {
-            return $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['nodata'];
+         // prüft Tabelle `tl_nlsh_garten_verein_stammdaten`.
+        if ($initial === false) {
+            return $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['nodatastamm'];
         }
 
-         // Jahr und Ausgabejahre übernehmen.
-        $this->arrYears = $getOutputTimes['arrYears'];
-        $this->intYear  = $getOutputTimes['outputYear'];
+         // Kontrolle, ob Gärten im Jahr vorhanden, wenn nicht, dann Tschüß
+         // prüft Tabelle `tl_nlsh_garten_garten_data`.
+        if ($this->boolGartenExist === false) {
+            return $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['nodatagarten'];
+        }
+
+        // Kontrolle, ob Einstellungen im Jahr vorhanden, wenn nicht, dann Tschüß
+        // prüft Tabelle `tl_nlsh_garten_config`.
+        if ($this->boolEinstellungenExist === false) {
+            return $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['nodataconfig'];
+        }
 
         return parent::generate();
 
@@ -150,9 +185,7 @@ class ModuleNlshGartenGesamtausgabe extends \Module
 
         /*
          * Buchungssatz zusammenbasteln und ausgeben, wenn gewünscht
-         * Bedingung: $_GET['buchungssatz'] == TRUE
-         * danach Abbruch der Ausgabe, da Ausgabe in neuem Fenster
-         * nur der Buchungssätze und nicht des Cores danach
+         * Bedingung: $_GET['buchungssatz'] === TRUE
          */
 
         $getBuchungssatz = \Input::get('Buchungssatz');
@@ -169,145 +202,34 @@ class ModuleNlshGartenGesamtausgabe extends \Module
                 die;
             }
 
-            // Opjekt für Stapelverarbeitung erzeugen.
+             // Opjekt für DATEV Buchungsstapel erzeugen.
             $objBuchungssatz = new NlshDatevDtvfStandardFormatCreater();
 
-             // Jetzt die Ausgabe pro Garten.
-            for ($i = 0, $count = count($this->dataOutput['garten_abrechnung']); $i < $count; $i++) {
-                $arrGarten = array(
-                    'ausgabejahr' => $this->dataOutput['ausgabejahr'],
-                    'nr'          => $this->dataOutput['garten_abrechnung'][$i]['nr'],
-                    'lastname'    => $this->dataOutput['garten_abrechnung'][$i]['member']['lastname'],
-                    'firstname'   => $this->dataOutput['garten_abrechnung'][$i]['member']['firstname'],
-                );
+             // Erste Zeile des Buchungsstapel bearbeiten.
+            $objBuchungssatz->editFirstLine('Erzeugt am', date('YmdHiu'));
+            $objBuchungssatz->editFirstLine('Berater', $this->dataOutput['einstellungen']['nlsh_garten_beraternummer']);
+            $objBuchungssatz->editFirstLine('Mandant', $this->dataOutput['einstellungen']['nlsh_garten_mandantennummer']);
+            $objBuchungssatz->editFirstLine('WjBeginn', date('Y', $this->dataOutput['einstellungen']['nlsh_rgvorbelegung_datum']) . '0101');
+            $objBuchungssatz->editFirstLine('Datum von', date('Ymd', $this->dataOutput['einstellungen']['nlsh_rgvorbelegung_datum']));
+            $objBuchungssatz->editFirstLine('Datum bis', date('Ymd', $this->dataOutput['einstellungen']['nlsh_rgvorbelegung_datum']));
+            $objBuchungssatz->editFirstLine('Bezeichnung', 'Gartenabrechnung');
 
-                 // Beitrag.
-                if (empty($this->dataOutput['garten_abrechnung'][$i]['beitrag']) === false) {
-                    $strBuchsatz .= $this->erstelleBuchungssatz(
-                        $this->dataOutput['garten_abrechnung'][$i]['beitrag'],
-                        $this->dataOutput['einstellungen']['nlsh_garten_konto_beitrag'],
-                        $arrGarten
-                    );
-                }
+             // Jetzt die Daten einfügen.
+            $objBuchungssatz->insertDataArray($this->erstelleArrBuchungen());
 
-                 // Pacht.
-                if (empty($this->dataOutput['garten_abrechnung'][$i]['pacht']) === false) {
-                    $strBuchsatz .= $this->erstelleBuchungssatz(
-                        $this->dataOutput['garten_abrechnung'][$i]['pacht'],
-                        $this->dataOutput['einstellungen']['nlsh_garten_konto_pacht'],
-                        $arrGarten
-                    );
-                }
-
-                 // Strom.
-                if (empty($this->dataOutput['garten_abrechnung'][$i]['strom_kosten']) === false) {
-                    $strBuchsatz .= $this->erstelleBuchungssatz(
-                        $this->dataOutput['garten_abrechnung'][$i]['strom_kosten'],
-                        $this->dataOutput['einstellungen']['nlsh_garten_konto_strom'],
-                        $arrGarten
-                    );
-                }
-
-                 // Wasser.
-                if (empty($this->dataOutput['garten_abrechnung'][$i]['wasser_kosten']) === false) {
-                    $strBuchsatz .= $this->erstelleBuchungssatz(
-                        $this->dataOutput['garten_abrechnung'][$i]['wasser_kosten'],
-                        $this->dataOutput['einstellungen']['nlsh_garten_konto_wasser'],
-                        $arrGarten
-                    );
-                }
-
-                 // Abrechnung_garten_individuell_01_wert.
-                if (empty($this->dataOutput['garten_abrechnung'][$i]['abrechnung_garten_individuell_01_wert']) === false) {
-                    $strBuchsatz .= $this->erstelleBuchungssatz(
-                        $this->dataOutput['garten_abrechnung'][$i]['abrechnung_garten_individuell_01_wert'],
-                        $this->dataOutput['einstellungen']['nlsh_garten_konto_individuell_01_garten'],
-                        $arrGarten
-                    );
-                }
-
-                 // Abrechnung_garten_individuell_02_wert.
-                if (empty($this->dataOutput['garten_abrechnung'][$i]['abrechnung_garten_individuell_02_wert']) === false) {
-                    $strBuchsatz .= $this->erstelleBuchungssatz(
-                        $this->dataOutput['garten_abrechnung'][$i]['abrechnung_garten_individuell_02_wert'],
-                        $this->dataOutput['einstellungen']['nlsh_garten_konto_individuell_02_garten'],
-                        $arrGarten
-                    );
-                }
-
-                 // Abrechnung_garten_individuell_03_wert.
-                if (empty($this->dataOutput['garten_abrechnung'][$i]['abrechnung_garten_individuell_03_wert']) === false) {
-                    $strBuchsatz .= $this->erstelleBuchungssatz(
-                        $this->dataOutput['garten_abrechnung'][$i]['abrechnung_garten_individuell_03_wert'],
-                        $this->dataOutput['einstellungen']['nlsh_garten_konto_individuell_03_garten'],
-                        $arrGarten
-                    );
-                }
-
-                 // Abrechnung_garten_individuell_04_wert.
-                if (empty($this->dataOutput['garten_abrechnung'][$i]['abrechnung_garten_individuell_04_wert']) === false) {
-                    $strBuchsatz .= $this->erstelleBuchungssatz(
-                        $this->dataOutput['garten_abrechnung'][$i]['abrechnung_garten_individuell_04_wert'],
-                        $this->dataOutput['einstellungen']['nlsh_garten_konto_individuell_04_garten'],
-                        $arrGarten
-                    );
-                }
-
-                 // Abrechnung_stammdaten_individuell_01_wert.
-                if (empty($this->dataOutput['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_01_wert']) === false) {
-                    $strBuchsatz .= $this->erstelleBuchungssatz(
-                        $this->dataOutput['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_01_wert'],
-                        $this->dataOutput['einstellungen']['nlsh_garten_konto_individuell_01_gartenstamm'],
-                        $arrGarten
-                    );
-                }
-
-                 // Abrechnung_stammdaten_individuell_02_wert.
-                if (empty($this->dataOutput['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_02_wert']) === false) {
-                    $strBuchsatz .= $this->erstelleBuchungssatz(
-                        $this->dataOutput['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_02_wert'],
-                        $this->dataOutput['einstellungen']['nlsh_garten_konto_individuell_02_gartenstamm'],
-                        $arrGarten
-                    );
-                }
-
-                 // Abrechnung_stammdaten_individuell_03_wert.
-                if (empty($this->dataOutput['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_03_wert']) === false) {
-                    $strBuchsatz .= $this->erstelleBuchungssatz(
-                        $this->dataOutput['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_03_wert'],
-                        $this->dataOutput['einstellungen']['nlsh_garten_konto_individuell_03_gartenstamm'],
-                        $arrGarten
-                    );
-                }
-
-                 // Abrechnung_stammdaten_individuell_04_wert.
-                if (empty($this->dataOutput['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_04_wert']) === false) {
-                    $strBuchsatz .= $this->erstelleBuchungssatz(
-                        $this->dataOutput['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_04_wert'],
-                        $this->dataOutput['einstellungen']['nlsh_garten_konto_individuell_04_gartenstamm'],
-                        $arrGarten
-                    );
-                }
-            }//end for
-
-             // Neues Template initialisieren.
-            $objTemplate           = new \FrontendTemplate('mod_nlsh_buchungausgabe');
-            $objTemplate->buchSatz = $strBuchsatz;
-
-             // Und ausgeben.
-            echo $objTemplate->parse();
-
-            die;
+             // Und jetzt der Download.
+            $objBuchungssatz->getOutData('nlsh_DATEV_Buchungsstapel_' . $this->intYear);
         }//end if
 
     }//end compile()
 
     /**
-     * Alle vorhandenen Jahre holen
+     * Vorbelegung und
+     * Prüfgung, ob Daten in Elterntabelle vorhanden
      *
-     * @return array|FALSE  Array mit vorhandenen Jahren, oder FALSE
+     * @return boolean true|false
      */
-    protected function getTimes()
+    protected function initial()
     {
         $objYears = \NlshGartenVereinStammdatenModel::findAll(array('order' => '`jahr` DESC'));
 
@@ -331,12 +253,27 @@ class ModuleNlshGartenGesamtausgabe extends \Module
             $outputYear = $objYears->jahr;
         }
 
-        $return['arrYears']   = array_values($objYears->fetchEach('jahr'));
-        $return['outputYear'] = $outputYear;
+         // Jahr, Ausgabejahre und pd übernehmen.
+        $this->arrYears = array_values($objYears->fetchEach('jahr'));
+        $this->intYear  = $outputYear;
+        $this->intPid   = $objYears->id;
 
-        return $return;
+         // Kontrolle, ob Gärten im Ausgabejahr vorhanden sind.
+        $testGarten = \NlshGartenGartenDataModel::findOneBy('pid', $this->intPid);
+        if ($testGarten !== null) {
+            $this->boolGartenExist = true;
+        }
 
-    }//end getTimes()
+         // Kontrolle, ob Einstellungen im Ausgabejahr vorhanden sind.
+        $testEinstellungen = \NlshGartenConfigModel::findOneBy('jahr', $this->intYear);
+
+        if ($testEinstellungen !== null) {
+            $this->boolEinstellungenExist = true;
+        }
+
+        return true;
+
+    }//end initial()
 
     /**
      * Erstellt ein Array mit allen Daten der Gartenabrechnung
@@ -421,6 +358,10 @@ class ModuleNlshGartenGesamtausgabe extends \Module
                 $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_ausgabejahr_pacht'],
                 $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_text_rg_pacht_beitrag_formated']
             );
+             // Datum setzen.
+            if (empty($gartenGesamtAbrechnung['einstellungen']['nlsh_rgvorbelegung_datum']) === true) {
+                $gartenGesamtAbrechnung['einstellungen']['nlsh_rgvorbelegung_datum'] = time();
+            }
         } else {
             $gartenGesamtAbrechnung['einstellungen'] = false;
         }//end if
@@ -892,64 +833,256 @@ class ModuleNlshGartenGesamtausgabe extends \Module
     }//end createFormSelectYear()
 
     /**
-     * Buchungssatz erstellen
+     * Eine Array zur Erzeugung der Buchungszeilen erstellen
      *
-     * @param integer $intWert    Zahlenwert des Buchungssatzes.
-     * @param string  $gegenKonto Das Gegenkonto.
-     * @param array   $arrGarten  Array mit Daten des Gartens.
-     *
-     * @return string  Buchungssatz nach DATEV
+     * @return array  Array, fertg für NlshDatevDtvfStandardFormatCreater->insertDataArray
      */
-    protected function erstelleBuchungssatz($intWert, string $gegenKonto, array $arrGarten)
+    protected function erstelleArrBuchungen()
     {
-         // Betrag.
-        $strBuchsatz .= str_replace('.', ',', $intWert) . ';';
+        $return = array();
 
-         // Währung
+        for ($i = 0, $count = count($this->dataOutput['garten_abrechnung']); $i < $count; $i++) {
+             // Vorbelegung definieren.
+            $arrVorbelegung = array(
+                 // Belegdatum.
+                10 => date('dm', $this->dataOutput['einstellungen']['nlsh_rgvorbelegung_datum']),
+                 // Belegfeld 1.
+                11 => $this->dataOutput['ausgabejahr'] . '/' . $this->dataOutput['garten_abrechnung'][$i]['nr'],
+                 // Buchungstext  mit kompletten Namen vorbelegen.
+                14 => $this->dataOutput['garten_abrechnung'][$i]['member']['name_komplett'],
+            );
+             // Debitorenkonto vorbelegen.
+            if ($this->dataOutput['einstellungen']['nlsh_garten_debitorenkonto'] !== '') {
+                $arrVorbelegung[7] = $this->dataOutput['einstellungen']['nlsh_garten_debitorenkonto'];
+            } else {
+                $arrVorbelegung[7] = '6' . date('Y', $this->dataOutput['einstellungen']['nlsh_rgvorbelegung_datum']);
+            }
+
+             // Beitrag.
+            if (empty($this->dataOutput['garten_abrechnung'][$i]['beitrag']) === false) {
+                 // Vorbelegung.
+                $arrBeitrag = $arrVorbelegung;
+                 // Umsatz.
+                $arrBeitrag[1] = $this->dataOutput['garten_abrechnung'][$i]['beitrag'];
+                 // Soll/Haben- Kennzeichen.
+                $arrBeitrag[2] = $this->createSollHaben($this->dataOutput['garten_abrechnung'][$i]['beitrag']);
+                 // Gegenkonto.
+                $arrBeitrag[8] = $this->dataOutput['einstellungen']['nlsh_garten_konto_beitrag'];
+                 // Buchungstext.
+                $arrBeitrag[14] = $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['beitrag'] . ' -> ' . $arrBeitrag[14];
+
+                 // Und rein.
+                $return[] = $arrBeitrag;
+            }
+
+             // Pacht.
+            if (empty($this->dataOutput['garten_abrechnung'][$i]['pacht']) === false) {
+                 // Vorbelegung.
+                $arrPacht = $arrVorbelegung;
+                 // Umsatz.
+                $arrPacht[1] = $this->dataOutput['garten_abrechnung'][$i]['pacht'];
+                 // Soll/Haben- Kennzeichen.
+                $arrPacht[2] = $this->createSollHaben($this->dataOutput['garten_abrechnung'][$i]['pacht']);
+                 // Gegenkonto.
+                $arrPacht[8] = $this->dataOutput['einstellungen']['nlsh_garten_konto_pacht'];
+                 // Buchungstext.
+                $arrPacht[14] = $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['pacht'] . ' -> ' . $arrPacht[14];
+
+                 // Und rein.
+                $return[] = $arrPacht;
+            }
+
+             // Strom.
+            if (empty($this->dataOutput['garten_abrechnung'][$i]['strom_kosten']) === false) {
+                 // Vorbelegung.
+                $arrStromKosten = $arrVorbelegung;
+                 // Umsatz und S/H Kennzeichen.
+                $arrStromKosten[1] = $this->dataOutput['garten_abrechnung'][$i]['strom_kosten'];
+                 // Soll/Haben- Kennzeichen.
+                $arrStromKosten[2] = $this->createSollHaben($this->dataOutput['garten_abrechnung'][$i]['strom_kosten']);
+                 // Gegenkonto.
+                $arrStromKosten[8] = $this->dataOutput['einstellungen']['nlsh_garten_konto_strom'];
+                 // Buchungstext.
+                $arrStromKosten[14] = $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['strom'] . ' -> ' . $arrStromKosten[14];
+
+                 // Und rein.
+                $return[] = $arrStromKosten;
+            }
+
+             // Wasser.
+            if (empty($this->dataOutput['garten_abrechnung'][$i]['wasser_kosten']) === false) {
+                 // Vorbelegung.
+                $arrWasserKosten = $arrVorbelegung;
+                 // Umsatz und S/H Kennzeichen.
+                $arrWasserKosten[1] = $this->dataOutput['garten_abrechnung'][$i]['wasser_kosten'];
+                 // Soll/Haben- Kennzeichen.
+                $arrWasserKosten[2] = $this->createSollHaben($this->dataOutput['garten_abrechnung'][$i]['wasser_kosten']);
+                 // Gegenkonto.
+                $arrWasserKosten[8] = $this->dataOutput['einstellungen']['nlsh_garten_konto_wasser'];
+                 // Buchungstext.
+                $arrWasserKosten[14] = $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['wasser'] . ' -> ' . $arrWasserKosten[14];
+
+                 // Und rein.
+                $return[] = $arrWasserKosten;
+            }
+
+             // Abrechnung_garten_individuell_01_wert.
+            if (empty($this->dataOutput['garten_abrechnung'][$i]['abrechnung_garten_individuell_01_wert']) === false) {
+                 // Vorbelegung.
+                $arrGartenIndividuell_01 = $arrVorbelegung;
+                 // Umsatz und S/H Kennzeichen.
+                $arrGartenIndividuell_01[1] = $this->dataOutput['garten_abrechnung'][$i]['abrechnung_garten_individuell_01_wert'];
+                 // Soll/Haben- Kennzeichen.
+                $arrGartenIndividuell_01[2] = $this->createSollHaben($this->dataOutput['garten_abrechnung'][$i]['abrechnung_garten_individuell_01_wert']);
+                 // Gegenkonto.
+                $arrGartenIndividuell_01[8] = $this->dataOutput['einstellungen']['nlsh_garten_konto_individuell_01_garten'];
+                 // Buchungstext.
+                $arrGartenIndividuell_01[14] = $this->dataOutput['garten_abrechnung'][$i]['abrechnung_garten_individuell_01_name'] . ' -> ' . $arrGartenIndividuell_01[14];
+
+                 // Und rein.
+                $return[] = $arrGartenIndividuell_01;
+            }
+
+             // Abrechnung_garten_individuell_02_wert.
+            if (empty($this->dataOutput['garten_abrechnung'][$i]['abrechnung_garten_individuell_02_wert']) === false) {
+                 // Vorbelegung.
+                $arrGartenIndividuell_02 = $arrVorbelegung;
+                 // Umsatz und S/H Kennzeichen.
+                $arrGartenIndividuell_02[1] = $this->dataOutput['garten_abrechnung'][$i]['abrechnung_garten_individuell_02_wert'];
+                 // Soll/Haben- Kennzeichen.
+                $arrGartenIndividuell_02[2] = $this->createSollHaben($this->dataOutput['garten_abrechnung'][$i]['abrechnung_garten_individuell_02_wert']);
+                 // Gegenkonto.
+                $arrGartenIndividuell_02[8] = $this->dataOutput['einstellungen']['nlsh_garten_konto_individuell_02_garten'];
+                 // Buchungstext.
+                $arrGartenIndividuell_02[14] = $this->dataOutput['garten_abrechnung'][$i]['abrechnung_garten_individuell_02_name'] . ' -> ' . $arrGartenIndividuell_02[14];
+
+                 // Und rein.
+                $return[] = $arrGartenIndividuell_02;
+            }
+
+             // Abrechnung_garten_individuell_03_wert.
+            if (empty($this->dataOutput['garten_abrechnung'][$i]['abrechnung_garten_individuell_03_wert']) === false) {
+                 // Vorbelegung.
+                $arrGartenIndividuell_03 = $arrVorbelegung;
+                 // Umsatz und S/H Kennzeichen.
+                $arrGartenIndividuell_03[1] = $this->dataOutput['garten_abrechnung'][$i]['abrechnung_garten_individuell_03_wert'];
+                 // Soll/Haben- Kennzeichen.
+                $arrGartenIndividuell_03[2] = $this->createSollHaben($this->dataOutput['garten_abrechnung'][$i]['abrechnung_garten_individuell_03_wert']);
+                 // Gegenkonto.
+                $arrGartenIndividuell_03[8] = $this->dataOutput['einstellungen']['nlsh_garten_konto_individuell_03_garten'];
+                 // Buchungstext.
+                $arrGartenIndividuell_03[14] = $this->dataOutput['garten_abrechnung'][$i]['abrechnung_garten_individuell_03_name'] . ' -> ' . $arrGartenIndividuell_03[14];
+
+                 // Und rein.
+                $return[] = $arrGartenIndividuell_03;
+            }
+
+             // Abrechnung_garten_individuell_04_wert.
+            if (empty($this->dataOutput['garten_abrechnung'][$i]['abrechnung_garten_individuell_04_wert']) === false) {
+                 // Vorbelegung.
+                $arrGartenIndividuell_04 = $arrVorbelegung;
+                 // Umsatz und S/H Kennzeichen.
+                $arrGartenIndividuell_04[1] = $this->dataOutput['garten_abrechnung'][$i]['abrechnung_garten_individuell_04_wert'];
+                 // Soll/Haben- Kennzeichen.
+                $arrGartenIndividuell_04[2] = $this->createSollHaben($this->dataOutput['garten_abrechnung'][$i]['abrechnung_garten_individuell_04_wert']);
+                 // Gegenkonto.
+                $arrGartenIndividuell_04[8] = $this->dataOutput['einstellungen']['nlsh_garten_konto_individuell_04_garten'];
+                 // Buchungstext.
+                $arrGartenIndividuell_04[14] = $this->dataOutput['garten_abrechnung'][$i]['abrechnung_garten_individuell_04_name'] . ' -> ' . $arrGartenIndividuell_04[14];
+
+                 // Und rein.
+                $return[] = $arrGartenIndividuell_04;
+            }
+
+             // Abrechnung_stammdaten_individuell_01_wert.
+            if (empty($this->dataOutput['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_01_wert']) === false) {
+                 // Vorbelegung.
+                $arrStammIndividuell_01 = $arrVorbelegung;
+                 // Umsatz und S/H Kennzeichen.
+                $arrStammIndividuell_01[1] = $this->dataOutput['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_01_wert'];
+                 // Soll/Haben- Kennzeichen.
+                $arrStammIndividuell_01[2] = $this->createSollHaben($this->dataOutput['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_01_wert']);
+                 // Gegenkonto.
+                $arrStammIndividuell_01[8] = $this->dataOutput['einstellungen']['nlsh_garten_konto_individuell_01_gartenstamm'];
+                 // Buchungstext.
+                $arrStammIndividuell_01[14] = $this->dataOutput['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_01_name'] . ' -> ' . $arrStammIndividuell_01[14];
+
+                 // Und rein.
+                $return[] = $arrStammIndividuell_01;
+            }
+
+             // Abrechnung_stammdaten_individuell_02_wert.
+            if (empty($this->dataOutput['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_02_wert']) === false) {
+                $arrStammIndividuell_02 = $arrVorbelegung;
+                 // Umsatz und S/H Kennzeichen.
+                $arrStammIndividuell_02[1] = $this->dataOutput['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_02_wert'];
+                 // Soll/Haben- Kennzeichen.
+                $arrStammIndividuell_02[2] = $this->createSollHaben($this->dataOutput['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_02_wert']);
+                 // Gegenkonto.
+                $arrStammIndividuell_02[8] = $this->dataOutput['einstellungen']['nlsh_garten_konto_individuell_02_gartenstamm'];
+                 // Buchungstext.
+                $arrStammIndividuell_02[14] = $this->dataOutput['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_02_name'] . ' -> ' . $arrStammIndividuell_02[14];
+
+                 // Und rein.
+                $return[] = $arrStammIndividuell_02;
+            }
+
+             // Abrechnung_stammdaten_individuell_03_wert.
+            if (empty($this->dataOutput['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_03_wert']) === false) {
+                $arrStammIndividuell_03 = $arrVorbelegung;
+                 // Umsatz und S/H Kennzeichen.
+                $arrStammIndividuell_03[1] = $this->dataOutput['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_03_wert'];
+                 // Soll/Haben- Kennzeichen.
+                $arrStammIndividuell_03[2] = $this->createSollHaben($this->dataOutput['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_03_wert']);
+                 // Gegenkonto.
+                $arrStammIndividuell_03[8] = $this->dataOutput['einstellungen']['nlsh_garten_konto_individuell_03_gartenstamm'];
+                 // Buchungstext.
+                $arrStammIndividuell_03[14] = $this->dataOutput['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_03_name'] . ' -> ' . $arrStammIndividuell_03[14];
+
+                 // Und rein.
+                $return[] = $arrStammIndividuell_03;
+            }
+
+             // Abrechnung_stammdaten_individuell_04_wert.
+            if (empty($this->dataOutput['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_04_wert']) === false) {
+                $arrStammIndividuell_04 = $arrVorbelegung;
+                 // Umsatz und S/H Kennzeichen.
+                $arrStammIndividuell_04[1] = $this->dataOutput['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_04_wert'];
+                 // Soll/Haben- Kennzeichen.
+                $arrStammIndividuell_04[2] = $this->createSollHaben($this->dataOutput['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_04_wert']);
+                 // Gegenkonto.
+                $arrStammIndividuell_04[8] = $this->dataOutput['einstellungen']['nlsh_garten_konto_individuell_04_gartenstamm'];
+                 // Buchungstext.
+                $arrStammIndividuell_04[14] = $this->dataOutput['garten_abrechnung'][$i]['abrechnung_stammdaten_individuell_04_name'] . ' -> ' . $arrStammIndividuell_04[14];
+
+                 // Und rein.
+                $return[] = $arrStammIndividuell_04;
+            }
+        }//end for
+
+        return $return;
+
+    }//end erstelleArrBuchungen()
+
+    /**
+     * Setzt das 'S' oder 'H' in Abhängigkeit des Umsatzes
+     *
+     * @param string $strUmsatz Umsatz- Wert.
+     *
+     * @return string  String mit 'S' oder 'H'
+     */
+    protected function createSollHaben(string $strUmsatz)
+    {
          // Soll oder Haben.
-        if ($intWert > 0) {
-            $strBuchsatz .= 'S;';
+        if ($strUmsatz > 0) {
+            $return = 'S';
         } else {
-            $strBuchsatz .= 'H;';
+            $return = 'H';
         }
 
-         // WKZ Umsatz;Kurs;Basis-Umsatz;WKZ Basis-Umsatz.
-        $strBuchsatz .= '"";;;"";';
+        return $return;
 
-         // Kontonummer Debitor.
-        $strBuchsatz .= '6' . $arrGarten['ausgabejahr'] . ';';
-
-         // Gegenkonto.
-        $strBuchsatz .= $gegenKonto . ';';
-
-         // BU-Schlüssel.
-        $strBuchsatz .= ';';
-
-         // Belegdatum.
-        $strBuchsatz .= date('dm') . ';';
-
-         // Beleg1.
-        $strBuchsatz .= $arrGarten['ausgabejahr'] . '/' . $arrGarten['nr'] . ';';
-
-         // Beleg 2.
-        $strBuchsatz .= ';';
-
-         // Skonto.
-        $strBuchsatz .= ';';
-
-         // Buchungstext.
-        $strBuchsatz .= $arrGarten['lastname'] . ', ' . $arrGarten['firstname'] . ';';
-
-         // Rest.
-        $strBuchsatz .= ';"";;;;"";"";"";"";"";"";"";"";"";"";"";"";"";"";"";"";"";"";"";;"";;"";';
-        $strBuchsatz .= ';;;;;"";"";"";"";"";"";"";"";"";"";"";"";"";"";"";"";"";"";"";"";"";"";';
-        $strBuchsatz .= '"";"";"";"";"";"";"";"";"";"";"";"";"";"";"";"";"";"";;;;"";;;;"";"";0;';
-        $strBuchsatz .= '"";;;0;"RE";"";;""';
-        $strBuchsatz .= '<br />';
-
-        return ($strBuchsatz);
-
-    }//end erstelleBuchungssatz()
+    }//end createSollHaben()
 
     /**
      * Zahlen mit zwei Nachkommastellen und Einheit darstellen
@@ -960,7 +1093,7 @@ class ModuleNlshGartenGesamtausgabe extends \Module
      *
      * @return string     formatierter String
      */
-    public function formatedNumber($number, string $unit)
+    protected function formatedNumber($number, string $unit)
     {
         $return = number_format(
             $number,

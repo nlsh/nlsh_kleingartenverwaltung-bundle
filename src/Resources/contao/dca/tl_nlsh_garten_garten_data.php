@@ -56,7 +56,7 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_garten_data'] = array
             'headerFields'            => array(
                                             'jahr',
                                             'name',
-                                            'vereinsvorsitzender'
+                                            'vereinsvorsitzender',
             ),
             'child_record_callback'   => array(
                                            'tl_nlsh_garten_garten_data',
@@ -448,10 +448,10 @@ class tl_nlsh_garten_garten_data extends Backend
                                         WHERE   `id` = ?")
                     ->execute($dc->id);
 
-         // wenn tstamp vorhanden, dann Nr nicht veränderbar
-        if ($tstamp->tstamp == TRUE) {
+         // wenn tstamp = '0', dann Nr veränderbar
+        if ($tstamp->tstamp !== '0') {
             $GLOBALS['TL_DCA']['tl_nlsh_garten_garten_data']['fields']['nr']['eval'] = array(
-                                                                            'readonly' => TRUE,
+                                                                            'readonly' => true,
                                                                             'tl_class' => 'w50'
             );
         }
@@ -701,19 +701,19 @@ class tl_nlsh_garten_garten_data extends Backend
 
          $arrOutYears[] = array
                        (
-                         jahr    => $actYear->jahr,
-                         wasser  => $dc->activeRecord->wasser,
-                         strom   => $dc->activeRecord->strom,
-                         tdClass => 'style = "text-align: right; color:red;"'
+                         'jahr'    => $actYear->jahr,
+                         'wasser'  => $dc->activeRecord->wasser,
+                         'strom'   => $dc->activeRecord->strom,
+                         'tdClass' => 'style = "text-align: right; color:red;"'
                        );
 
          while ($objJahre->next()) {
              $arrOutYears[] = array
                            (
-                             jahr    => $objJahre->jahr,
-                             wasser  => $objJahre->wasser,
-                             strom   => $objJahre->strom,
-                             tdClass => 'style = "text-align: right;"'
+                             'jahr'    => $objJahre->jahr,
+                             'wasser'  => $objJahre->wasser,
+                             'strom'   => $objJahre->strom,
+                             'tdClass' => 'style = "text-align: right;"'
                            );
          }
 

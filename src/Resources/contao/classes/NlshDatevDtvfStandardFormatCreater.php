@@ -36,18 +36,18 @@ class NlshDatevDtvfStandardFormatCreater
      */
     public $arrFirstLine = array(
         'DatevKz'                   => 'DTVF',
-        'Versionsnummer'            => 510,
+        'Versionsnummer'            => 700,
             // TemplateId
             // 21 -> Buchungsstapel;
             // 16 -> Debitoren/Kreditoren;
             // 20 -> Kontenbeschriftungen usw...
         'TemplateId'                => 21,
         'Formatname'                => 'Buchungsstapel',
-        'Formatversion'             => 8,
+        'Formatversion'             => 9,
         'Erzeugt am'                => 0,
         'Importiert am'             => 0,
-        'HK	Text'                   => 'NLSH',
-        'Exportiert von'            => '',
+        'HK	Text'                   => 'nlsh_kleingartenverwaltung-bundle',
+        'Exportiert von'            => 'nlsh_kleingartenverwaltung-bundle',
         'Importiert von'            => '',
         'Berater'                   => 0,
         'Mandant'                   => 0,
@@ -56,7 +56,7 @@ class NlshDatevDtvfStandardFormatCreater
         'Datum von'                 => 0,
         'Datum bis'                 => 0,
         'Bezeichnung'               => '',
-        'Diktatkürzel'              => '',
+        'Diktatkürzel'              => 'nlsh_kleingartenverwaltung-bundle',
             // Buchungstyp
             // 1 Fibu
             // 2 -> Jahresabschluss.
