@@ -55,7 +55,7 @@ class ModuleNlshGartenGesamtausgabe extends \Module
      *
      * @var integer
      */
-    public $intPid = 0;
+    public $intGartenPid = 0;
 
     /**
      * Sind Gärten im Ausgabejahr vorhanden?
@@ -65,11 +65,11 @@ class ModuleNlshGartenGesamtausgabe extends \Module
     public $boolGartenExist = false;
 
     /**
-     * Sind Einstellungen im Ausgabejahr vorhanden?
+     * Einstellungen für das Ausgabejahr
      *
-     * @var boolean
+     * @var false | array
      */
-    public $boolEinstellungenExist = false;
+    public $arrEinstellungen = false;
 
     /**
      * All data
@@ -98,11 +98,10 @@ class ModuleNlshGartenGesamtausgabe extends \Module
             return $objTemplate->parse();
         }
 
-         // Initialisierung
-         // Ausgabejahr, vorhandene Jahre und pid für Gärten holen und eintragen.
+         // Initialisierung.
         $initial = $this->initial();
 
-         // Wenn nicht vorhanden, dann Tschüß.
+         // Prüfungen.
          // prüft Tabelle `tl_nlsh_garten_verein_stammdaten`.
         if ($initial === false) {
             return $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['nodatastamm'];
@@ -114,9 +113,8 @@ class ModuleNlshGartenGesamtausgabe extends \Module
             return $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['nodatagarten'];
         }
 
-        // Kontrolle, ob Einstellungen im Jahr vorhanden, wenn nicht, dann Tschüß
-        // prüft Tabelle `tl_nlsh_garten_config`.
-        if ($this->boolEinstellungenExist === false) {
+         // Kontrolle, ob Einstellungen im Jahr vorhanden, wenn nicht Tschüß.
+        if ($this->arrEinstellungen === false) {
             return $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['nodataconfig'];
         }
 
@@ -152,7 +150,7 @@ class ModuleNlshGartenGesamtausgabe extends \Module
         $this->Template->gesamtAusgabe = $this->dataOutput;
 
         /*
-         * Rechnung zusammenbasteln und ausgeben, wenn gewünscht
+         * Rechnung zusammenbasteln und ausgeben
          * Bedingung: $_GET['rechnung'] mit id des Gartens
          * danach Abbruch der Ausgabe,
          * da Ausgabe in neuem Fenster, nur die Rechnung und nicht des Cores danach
@@ -184,24 +182,47 @@ class ModuleNlshGartenGesamtausgabe extends \Module
         }//end if
 
         /*
-         * Buchungssatz zusammenbasteln und ausgeben, wenn gewünscht
-         * Bedingung: $_GET['buchungssatz'] === TRUE
+         * Alle Rechnungen für das Jahr im LATEX- Format Downloaden
+         * Bedingung: $_GET['LatexAusgabe'] === true
+         */
+
+        $getLatexAusgabe = \Input::get('LatexAusgabe');
+        if (isset($getLatexAusgabe) === true) {
+                     // Neues Template initialisieren.
+                    $objTemplate = new \FrontendTemplate('mod_nlsh_latex_rechnungen');
+
+                    $objTemplate->latex_outPut = $this->dataOutput;
+
+                     // Rendern.
+                    $this->Template->latex_outPut = $objTemplate->parse();
+
+                     // Ersetzungen von Sonderzeichen in LATEX.
+                    $search  = array(
+                        '&sup2;',
+                        '&sup3;',
+                        '_',
+                    );
+                    $replace = array(
+                        '\textsuperscript{2}',
+                        '\textsuperscript{3}',
+                        '\_',
+                    );
+                    $this->Template->latex_outPut = str_replace($search, $replace, $this->Template->latex_outPut);
+
+                     // HTML- Entity decodieren.
+                    $this->Template->latex_outPut = html_entity_decode($this->Template->latex_outPut);
+
+                     // Und Downlöoad.
+                    $this->downloadString($this->Template->latex_outPut, 'nils.tex');
+        }//end if
+
+        /*
+         * Buchungssätze für das Jahr zusammenbasteln und Downloaden
+         * Bedingung: $_GET['Buchungssatz'] === TRUE
          */
 
         $getBuchungssatz = \Input::get('Buchungssatz');
         if (isset($getBuchungssatz) === true) {
-             // Wenn keine Einstellungen für dieses Ausgabejahr vorhanden, dann Abbruch.
-            if (empty($this->dataOutput['einstellungen']) === true) {
-                echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['noconfig'];
-                die;
-            }
-
-             // Wenn keine Gärten für dieses Ausgabejahr vorhanden, dann Abbruch.
-            if (empty($this->dataOutput['garten_abrechnung']) === true) {
-                echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['nogarten'];
-                die;
-            }
-
              // Opjekt für DATEV Buchungsstapel erzeugen.
             $objBuchungssatz = new NlshDatevDtvfStandardFormatCreater();
 
@@ -233,7 +254,7 @@ class ModuleNlshGartenGesamtausgabe extends \Module
     {
         $objYears = \NlshGartenVereinStammdatenModel::findAll(array('order' => '`jahr` DESC'));
 
-         // Wenn keine Daten vorhanden mit FALSE zurück.
+         // Wenn keine Daten vorhanden mit false zurück.
         if ($objYears === null) {
             return false;
         }
@@ -241,34 +262,36 @@ class ModuleNlshGartenGesamtausgabe extends \Module
          // Festlegung des Ausgabejahres, entweder $_GET oder höchstes Jahr.
         $outputYear = \Input::get('Ausgabejahr');
 
-        if (empty($outputYear) === false) {
+        if ($outputYear !== null) {
              // Kontrolle, ob Jahr auch vorhanden.
-            $kontrolle = \NlshGartenVereinStammdatenModel::findOneBy('`jahr`', $outputYear);
+            $kontrolle = \NlshGartenVereinStammdatenModel::findOneBy('jahr', $outputYear);
 
-            if ($kontrolle->jahr !== $outputYear) {
-                $outputYear = $objYears->jahr;
+            if ($kontrolle->jahr === $outputYear) {
+                $outputYear   = $kontrolle->jahr;
+                $intGartenPid = $kontrolle->id;
             }
         } else {
              // Ansonsten höchstes Jahr.
-            $outputYear = $objYears->jahr;
+            $outputYear   = $objYears->jahr;
+            $intGartenPid = $objYears->id;
         }
 
-         // Jahr, Ausgabejahre und pd übernehmen.
-        $this->arrYears = array_values($objYears->fetchEach('jahr'));
-        $this->intYear  = $outputYear;
-        $this->intPid   = $objYears->id;
+         // Jahr, Ausgabejahre und pid übernehmen.
+        $this->arrYears     = array_values($objYears->fetchEach('jahr'));
+        $this->intYear      = $outputYear;
+        $this->intGartenPid = $intGartenPid;
 
          // Kontrolle, ob Gärten im Ausgabejahr vorhanden sind.
-        $testGarten = \NlshGartenGartenDataModel::findOneBy('pid', $this->intPid);
+        $testGarten = \NlshGartenGartenDataModel::findOneBy('pid', $this->intGartenPid);
         if ($testGarten !== null) {
             $this->boolGartenExist = true;
         }
 
          // Kontrolle, ob Einstellungen im Ausgabejahr vorhanden sind.
-        $testEinstellungen = \NlshGartenConfigModel::findOneBy('jahr', $this->intYear);
+        $testEinstellungen = \NlshGartenConfigModel::findByJahr($this->intYear);
 
         if ($testEinstellungen !== null) {
-            $this->boolEinstellungenExist = true;
+            $this->arrEinstellungen = $testEinstellungen->row();
         }
 
         return true;
@@ -315,13 +338,11 @@ class ModuleNlshGartenGesamtausgabe extends \Module
         );
 
          // Jetzt benötigen wir noch die Garten- pid.
-        $gartenGesamtAbrechnung['garten_pid'] = $gartenVereinStammdaten->id;
+        $gartenGesamtAbrechnung['garten_pid'] = $this->intGartenPid;
 
          // Jetzt sind die Einstellungen dran.
-        $gartenConfig = \NlshGartenConfigModel::findByJahr($gartenGesamtAbrechnung['ausgabejahr']);
-
-        if ($gartenConfig !== null) {
-            $gartenGesamtAbrechnung['einstellungen'] = $gartenConfig->row();
+        if ($this->arrEinstellungen !== false) {
+            $gartenGesamtAbrechnung['einstellungen'] = $this->arrEinstellungen;
 
              // Abrechnungsjahr für Beitrag, Pacht und Verbrauchsdaten eintragen.
             if (isset($gartenGesamtAbrechnung['einstellungen']['nlsh_garten_vorschuss_beitrag']) === true) {
@@ -416,6 +437,10 @@ class ModuleNlshGartenGesamtausgabe extends \Module
                 'abrechnung_garten_individuell_03_wert' => $gartenGartenData->abrechnung_garten_individuell_03_wert,
                 'abrechnung_garten_individuell_04_name' => $gartenGartenData->abrechnung_garten_individuell_04_name,
                 'abrechnung_garten_individuell_04_wert' => $gartenGartenData->abrechnung_garten_individuell_04_wert,
+                'stromzaehler_1'                        => $gartenGartenData->stromzaehler_1,
+                'stromzaehler_2'                        => $gartenGartenData->stromzaehler_2,
+                'wasserzaehler_1'                       => $gartenGartenData->wasserzaehler_1,
+                'wasserzaehler_2'                       => $gartenGartenData->wasserzaehler_2,
                 'beitrag'                               => 0,
                 'pacht'                                 => 0,
             );
@@ -1108,5 +1133,34 @@ class ModuleNlshGartenGesamtausgabe extends \Module
         return $return;
 
     }//end formatedNumber()
+
+    /**
+     * Datei downloaden
+     *
+     * @param string $string   Zu downloadender String.
+     * @param string $filename Name der Download- Datei.
+     *
+     * @return false
+     */
+    private function downloadString(string $string, string $filename)
+    {
+        if ($string === false) {
+            return (false);
+        }
+
+        // Nach ANSI wandeln.
+        // $string = utf8_decode($string);
+        // Header schreiben.
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment; filename = "' . $filename . '"');
+        header('Content-Length: ' . strlen($string));
+
+        // Und ausgaben.
+        echo $string;
+
+        // Und Schluss.
+        exit;
+
+    }//end downloadString()
 
 }//end class

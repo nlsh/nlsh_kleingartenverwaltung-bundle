@@ -52,7 +52,7 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_garten_data'] = array
             'fields'                  => array('round(nr)'),
             'flag'                    => 1,
             'disableGrouping'         => 'true',
-            'panelLayout'             => 'search,sort,filter,limit',
+            'panelLayout'             => 'search,limit',
             'headerFields'            => array(
                                             'jahr',
                                             'name',

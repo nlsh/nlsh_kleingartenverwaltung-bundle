@@ -30,7 +30,7 @@
  $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['zzgl']                    = 'zzgl.';
  $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['Gesamt']                  = 'Gesamt:';
  $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['AusgabeDatev']            = 'Buchungsausgabe im DATEV- Format';
- $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['AusgabeLatex']            = 'Rechnungen im Latex- Format';
+ $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['LatexAusgabe']            = 'Ausgabe aller Rechnungen im Latex- Format';
 
 
  $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['nr']                      = 'Garten Nr.:';
@@ -60,6 +60,7 @@
  $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['rg_gruss_funktion']       = 'Vereinsvorsitzender';
  $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['rg_finanzamt']            = 'Finanzamt';
  $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['rg_steuernummer']         = 'Steuernummer';
+ $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['rg_steuernummer_kurz']    = 'St.- Nr.';
  $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['rg_amtsgericht']          = 'Amtsgericht';
  $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['rg_vereinsregister']      = 'Vereinsregister';
 

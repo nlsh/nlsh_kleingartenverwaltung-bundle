@@ -35,7 +35,7 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_verein_stammdaten'] = array(
 
      // List.
     'list'        => array(
-        'sorting'           => array(
+            'sorting'         => array(
             'mode'            => 1,
             'fields'          => array('jahr'),
             'disableGrouping' => true,
@@ -105,25 +105,25 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_verein_stammdaten'] = array(
 
      // Fields.
     'fields'      => array(
-        'id'                                        => array('sql' => 'int(10) unsigned NOT NULL auto_increment'),
-        'tstamp'                                    => array('sql' => "int(10) unsigned NOT NULL default '0'"),
-        'jahr'                                      => array(
+        'id'      => array('sql' => 'int(10) unsigned NOT NULL auto_increment'),
+        'tstamp'  => array('sql' => "int(10) unsigned NOT NULL default '0'"),
+        'jahr'    => array(
             'label'            => &$GLOBALS['TL_LANG']['tl_nlsh_garten_verein_stammdaten']['jahr'],
             'inputType'        => 'select',
             'options_callback' => array(
                 'tl_nlsh_garten_verein_stammdaten',
                 'optionStammdatenjahr',
-            ),
-            'eval'             => array(
-                'mandatory' => true,
-                'maxlength' => 4,
-                'rgxp'      => 'digit',
-                'unique'    => true,
-                'tl_class'  => 'w50',
-            ),
-            'sql'              => "varchar(4) NOT NULL default ''",
         ),
-        'name'                                      => array(
+        'eval'    => array(
+            'mandatory' => true,
+            'maxlength' => 4,
+            'rgxp'      => 'digit',
+            'unique'    => true,
+            'tl_class'  => 'w50',
+            ),
+            'sql'       => "varchar(4) NOT NULL default ''",
+        ),
+        'name'    => array(
             'label'     => &$GLOBALS['TL_LANG']['tl_nlsh_garten_verein_stammdaten']['name'],
             'inputType' => 'text',
             'eval'      => array(
@@ -133,7 +133,7 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_verein_stammdaten'] = array(
             ),
             'sql'       => "varchar(80) NOT NULL default ''",
         ),
-        'strasse'                                   => array(
+        'strasse' => array(
             'label'     => &$GLOBALS['TL_LANG']['tl_nlsh_garten_verein_stammdaten']['strasse'],
             'inputType' => 'text',
             'eval'      => array(
