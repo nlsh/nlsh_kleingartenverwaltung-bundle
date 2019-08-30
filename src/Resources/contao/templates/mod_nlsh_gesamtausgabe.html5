@@ -25,17 +25,17 @@ $GLOBALS['TL_JAVASCRIPT']['nlsh_Kleingartenverwaltung'] = 'bundles/nlshkleingart
                 <th><?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['nr'] ?></th>
                 <th><?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['name_adresse'] ?></th>
 
-                <?php if ($this->gesamtAusgabe['gesamt_beitrag'] != 0): ?>
+                <?php if (empty($this->gesamtAusgabe['gesamt_beitrag']) === false): ?>
                     <th><?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['beitrag'] ?></th>
                 <?php endif; ?>
 
-                <?php if ($this->gesamtAusgabe['gesamt_pacht'] != 0): ?>
+                <?php if (empty($this->gesamtAusgabe['gesamt_pacht']) === false): ?>
                     <th>
                         <?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['pacht'] . "<br><br>" . $this->gesamtAusgabe['stammdaten_verein']['pacht_formated']; ?>
                     </th>
                 <?php endif; ?>
 
-                <?php if ($this->gesamtAusgabe['gesamt_strom'] != 0): ?>
+                <?php if (empty($this->gesamtAusgabe['gesamt_strom']) === false): ?>
                     <th>
                         <?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['strom'] . "<br><br>" . $this->gesamtAusgabe['stammdaten_verein']['strom_formated']; ?>
                         <?php if ($this->gesamtAusgabe['stammdaten_verein']['strom_grundpreis'] == true): ?>
@@ -44,7 +44,7 @@ $GLOBALS['TL_JAVASCRIPT']['nlsh_Kleingartenverwaltung'] = 'bundles/nlshkleingart
                     </th>
                 <?php endif; ?>
 
-                <?php if ($this->gesamtAusgabe['gesamt_wasser'] != 0): ?>
+                <?php if (empty($this->gesamtAusgabe['gesamt_wasser']) === false): ?>
                     <th>
                         <?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['wasser'] . "<br><br>" . $this->gesamtAusgabe['stammdaten_verein']['wasser_formated']; ?>
 
@@ -54,13 +54,13 @@ $GLOBALS['TL_JAVASCRIPT']['nlsh_Kleingartenverwaltung'] = 'bundles/nlshkleingart
                     </th>
                 <?php endif; ?>
 
-                <?php if ($this->gesamtAusgabe['gesamt_abrechnung_stammdaten_individuell'] != 0): ?>
+                <?php if (empty($this->gesamtAusgabe['gesamt_abrechnung_stammdaten_individuell']) === false): ?>
                     <th>
                         <?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['individuelle_abrechnung'] . "<br><br>" . $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['allgemein']; ?>
                     </th>
                 <?php endif; ?>
 
-                <?php if ($this->gesamtAusgabe['gesamt_abrechnung_garten_individuell'] != 0): ?>
+                <?php if (empty($this->gesamtAusgabe['gesamt_abrechnung_garten_individuell']) === false): ?>
                     <th>
                         <?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['individuelle_abrechnung'] . "<br><br>" . $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['allgemein_gaerten']; ?>
                     </th>
@@ -76,8 +76,11 @@ $GLOBALS['TL_JAVASCRIPT']['nlsh_Kleingartenverwaltung'] = 'bundles/nlshkleingart
         <tfoot>
             <tr>
                 <td colspan = "2">
-    <!--
-                    <form id = "AusgabeLatex" action ="JavaScript:popup('{{env::request}}<?php
+                    <div>
+                        <?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['Gesamt']; ?>
+                    </div>
+
+                    <form id = "AusgabeLatex" action ="{{env::request}}<?php
 
                         // Kontrolle, ob Request vorhanden; dann ? und wenn nicht,dann & für get- Parameter
                         if ( strpos($this->Environment->request, "?") === false )
@@ -89,14 +92,14 @@ $GLOBALS['TL_JAVASCRIPT']['nlsh_Kleingartenverwaltung'] = 'bundles/nlshkleingart
                             echo '&amp;';
                         }
 
-                        ?>Buchungssatz=true&amp;ausgabejahr=<?php echo $this->gesamtAusgabe['ausgabejahr']; ?>',-1,-1,800,500);" method = "post">
+                        ?>LatexAusgabe=true&amp;ausgabejahr=<?php echo $this->gesamtAusgabe['ausgabejahr']; ?>;" method = "post">
                         <div class ="garten_button">
-                            <input type="hidden" name="FORM_SUBMIT" value="Buchungssatz">
-                            <input type="submit" value= "<?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['AusgabeDatev']; ?>">
-                            <input type="hidden" name = "Buchungssatz" value = "true">
+                            <input type="hidden" name="FORM_SUBMIT" value="LatexAusgabe">
+                            <input type="submit" value= "<?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['LatexAusgabe']; ?>">
+                            <input type="hidden" name = "LatexAusgabe" value = "true">
+                            <input type="hidden" name="REQUEST_TOKEN" value="{{request_token}}" />
                         </div>
                     </form>
-    -->
                     <form id = "AusgabeDatev" action ="{{env::request}}<?php
 
                         // Kontrolle, ob Request vorhanden; dann ? und wenn nicht,dann & für get- Parameter
@@ -117,8 +120,6 @@ $GLOBALS['TL_JAVASCRIPT']['nlsh_Kleingartenverwaltung'] = 'bundles/nlshkleingart
                             <input type="hidden" name="REQUEST_TOKEN" value="{{request_token}}" />
                         </div>
                     </form>
-
-                    <?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['Gesamt']; ?>
                 </td>
 
                 <!--Spalte Beitrag, wenn vorhanden-->
