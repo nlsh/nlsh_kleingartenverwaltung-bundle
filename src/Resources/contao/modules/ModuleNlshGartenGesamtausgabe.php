@@ -416,34 +416,8 @@ class ModuleNlshGartenGesamtausgabe extends \Module
 
          // Jetzt lesen wir ein.
         while ($gartenGartenData->next()) {
-            $newArr = array(
-                'id'                                    => $gartenGartenData->id,
-                'nr'                                    => trim($gartenGartenData->nr),
-                'grosse'                                => $gartenGartenData->grosse,
-                'strom'                                 => $gartenGartenData->strom,
-                'wasser'                                => $gartenGartenData->wasser,
-                'nutzung_user_id'                       => $gartenGartenData->nutzung_user_id,
-                'pacht_ja_nein'                         => $gartenGartenData->pacht_ja_nein,
-                'beitrag_ja_nein'                       => $gartenGartenData->beitrag_ja_nein,
-                'individuell_01_gartenstamm_ja_nein'    => $gartenGartenData->individuell_01_gartenstamm_ja_nein,
-                'individuell_02_gartenstamm_ja_nein'    => $gartenGartenData->individuell_02_gartenstamm_ja_nein,
-                'individuell_03_gartenstamm_ja_nein'    => $gartenGartenData->individuell_03_gartenstamm_ja_nein,
-                'individuell_04_gartenstamm_ja_nein'    => $gartenGartenData->individuell_04_gartenstamm_ja_nein,
-                'abrechnung_garten_individuell_01_name' => $gartenGartenData->abrechnung_garten_individuell_01_name,
-                'abrechnung_garten_individuell_01_wert' => $gartenGartenData->abrechnung_garten_individuell_01_wert,
-                'abrechnung_garten_individuell_02_name' => $gartenGartenData->abrechnung_garten_individuell_02_name,
-                'abrechnung_garten_individuell_02_wert' => $gartenGartenData->abrechnung_garten_individuell_02_wert,
-                'abrechnung_garten_individuell_03_name' => $gartenGartenData->abrechnung_garten_individuell_03_name,
-                'abrechnung_garten_individuell_03_wert' => $gartenGartenData->abrechnung_garten_individuell_03_wert,
-                'abrechnung_garten_individuell_04_name' => $gartenGartenData->abrechnung_garten_individuell_04_name,
-                'abrechnung_garten_individuell_04_wert' => $gartenGartenData->abrechnung_garten_individuell_04_wert,
-                'stromzaehler_1'                        => $gartenGartenData->stromzaehler_1,
-                'stromzaehler_2'                        => $gartenGartenData->stromzaehler_2,
-                'wasserzaehler_1'                       => $gartenGartenData->wasserzaehler_1,
-                'wasserzaehler_2'                       => $gartenGartenData->wasserzaehler_2,
-                'beitrag'                               => 0,
-                'pacht'                                 => 0,
-            );
+            $newArr = $gartenGartenData->row();
+
              // Gärten um formatierte Felder erweitern.
             $newArr['grosse_formated'] = $this->formatedNumber(
                 $newArr['grosse'],
