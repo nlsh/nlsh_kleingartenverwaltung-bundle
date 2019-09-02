@@ -34,7 +34,7 @@ class ModuleNlshGartenGesamtausgabe extends \Module
      *
      * @var string
      */
-    protected $strTemplate = 'mod_nlsh_gesamtausgabe';
+    protected $strTemplate = 'mod_nlsh_garten_gesamtausgabe';
 
     /**
      * Existierende Jahre
@@ -161,7 +161,7 @@ class ModuleNlshGartenGesamtausgabe extends \Module
             for ($i = 0, $count = count($this->dataOutput['garten_abrechnung']); $i < $count; $i++) {
                 if ($this->dataOutput['garten_abrechnung'][$i]['id'] === $getRechnungen) {
                      // Neues Template initialisieren.
-                    $objTemplate = new \FrontendTemplate('mod_nlsh_rechnungsausgabe');
+                    $objTemplate = new \FrontendTemplate('download_nlsh_garten_rechnungsausgabe');
 
                     $data = $this->dataOutput;
                     $data['garten_abrechnung'] = $this->dataOutput['garten_abrechnung'][$i];
@@ -189,7 +189,7 @@ class ModuleNlshGartenGesamtausgabe extends \Module
         $getLatexAusgabe = \Input::get('LatexAusgabe');
         if (isset($getLatexAusgabe) === true) {
                      // Neues Template initialisieren.
-                    $objTemplate = new \FrontendTemplate('mod_nlsh_latex_rechnungen');
+                    $objTemplate = new \FrontendTemplate('download_nlsh_garten_latex_rechnungen');
 
                     $objTemplate->latex_outPut = $this->dataOutput;
 
@@ -396,7 +396,7 @@ class ModuleNlshGartenGesamtausgabe extends \Module
         );
 
          // Zur Optimierung
-         // Erzeugung eines Array, welches indiziert wir mit seinem id
+         // Erzeugung eines Array, welches indiziert wird mit seinem id
          // wird benutzt, um im $newArr jedem Garten sein Member- Array
          // zu übergeben, ohne bei jedem Durchlauf der while Schleife
          // auf die Datenbank zugreifen zu müssen.

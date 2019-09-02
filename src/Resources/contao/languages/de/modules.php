@@ -35,3 +35,4 @@ $GLOBALS['TL_LANG']['MOD']['Garten_config'][1]             = 'Grunds&auml;tzlich
 $GLOBALS['TL_LANG']['FMD']['error_keine_Gartenstammdaten'] = 'Zuerst bitte die Stammdaten des Vereines eingeben!';
 $GLOBALS['TL_LANG']['FMD']['garten_auswertungen'][0]       = 'Auswertungen Kleingartenverein';
 $GLOBALS['TL_LANG']['FMD']['nlsh_gesamtausgabe'][0]        = 'Gesamtausgabe der Abrechnungsdaten';
+$GLOBALS['TL_LANG']['FMD']['nlsh_gesamtausgabe'][1]        = 'Listet alle Daten eines Abrechnungsjahres auf';
