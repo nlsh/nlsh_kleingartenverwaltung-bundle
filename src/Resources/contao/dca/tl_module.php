@@ -18,8 +18,6 @@ $GLOBALS['TL_DCA']['tl_module']['palettes']['nlsh_gesamtausgabe'] = '{title_lege
                                                                         name,
                                                                         headline,
                                                                         type;
-                                                                     {template_legend:hide},
-                                                                        customTpl;
                                                                      {protected_legend:hide},
                                                                         protected;
                                                                      {expert_legend:hide},

@@ -1,65 +1,65 @@
-.mod_nlsh_garten_gesamtausgabe {
+.mod_nlsh_gesamtausgabe {
          color: black;
 }
 
-.mod_nlsh_garten_gesamtausgabe table {
+.mod_nlsh_gesamtausgabe table {
     border: 1px solid black;
     width: 95%;
     margin: auto;
     }
 
-.mod_nlsh_garten_gesamtausgabe th{
+.mod_nlsh_gesamtausgabe th{
          border: 1px solid black;
          text-align:center;
          padding-top: 1em;
          padding-bottom:1em;
 }
 
-.mod_nlsh_garten_gesamtausgabe tr {
+.mod_nlsh_gesamtausgabe tr {
          vertical-align:top;
          text-align: right;
 }
 
-.mod_nlsh_garten_gesamtausgabe td{
+.mod_nlsh_gesamtausgabe td{
          padding: 0 5px 2px;
          border: 1px solid black;
 }
-.mod_nlsh_garten_gesamtausgabe .nr{
+.mod_nlsh_gesamtausgabe .nr{
          text-align:center;
 }
 
-.mod_nlsh_garten_gesamtausgabe .adresse{
+.mod_nlsh_gesamtausgabe .adresse{
          text-align:left;
 }
 
-.mod_nlsh_garten_gesamtausgabe .betrag{
+.mod_nlsh_gesamtausgabe .betrag{
          font-weight:bold;
 }
 
-.mod_nlsh_garten_gesamtausgabe .garten_button{
+.mod_nlsh_gesamtausgabe .garten_button{
 margin-top: 1em;
 }
 
-.mod_nlsh_garten_gesamtausgabe #AusgabeLatex, #AusgabeDatev{
+.mod_nlsh_gesamtausgabe #AusgabeLatex, #AusgabeDatev{
   display: inline-block;
 }
 
 
-.mod_nlsh_garten_gesamtausgabe input .tex sub, .latex sub, .latex sup {
+.mod_nlsh_gesamtausgabe input .tex sub, .latex sub, .latex sup {
   text-transform: uppercase;
 }
 
-.mod_nlsh_garten_gesamtausgabe input .tex sub, .latex sub {
+.mod_nlsh_gesamtausgabe input .tex sub, .latex sub {
   vertical-align: -0.5ex;
   margin-left: -0.1667em;
   margin-right: -0.125em;
 }
 
-.mod_nlsh_garten_gesamtausgabe input .tex, .latex, .tex sub, .latex sub {
+.mod_nlsh_gesamtausgabe input .tex, .latex, .tex sub, .latex sub {
   font-size: 1em;
 }
 
-.mod_nlsh_garten_gesamtausgabe input .latex sup {
+.mod_nlsh_gesamtausgabe input .latex sup {
   font-size: 0.85em;
   vertical-align: 0.15em;
   margin-left: -0.36em;
