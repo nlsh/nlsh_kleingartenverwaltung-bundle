@@ -1,15 +1,12 @@
 <?php
-
-
 use Contao\NlshGartenConfigModel;
 use Contao\NlshGartenGartenDataModel;
-
 /*
  * Erweiterung des tl_nlsh_garten_config DCA`s
  *
- * @copyright Nils Heinold (c) 2017
- * @author    Nils Heinold
  * @package   nlsh/nlsh_kleingartenverwaltung-bundle
+ * @author    Nils Heinold
+ * @copyright Nils Heinold (c) 2019
  * @link      https://github.com/nlsh/nlsh_kleingartenverwaltung-bundle
  * @license   LGPL
  */
@@ -23,50 +20,36 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_config'] = array(
      // Config
     'config'      => array(
         'dataContainer'    => 'Table',
+        'ptable'           => 'tl_nlsh_garten_verein_stammdaten',
         'enableVersioning' => true,
         'onload_callback'  => array(array('tl_nlsh_garten_config', 'nameReadonly')),
         'sql'              => array(
-            'keys' => array('id' => 'primary'),
+            'keys' => array('id'  => 'primary',
+                            'pid' => 'index'),
         ),
     ),
 
      // List
     'list'        => array(
         'sorting'           => array(
-            'mode'            => 1,
+            'mode'            => 0,
             'fields'          => array('jahr'),
             'disableGrouping' => true,
             'panelLayout'     => 'search,sort,filter,limit',
-            'flag'            => 4,
+            'headerFields'            => array('wasser'),
         ),
         'label'             => array(
             'fields' => array('jahr'),
-            'format' => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['config_label'],
+            'format' => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['configLabel'],
         ),
-        'global_operations' => array(
-            'all' => array(
-                'label'      => &$GLOBALS['TL_LANG']['MSC']['all'],
-                'href'       => 'act=select',
-                'class'      => 'header_edit_all',
-                'attributes' => 'onclick="Backend.getScrollOffset();" accesskey="e"',
-            ),
+        'global_operations' => array
+        (
         ),
         'operations'        => array(
             'edit'   => array(
                 'label' => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['edit'],
                 'href'  => 'act=edit',
                 'icon'  => 'edit.gif',
-            ),
-            'copy'   => array(
-                'label' => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['copy'],
-                'href'  => 'act=copy',
-                'icon'  => 'copy.gif',
-            ),
-            'delete' => array(
-                'label'      => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['delete'],
-                'href'       => 'act=delete',
-                'icon'       => 'delete.gif',
-                'attributes' => 'onclick="if(!confirm(\'' . $GLOBALS['TL_LANG']['MSC']['deleteConfirm'] . '\'))return false;Backend.getScrollOffset()"',
             ),
             'show'   => array(
                 'label' => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['show'],
@@ -122,51 +105,69 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_config'] = array(
     'subpalettes' => array('' => ''),
 
      // Fields
-    'fields'      => array(
-        'id'                                           => array('sql' => 'int(10) unsigned NOT NULL auto_increment'),
-        'tstamp'                                       => array('sql' => "int(10) unsigned NOT NULL default '0'"),
-        'jahr'                                         => array(
-            'label'     => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['jahr'],
-            'exclude'   => true,
-            'inputType' => 'text',
-            'eval'      => array(
-                'mandatory' => true,
-                'maxlength' => 4,
-                'rgxp'      => 'digit',
-                'unique'    => true,
-            ),
-            'sql'       => "varchar(4) NOT NULL default ''",
+    'fields' => array
+    (
+        'id' => array
+        (
+             'sql'                      => 'int(10) unsigned NOT NULL auto_increment'
         ),
-        'nlsh_garten_vorschuss_beitrag'                => array(
-            'label'     => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlsh_garten_vorschuss_beitrag'],
-            'inputType' => 'checkbox',
-            'eval'      => array('tl_class' => 'w50'),
-            'sql'       => "char(1) NOT NULL default '1'",
+        'pid' => array
+        (
+            'foreignKey'                => 'tl_nlsh_garten_verein_stammdaten.jahr',
+            'sql'                       => "int(10) unsigned NOT NULL default '0'",
         ),
-        'nlsh_garten_vorschuss_pacht'                  => array(
-            'label'     => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlsh_garten_vorschuss_pacht'],
-            'inputType' => 'checkbox',
-            'eval'      => array('tl_class' => 'w50'),
-            'sql'       => "char(1) NOT NULL default '1'",
+        'tstamp' => array
+        (   'sql'                       => "int(10) unsigned NOT NULL default '0'"
         ),
-        'nlsh_garten_verbrauchsdaten_vorjahr'          => array(
-            'label'     => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlsh_garten_verbrauchsdaten_vorjahr'],
-            'inputType' => 'checkbox',
-            'sql'       => "char(1) NOT NULL default '0'",
+        'jahr' => array
+        (
+            'label'                     => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['jahr'],
+            'exclude'                   => true,
+            'inputType'                 => 'text',
+            'eval'                      => array
+                                           (
+                                                'mandatory'             => true,
+                                                'maxlength'             => 4,
+                                                'rgxp'                  => 'digit',
+                                                'unique'                => true,
+                                            ),
+            'sql'                       => "varchar(4) NOT NULL default ''",
         ),
-        'nlsh_rgvorbelegung_datum'                     => array(
-            'label'     => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlsh_rgvorbelegung_datum'],
-            'exclude'   => true,
-            'inputType' => 'text',
-            'eval'      => array(
-                'rgxp'       => 'date',
-                'datepicker' => true,
-                'tl_class'   => 'w50 wizard',
-            ),
+        'nlsh_garten_vorschuss_beitrag' => array
+        (
+            'label'                     => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlshGartenVorschussBeitrag'],
+            'inputType'                 => 'checkbox',
+            'eval'                      => array('tl_class' => 'w50'),
+            'sql'                       => "char(1) NOT NULL default '1'",
+        ),
+        'nlsh_garten_vorschuss_pacht'  => array
+        (
+            'label'                     => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlshGartenVorschussPacht'],
+            'inputType'                 => 'checkbox',
+            'eval'                      => array('tl_class' => 'w50'),
+            'sql'                       => "char(1) NOT NULL default '1'",
+        ),
+        'nlsh_garten_verbrauchsdaten_vorjahr' => array
+        (
+            'label'                     => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlshGartenVerbrauchsdatenVorjahr'],
+            'inputType'                 => 'checkbox',
+            'sql'                       => "char(1) NOT NULL default '0'",
+        ),
+        'nlsh_rgvorbelegung_datum' => array
+        (
+            'label'                     => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlshRgvorbelegungDatum'],
+            'exclude'                   => true,
+            'inputType'                 => 'text',
+            'eval'                      => array
+                                            (
+                                                'rgxp'       => 'date',
+                                                'datepicker' => true,
+                                                'tl_class'   => 'w50 wizard',
+                                            ),
             'sql'       => "varchar(11) NOT NULL default ''",
         ),
         'nlsh_garten_text_rg_verbrauchsdaten'          => array(
-            'label'         => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlsh_garten_text_rg_verbrauchsdaten'],
+            'label'         => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlshGartenTextRgVerbrauchsdaten'],
             'inputType'     => 'textarea',
             'load_callback' => array(array(
                 'tl_nlsh_garten_config',
@@ -183,7 +184,7 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_config'] = array(
             'sql'           => "varchar(255) NOT NULL default ''",
         ),
         'nlsh_garten_text_rg_pacht_beitrag'            => array(
-            'label'         => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlsh_garten_text_rg_pacht_beitrag'],
+            'label'         => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlshGartenTextRgPachtBeitrag'],
             'inputType'     => 'textarea',
             'load_callback' => array(array(
                 'tl_nlsh_garten_config',
@@ -200,7 +201,7 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_config'] = array(
             'sql'           => "varchar(255) NOT NULL default ''",
         ),
         'nlsh_garten_text_rg_aufforder_zahlung'        => array(
-            'label'         => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlsh_garten_text_rg_aufforder_zahlung'],
+            'label'         => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlshGartenTextRgAufforderZahlung'],
             'inputType'     => 'textarea',
             'load_callback' => array(array(
                 'tl_nlsh_garten_config',
@@ -217,7 +218,7 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_config'] = array(
             'sql'           => "varchar(255) NOT NULL default ''",
         ),
         'nlsh_garten_text_rg_hinweis'                  => array(
-            'label'         => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlsh_garten_text_rg_hinweis'],
+            'label'         => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlshGartenTextRgHinweis'],
             'inputType'     => 'textarea',
             'load_callback' => array(array(
                 'tl_nlsh_garten_config',
@@ -234,7 +235,7 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_config'] = array(
             'sql'           => "varchar(255) NOT NULL default ''",
         ),
         'nlsh_garten_beraternummer'                    => array(
-            'label'     => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlsh_garten_beraternummer'],
+            'label'     => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlshGartenBeraternummer'],
             'exclude'   => true,
             'inputType' => 'text',
             'eval'      => array(
@@ -245,7 +246,7 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_config'] = array(
             'sql'       => "varchar(10) NOT NULL default ''",
         ),
         'nlsh_garten_mandantennummer'                  => array(
-            'label'     => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlsh_garten_mandantennummer'],
+            'label'     => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlshGartenMandantennummer'],
             'exclude'   => true,
             'inputType' => 'text',
             'eval'      => array(
@@ -256,7 +257,7 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_config'] = array(
             'sql'       => "varchar(10) NOT NULL default ''",
         ),
         'nlsh_garten_debitorenkonto'                   => array(
-            'label'     => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlsh_garten_debitorenkonto'],
+            'label'     => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlshGartenDebitorenkonto'],
             'exclude'   => true,
             'inputType' => 'text',
             'eval'      => array(
@@ -267,7 +268,7 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_config'] = array(
             'sql'       => "varchar(5) NOT NULL default ''",
         ),
         'nlsh_garten_konto_beitrag'                    => array(
-            'label'     => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlsh_garten_konto_beitrag'],
+            'label'     => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlshGartenKontoBeitrag'],
             'exclude'   => true,
             'inputType' => 'text',
             'eval'      => array(
@@ -278,7 +279,7 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_config'] = array(
             'sql'       => "varchar(10) NOT NULL default ''",
         ),
         'nlsh_garten_konto_pacht'                      => array(
-            'label'     => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlsh_garten_konto_pacht'],
+            'label'     => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlshGartenKontoPacht'],
             'exclude'   => true,
             'inputType' => 'text',
             'eval'      => array(
@@ -289,7 +290,7 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_config'] = array(
             'sql'       => "varchar(10) NOT NULL default ''",
         ),
         'nlsh_garten_konto_strom'                      => array(
-            'label'     => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlsh_garten_konto_strom'],
+            'label'     => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlshGartenKontoStrom'],
             'exclude'   => true,
             'inputType' => 'text',
             'eval'      => array(
@@ -300,7 +301,7 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_config'] = array(
             'sql'       => "varchar(10) NOT NULL default ''",
         ),
         'nlsh_garten_konto_wasser'                     => array(
-            'label'     => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlsh_garten_konto_wasser'],
+            'label'     => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlshGartenKontoWasser'],
             'exclude'   => true,
             'inputType' => 'text',
             'eval'      => array(
@@ -311,7 +312,7 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_config'] = array(
             'sql'       => "varchar(10) NOT NULL default ''",
         ),
         'nlsh_garten_konto_individuell_01_gartenstamm' => array(
-            'label'     => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlsh_garten_konto_individuell_01_gartenstamm'],
+            'label'     => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlshGartenKontoIndi01Gartenstamm'],
             'exclude'   => true,
             'inputType' => 'text',
             'eval'      => array(
@@ -322,7 +323,7 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_config'] = array(
             'sql'       => "varchar(10) NOT NULL default ''",
         ),
         'nlsh_garten_konto_individuell_02_gartenstamm' => array(
-            'label'     => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlsh_garten_konto_individuell_02_gartenstamm'],
+            'label'     => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlshGartenKontoIndi02Gartenstamm'],
             'exclude'   => true,
             'inputType' => 'text',
             'eval'      => array(
@@ -333,7 +334,7 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_config'] = array(
             'sql'       => "varchar(10) NOT NULL default ''",
         ),
         'nlsh_garten_konto_individuell_03_gartenstamm' => array(
-            'label'     => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlsh_garten_konto_individuell_03_gartenstamm'],
+            'label'     => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlshGartenKontoIndi03Gartenstamm'],
             'exclude'   => true,
             'inputType' => 'text',
             'eval'      => array(
@@ -344,7 +345,7 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_config'] = array(
             'sql'       => "varchar(10) NOT NULL default ''",
         ),
         'nlsh_garten_konto_individuell_04_gartenstamm' => array(
-            'label'     => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlsh_garten_konto_individuell_04_gartenstamm'],
+            'label'     => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlshGartenKontoIndi04Gartenstamm'],
             'exclude'   => true,
             'inputType' => 'text',
             'eval'      => array(
@@ -355,7 +356,7 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_config'] = array(
             'sql'       => "varchar(10) NOT NULL default ''",
         ),
         'nlsh_garten_konto_individuell_01_garten'      => array(
-            'label'     => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlsh_garten_konto_individuell_01_garten'],
+            'label'     => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlshGartenKontoIndi01Garten'],
             'exclude'   => true,
             'inputType' => 'text',
             'eval'      => array(
@@ -366,7 +367,7 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_config'] = array(
             'sql'       => "varchar(10) NOT NULL default ''",
         ),
         'nlsh_garten_konto_individuell_02_garten'      => array(
-            'label'     => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlsh_garten_konto_individuell_02_garten'],
+            'label'     => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlshGartenKontoIndi02Garten'],
             'exclude'   => true,
             'inputType' => 'text',
             'eval'      => array(
@@ -377,7 +378,7 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_config'] = array(
             'sql'       => "varchar(10) NOT NULL default ''",
         ),
         'nlsh_garten_konto_individuell_03_garten'      => array(
-            'label'     => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlsh_garten_konto_individuell_03_garten'],
+            'label'     => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlshGartenKontoIndi03Garten'],
             'exclude'   => true,
             'inputType' => 'text',
             'eval'      => array(
@@ -388,7 +389,7 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_config'] = array(
             'sql'       => "varchar(10) NOT NULL default ''",
         ),
         'nlsh_garten_konto_individuell_04_garten'      => array(
-            'label'     => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlsh_garten_konto_individuell_04_garten'],
+            'label'     => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlshGartenKontoIndi04Garten'],
             'exclude'   => true,
             'inputType' => 'text',
             'eval'      => array(

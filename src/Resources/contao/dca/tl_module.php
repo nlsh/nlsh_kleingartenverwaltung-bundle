@@ -3,7 +3,7 @@
 /**
  * Erweiterung des tl_module DCA`s
  *
- * @copyright Nils Heinold (c) 2017
+ * @copyright Nils Heinold (c) 2019
  * @author    Nils Heinold
  * @package   nlsh/nlsh_kleingartenverwaltung-bundle
  * @link      https://github.com/nlsh/nlsh_kleingartenverwaltung-bundle

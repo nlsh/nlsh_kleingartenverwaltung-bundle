@@ -2,7 +2,7 @@
 /**
  * Erweiterung des tl_member DCA`s
  *
- * @copyright Nils Heinold (c) 2017
+ * @copyright Nils Heinold (c) 2019
  * @author    Nils Heinold
  * @package   nlsh/nlsh_kleingartenverwaltung-bundle
  * @link      https://github.com/nlsh/nlsh_kleingartenverwaltung-bundle
@@ -20,7 +20,7 @@ foreach ($GLOBALS['TL_DCA']['tl_member']['palettes'] as $k => $v) {
                 if (strstr($v, '{groups_legend')) {
                         $GLOBALS['TL_DCA']['tl_member']['palettes'][$k] = str_replace(
                                     '{groups_legend',
-                                    '{nhls_member_legend},
+                                    '{nlsh_member_legend},
                                         nlsh_member_anrede,
                                         nlsh_member_anrede_2,
                                         nlsh_member_pacht_ja_nein,
@@ -60,9 +60,9 @@ foreach ($GLOBALS['TL_DCA']['tl_member']['palettes'] as $k => $v) {
  */
 $GLOBALS['TL_DCA']['tl_member']['fields']['nlsh_member_anrede'] = array
 (
-    'label'            => &$GLOBALS['TL_LANG']['tl_member']['nlsh_member_anrede'],
+    'label'            => &$GLOBALS['TL_LANG']['tl_member']['nlshMemberAnrede'],
     'inputType'        => 'select',
-    'options'          => $GLOBALS['TL_LANG']['tl_member']['nlsh_member_anrede_kurz'],
+    'options'          => $GLOBALS['TL_LANG']['tl_member']['nlshMemberAnredeKurz'],
     'save_callback'    => array(array(
                                 'tl_member_nlsh_garten',
                                 'saveAnrede2')
@@ -78,7 +78,7 @@ $GLOBALS['TL_DCA']['tl_member']['fields']['nlsh_member_anrede'] = array
 
 $GLOBALS['TL_DCA']['tl_member']['fields']['nlsh_member_anrede_2'] = array
 (
-    'label'            => &$GLOBALS['TL_LANG']['tl_member']['nlsh_member_anrede_2'],
+    'label'            => &$GLOBALS['TL_LANG']['tl_member']['nlshMemberAnrede2'],
     'inputType'        => 'text',
     'eval'             => array('tl_class' => 'w50', 'maxlength' => 40, 'readonly' => TRUE),
     'sql'              => "varchar(40) NOT NULL default ''"
@@ -86,7 +86,7 @@ $GLOBALS['TL_DCA']['tl_member']['fields']['nlsh_member_anrede_2'] = array
 
 $GLOBALS['TL_DCA']['tl_member']['fields']['nlsh_member_pacht_ja_nein'] = array
 (
-    'label'            => &$GLOBALS['TL_LANG']['tl_member']['nlsh_member_pacht_ja_nein'],
+    'label'            => &$GLOBALS['TL_LANG']['tl_member']['nlshMemberPachtJaNein'],
     'inputType'        => 'checkbox',
     'eval'             => array('tl_class' => 'w50'),
     'sql'              => "char(1) NOT NULL default '1'"
@@ -94,7 +94,7 @@ $GLOBALS['TL_DCA']['tl_member']['fields']['nlsh_member_pacht_ja_nein'] = array
 
 $GLOBALS['TL_DCA']['tl_member']['fields']['nlsh_member_beitrag_ja_nein'] = array
 (
-    'label'            => &$GLOBALS['TL_LANG']['tl_member']['nlsh_member_beitrag_ja_nein'],
+    'label'            => &$GLOBALS['TL_LANG']['tl_member']['nlshMemberBeitragJaNein'],
     'inputType'        => 'checkbox',
     'eval'             => array('tl_class' => 'w50'),
     'sql'              => "char(1) NOT NULL default '1'"
@@ -148,16 +148,16 @@ class tl_member_nlsh_garten extends \Backend
      * @return string          gewählte Anrede
      */
     public function saveAnrede2($field, \DataContainer $dc) {
-        if ($field == $GLOBALS['TL_LANG']['tl_member']['nlsh_member_anrede_kurz'][0]) {
-            $text = $GLOBALS['TL_LANG']['tl_member']['nlsh_member_anrede_lang'][0];
+        if ($field == $GLOBALS['TL_LANG']['tl_member']['nlshMemberAnredeKurz'][0]) {
+            $text = $GLOBALS['TL_LANG']['tl_member']['nlshMemberAnredeLang'][0];
         }
 
-        if ($field == $GLOBALS['TL_LANG']['tl_member']['nlsh_member_anrede_kurz'][1]) {
-            $text = $GLOBALS['TL_LANG']['tl_member']['nlsh_member_anrede_lang'][1];
+        if ($field == $GLOBALS['TL_LANG']['tl_member']['nlshMemberAnredeKurz'][1]) {
+            $text = $GLOBALS['TL_LANG']['tl_member']['nlshMemberAnredeLang'][1];
         }
 
-        if ($field == $GLOBALS['TL_LANG']['tl_member']['nlsh_member_anrede_kurz'][2]) {
-            $text = $GLOBALS['TL_LANG']['tl_member']['nlsh_member_anrede_lang'][2];
+        if ($field == $GLOBALS['TL_LANG']['tl_member']['nlshMemberAnredeKurz'][2]) {
+            $text = $GLOBALS['TL_LANG']['tl_member']['nlshMemberAnredeLang'][2];
         }
 
         $this->Database->prepare("

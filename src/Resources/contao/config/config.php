@@ -32,11 +32,7 @@ array_insert($GLOBALS['BE_MOD'], 0, array
     (
         'Garten_garten' => array
         (
-            'tables'       => array('tl_nlsh_garten_verein_stammdaten','tl_nlsh_garten_garten_data'),
-        ),
-        'Garten_config' => array
-        (
-            'tables'       => array ('tl_nlsh_garten_config'),
+            'tables'       => array('tl_nlsh_garten_verein_stammdaten', 'tl_nlsh_garten_garten_data', 'tl_nlsh_garten_config'),
         )
     )
 ));
