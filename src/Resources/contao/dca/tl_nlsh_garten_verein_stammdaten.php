@@ -518,7 +518,7 @@ class tl_nlsh_garten_verein_stammdaten extends Backend
     {
          // Neu angelegten Datensatz holen.
          // In ihm existiert nur die ID!
-        $newStammdatenJahr = NlshGartenVereinStammdatenModel::findOneById( $dc->id);
+        $newStammdatenJahr = NlshGartenVereinStammdatenModel::findOneById($dc->id);
 
          // Neuanlage, wenn tstamp = 0, deshalb nur dann weiter.
         if ($newStammdatenJahr->tstamp === '0') {
@@ -528,8 +528,7 @@ class tl_nlsh_garten_verein_stammdaten extends Backend
              // Wenn mehr als ein Datensatz,
              // dann vorbelegen des neuen Jahres mit den Daten des alten Jahr.
             if ($arrAnz > 1) {
-
-                // Das höchste Jahr abfragen.
+                 // Das höchste Jahr abfragen.
                 $lastYear = $this->Database->prepare('SELECT MAX(jahr) FROM tl_nlsh_garten_verein_stammdaten')->execute()->fetchAssoc();
 
                 $lastStammdatenJahr = NlshGartenVereinStammdatenModel::findOneByJahr($lastYear['MAX(jahr)']);

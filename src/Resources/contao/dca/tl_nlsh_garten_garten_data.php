@@ -1,22 +1,19 @@
 <?php
 /**
- * Erweiterung des tl_nlsh_garten_garten_data DCA`s
+ * Erweiterung des tl_nlsh_garten_verein_stammdaten DCA`s
  *
- * @copyright Nils Heinold (c) 2019
  * @package   nlsh/nlsh_kleingartenverwaltung-bundle
  * @author    Nils Heinold
+ * @copyright Nils Heinold (c) 2019
  * @link      https://github.com/nlsh/nlsh_kleingartenverwaltung-bundle
  * @license   LGPL
  */
 
-
 /**
  * Table tl_nlsh_garten_garten_data
  */
-$GLOBALS['TL_DCA']['tl_nlsh_garten_garten_data'] = array
-(
-
-        // Config
+$GLOBALS['TL_DCA']['tl_nlsh_garten_garten_data'] = array(
+        // Config.
        'config' => array
        (
         'dataContainer'     => 'Table',
@@ -41,7 +38,7 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_garten_data'] = array
         )
     ),
 
-     // List
+     // List.
     'list' => array
     (
         'sorting' => array
@@ -724,28 +721,26 @@ class tl_nlsh_garten_garten_data extends Backend
                                      FROM        tl_nlsh_garten_verein_stammdaten WHERE id = ?")
                     ->execute($dc->activeRecord->pid);
 
-         $arrOutYears[] = array
-                       (
-                         'jahr'    => $actYear->jahr,
-                         'wasser'  => $dc->activeRecord->wasser,
-                         'strom'   => $dc->activeRecord->strom,
-                         'tdClass' => 'style = "text-align: right; color:red;"'
-                       );
+         $arrOutYears[] = array(
+             'jahr'    => $actYear->jahr,
+             'wasser'  => $dc->activeRecord->wasser,
+             'strom'   => $dc->activeRecord->strom,
+             'tdClass' => 'style = "text-align: right; color:red;"',
+         );
 
          while ($objJahre->next()) {
-             $arrOutYears[] = array
-                           (
-                             'jahr'    => $objJahre->jahr,
-                             'wasser'  => $objJahre->wasser,
-                             'strom'   => $objJahre->strom,
-                             'tdClass' => 'style = "text-align: right;"'
-                           );
+             $arrOutYears[] = array(
+                 'jahr'    => $objJahre->jahr,
+                 'wasser'  => $objJahre->wasser,
+                 'strom'   => $objJahre->strom,
+                 'tdClass' => 'style = "text-align: right;"',
+             );
          }
 
-          // sortieren lassen
+          // Sortieren lassen.
          rsort($arrOutYears);
 
-          // Ausgabe starten für Verbrauch vorhandene Jahre
+          // Ausgabe starten für Verbrauch vorhandene Jahre.
          $getOut  = '<div style="float:left; width:50%; margin: 0px 0 0px 2%;">';
          $getOut .= '<span style="font-weight:bold; display: block; margin-top:1em;">';
          $getOut .= $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['vorjahreswerte'] . '</span>';
@@ -780,5 +775,6 @@ class tl_nlsh_garten_garten_data extends Backend
 
          return $getOut;
 
-     }
-}
+    }//end getOutYears()
+
+}//end class

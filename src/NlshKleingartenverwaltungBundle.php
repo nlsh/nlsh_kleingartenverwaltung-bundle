@@ -1,10 +1,12 @@
 <?php
-/*
- * This file is part of Contao.
+/**
+ * Class NlshKleingartenverwaltungBundle
  *
- * Copyright (c) 2005-2017 Leo Feyer
- *
- * @license LGPL-3.0+
+ * @package   nlsh/nlsh_kleingartenverwaltung-bundle
+ * @author    Nils Heinold
+ * @copyright Nils Heinold (c) 2019
+ * @link      https://github.com/nlsh/nlsh_kleingartenverwaltung-bundle
+ * @license   LGPL
  */
 
 namespace Nlsh\KleingartenverwaltungBundle;
@@ -12,9 +14,7 @@ namespace Nlsh\KleingartenverwaltungBundle;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
- * Konfiguration des Nlsh Kleingartenverwaltung Bundle
- *
- * @author Nils Heinold <https://github.com/nlsh>
+ * Konfiguration des Nlsh Kleingartenverwaltung Bundle.
  */
 class NlshKleingartenverwaltungBundle extends Bundle
 {

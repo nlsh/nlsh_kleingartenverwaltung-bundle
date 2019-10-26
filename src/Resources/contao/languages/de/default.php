@@ -4,7 +4,7 @@
  *
  * @package   nlsh/nlsh_kleingartenverwaltung-bundle
  * @author    Nils Heinold
- * @copyright Nils Heinold (c) 2017
+ * @copyright Nils Heinold (c) 2019
  * @link      https://github.com/nlsh/nlsh_kleingartenverwaltung-bundle
  * @license   LGPL
  */
