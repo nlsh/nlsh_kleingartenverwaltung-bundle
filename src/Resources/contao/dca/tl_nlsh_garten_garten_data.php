@@ -9,31 +9,32 @@
  * @license   LGPL
  */
 
-/**
+use Symfony\Component\VarDumper\VarDumper;
+use Contao\NlshGartenVereinStammdatenModel;
+use Contao\NlshGartenGartenDataModel;
+
+/*
  * Table tl_nlsh_garten_garten_data
  */
+
 $GLOBALS['TL_DCA']['tl_nlsh_garten_garten_data'] = array(
         // Config.
        'config' => array
        (
         'dataContainer'     => 'Table',
         'ptable'            => 'tl_nlsh_garten_verein_stammdaten',
-        'enableVersioning'  => TRUE,
+        'enableVersioning'  => true,
         'onload_callback'   => array(
                                     array(
                                         'tl_nlsh_garten_garten_data',
-                                        'loeschGartenNeuerGarten'
+                                        'nameReadonly',
                                     ),
-                                    array(
-                                        'tl_nlsh_garten_garten_data',
-                                        'nameReadonly'
-                                    )
         ),
         'sql' => array
         (
             'keys'          => array(
                                     'id'        => 'primary',
-                                    'pid'       => 'index'
+                                    'pid'       => 'index',
             )
         )
     ),
@@ -55,7 +56,7 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_garten_data'] = array(
             ),
             'child_record_callback'   => array(
                                            'tl_nlsh_garten_garten_data',
-                                           'listGarten'
+                                           'listGarten',
             )
         ),
         'global_operations' => array
@@ -70,10 +71,24 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_garten_data'] = array(
                 'href'                => 'act=edit',
                 'icon'                => 'edit.gif'
             ),
+            'delete' => array
+            (
+                'label'             => &$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['delete'],
+                'href'              => 'act=delete',
+                'icon'              => 'delete.svg',
+                'attributes'        => 'onclick="if(!confirm(\'' . $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['delete'][0] . '\'))return false;Backend.getScrollOffset()"',
+                'button_callback'   => array('tl_nlsh_garten_garten_data', 'bottomDelete')
+            ),
+            'show' => array
+            (
+                'label'          => &$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['show'],
+                'href'           => 'act=show',
+                'icon'           => 'show.gif'
+            ),
         )
     ),
 
-     // Palettes
+     // Palettes.
     'palettes' => array
     (
         '__selector__'      => array(''),
@@ -113,18 +128,18 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_garten_data'] = array(
                                     individuell_04_dauer;'
     ),
 
-     // Subpalettes
+     // Subpalettes.
     'subpalettes' => array
     (
         ''                     => ''
     ),
 
-     // Fields
+     // Fields.
     'fields' => array
     (
         'id' => array
         (
-            'sql'              => "int(10) unsigned NOT NULL auto_increment"
+            'sql'              => "int(10) unsigned NOT NULL auto_increment",
         ),
         'pid' => array
         (
@@ -132,247 +147,247 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_garten_data'] = array(
         ),
         'tstamp' => array
         (
-            'sql'              => "int(10) unsigned NOT NULL default '0'"
+            'sql'              => "int(10) unsigned NOT NULL default '0'",
         ),
         'nr' => array
         (
             'label'            => &$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['nr'],
-            'exclude'          => TRUE,
+            'exclude'          => true,
             'inputType'        => 'text',
-            'search'           => TRUE,
+            'search'           => true,
             'eval'             => array(
-                                     'mandatory' => TRUE,
+                                     'mandatory' => true,
                                      'maxlength' => 20,
-                                     'unique' => TRUE,
+                                     'unique' => true,
                                      'tl_class' => 'w50'
             ),
-            'sql'              => "varchar(20) NOT NULL default ''"
+            'sql'              => "varchar(20) NOT NULL default ''",
         ),
         'grosse' => array
         (
             'label'            => &$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['grosse'],
-            'exclude'          => TRUE,
+            'exclude'          => true,
             'inputType'        => 'text',
-            'eval'             => array('mandatory' => TRUE, 'rgxp' => 'digit', 'tl_class' => 'w50'),
-            'sql'              => "double NOT NULL default '0'"
+            'eval'             => array('mandatory' => true, 'rgxp' => 'digit', 'tl_class' => 'w50'),
+            'sql'              => "double NOT NULL default '0'",
         ),
         'strom' => array
         (
             'label'            => &$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['strom'],
-            'exclude'          => TRUE,
+            'exclude'          => true,
             'inputType'        => 'text',
             'eval'             => array('tl_class' => 'w50', 'rgxp' => 'digit'),
-            'sql'              => "double NOT NULL default '0'"
+            'sql'              => "double NOT NULL default '0'",
         ),
         'wasser' => array
         (
             'label'            => &$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['wasser'],
-            'exclude'          => TRUE,
+            'exclude'          => true,
             'inputType'        => 'text',
             'eval'             => array('tl_class' => 'w50', 'rgxp' => 'digit'),
-            'sql'              => "double NOT NULL default '0'"
+            'sql'              => "double NOT NULL default '0'",
         ),
         'abrechnungVorjahre' => array
         (
             'input_field_callback'  => array(
                                           'tl_nlsh_garten_garten_data',
-                                          'getOutYears'
+                                          'getOutYears',
             ),
         ),
         'nutzung_user_id' => array
         (
             'label'            => &$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['nutzungUserId'],
-            'exclude'          => TRUE,
+            'exclude'          => true,
             'inputType'        => 'select',
             'options_callback' => array(
                                      'tl_nlsh_garten_garten_data',
-                                     'holeNamen'
+                                     'holeNamen',
             ),
             'save_callback'    => array(
                                    array(
                                      'tl_nlsh_garten_garten_data',
-                                     'saveNameKomplett'
-                                   )
+                                     'saveNameKomplett',
+                                   ),
             ),
             'eval'             => array(
-                                     'alwaysSave' => TRUE,
-                                     'includeBlankOption' => TRUE,
+                                     'alwaysSave' => true,
+                                     'includeBlankOption' => true,
                                      'blankOptionLabel'   => $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['nichtVergeben'],
-                                     'tl_class'           => 'w50'
+                                     'tl_class'           => 'w50',
             ),
-            'sql'              => "int(11) NOT NULL default '0'"
+            'sql'              => "int(11) NOT NULL default '0'",
         ),
         'name_komplett' => array
         (
             'label'            => &$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['nameKomplett'],
-            'exclude'          => TRUE,
+            'exclude'          => true,
             'inputType'        => 'text',
-            'search'           => TRUE,
-            'sql'              => "varchar(512) NOT NULL default ''"
+            'search'           => true,
+            'sql'              => "varchar(512) NOT NULL default ''",
         ),
         'wasserzaehler_1' => array
         (
             'label'            => &$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['wasserzaehler1'],
             'inputType'        => 'text',
                 'eval'             => array('maxlength' => 50, 'tl_class' => 'w50'),
-            'sql'              => "varchar(50) NOT NULL default ''"
+            'sql'              => "varchar(50) NOT NULL default ''",
         ),
         'wasserzaehler_2' => array
         (
             'label'            => &$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['wasserzaehler2'],
             'inputType'        => 'text',
                 'eval'             => array('maxlength' => 50, 'tl_class' => 'w50'),
-            'sql'              => "varchar(50) NOT NULL default ''"
+            'sql'              => "varchar(50) NOT NULL default ''",
         ),
         'stromzaehler_1' => array
         (
             'label'            => &$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['stromzaehler1'],
             'inputType'        => 'text',
             'eval'             => array('maxlength' => 50, 'tl_class' => 'w50'),
-            'sql'              => "varchar(50) NOT NULL default ''"
+            'sql'              => "varchar(50) NOT NULL default ''",
         ),
         'stromzaehler_2' => array
         (
             'label'            => &$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['stromzaehler2'],
             'inputType'        => 'text',
                 'eval'             => array('maxlength' => 50, 'tl_class' => 'w50'),
-            'sql'              => "varchar(50) NOT NULL default ''"
+            'sql'              => "varchar(50) NOT NULL default ''",
         ),
         'pacht_ja_nein' => array
         (
             'label'            => &$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['pachtJaNein'],
             'inputType'        => 'checkbox',
-            'exclude'          => TRUE,
+            'exclude'          => true,
             'eval'             => array('tl_class' => 'w50'),
-            'sql'              => "char(1) NOT NULL default '1'"
+            'sql'              => "char(1) NOT NULL default '1'",
         ),
         'beitrag_ja_nein' => array
         (
             'label'            => &$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['beitragJaNein'],
             'inputType'        => 'checkbox',
-            'exclude'          => TRUE,
+            'exclude'          => true,
             'eval'             => array('tl_class' => 'w50'),
-            'sql'              => "char(1) NOT NULL default '1'"
+            'sql'              => "char(1) NOT NULL default '1'",
         ),
         'individuell_01_gartenstamm_ja_nein' => array
         (
             'label'            => &$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['indi01GartenstammJaNein'],
             'inputType'        => 'checkbox',
-            'exclude'          => TRUE,
+            'exclude'          => true,
             'eval'             => array('tl_class' => 'w50'),
-            'sql'              => "char(1) NOT NULL default '1'"
+            'sql'              => "char(1) NOT NULL default '1'",
         ),
         'individuell_02_gartenstamm_ja_nein' => array
         (
             'label'            => &$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['indi02GartenstammJaNein'],
             'inputType'        => 'checkbox',
-            'exclude'          => TRUE,
+            'exclude'          => true,
             'eval'             => array('tl_class' => 'w50'),
-            'sql'              => "char(1) NOT NULL default '1'"
+            'sql'              => "char(1) NOT NULL default '1'",
         ),
         'individuell_03_gartenstamm_ja_nein' => array
         (
             'label'            => &$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['indi03GartenstammJaNein'],
             'inputType'        => 'checkbox',
-            'exclude'          => TRUE,
+            'exclude'          => true,
             'eval'             => array('tl_class' => 'w50'),
-            'sql'              => "char(1) NOT NULL default '1'"
+            'sql'              => "char(1) NOT NULL default '1'",
         ),
         'individuell_04_gartenstamm_ja_nein' => array
         (
             'label'            => &$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['indi04GartenstammJaNein'],
             'inputType'        => 'checkbox',
-            'exclude'          => TRUE,
+            'exclude'          => true,
             'eval'             => array('tl_class' => 'w50'),
-            'sql'              => "char(1) NOT NULL default '1'"
+            'sql'              => "char(1) NOT NULL default '1'",
         ),
         'abrechnung_garten_individuell_01_name' => array
         (
             'label'            => &$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['abrechnungGartenIndi01Name'],
             'inputType'        => 'text',
             'eval'             => array('tl_class' => 'w50'),
-            'sql'              => "varchar(80) NOT NULL default ''"
+            'sql'              => "varchar(80) NOT NULL default ''",
         ),
         'abrechnung_garten_individuell_01_wert' => array
         (
             'label'            => &$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['abrechnungGartenIndi01Wert'],
             'inputType'        => 'text',
             'eval'             => array('rgxp' => 'digit', 'tl_class' => 'w50'),
-            'sql'              => "double NOT NULL default '0'"
+            'sql'              => "double NOT NULL default '0'",
         ),
         'individuell_01_dauer' => array
         (
             'label'            => &$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['indi01Dauer'],
             'inputType'        => 'checkbox',
-            'exclude'          => TRUE,
+            'exclude'          => true,
             'eval'             => array('tl_class' => 'w50'),
-            'sql'              => "char(1) NOT NULL default '0'"
+            'sql'              => "char(1) NOT NULL default '0'",
         ),
         'abrechnung_garten_individuell_02_name' => array
         (
             'label'            => &$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['abrechnungGartenIndi02Name'],
             'inputType'        => 'text',
             'eval'             => array('tl_class' => 'w50 clr'),
-            'sql'              => "varchar(80) NOT NULL default ''"
+            'sql'              => "varchar(80) NOT NULL default ''",
         ),
         'abrechnung_garten_individuell_02_wert' => array
         (
             'label'            => &$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['abrechnungGartenIndi02Wert'],
             'inputType'        => 'text',
             'eval'             => array('rgxp' => 'digit', 'tl_class' => 'w50'),
-            'sql'              => "double NOT NULL default '0'"
+            'sql'              => "double NOT NULL default '0'",
         ),
         'individuell_02_dauer' => array
         (
             'label'            => &$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['indi02Dauer'],
             'inputType'        => 'checkbox',
-            'exclude'          => TRUE,
+            'exclude'          => true,
             'eval'             => array('tl_class' => 'w50 clr'),
-            'sql'              => "char(1) NOT NULL default '0'"
+            'sql'              => "char(1) NOT NULL default '0'",
         ),
         'abrechnung_garten_individuell_03_name' => array
         (
             'label'            => &$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['abrechnungGartenIndi03Name'],
             'inputType'        => 'text',
             'eval'             => array('tl_class' => 'w50 clr'),
-            'sql'              => "varchar(80) NOT NULL default ''"
+            'sql'              => "varchar(80) NOT NULL default ''",
         ),
         'abrechnung_garten_individuell_03_wert' => array
         (
             'label'            => &$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['abrechnungGartenIndi03Wert'],
             'inputType'        => 'text',
             'eval'             => array('rgxp' => 'digit', 'tl_class' => 'w50'),
-            'sql'              => "double NOT NULL default '0'"
+            'sql'              => "double NOT NULL default '0'",
         ),
         'individuell_03_dauer' => array
         (
             'label'            => &$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['indi03Dauer'],
             'inputType'        => 'checkbox',
-            'exclude'          => TRUE,
+            'exclude'          => true,
             'eval'             => array('tl_class' => 'w50 clr'),
-            'sql'              => "char(1) NOT NULL default '0'"
+            'sql'              => "char(1) NOT NULL default '0'",
         ),
         'abrechnung_garten_individuell_04_name' => array
         (
             'label'            => &$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['abrechnungGartenIndi04Name'],
             'inputType'        => 'text',
             'eval'             => array('tl_class' => 'w50 clr'),
-            'sql'              => "varchar(80) NOT NULL default ''"
+            'sql'              => "varchar(80) NOT NULL default ''",
         ),
         'abrechnung_garten_individuell_04_wert' => array
         (
             'label'            => &$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['abrechnungGartenIndi04Wert'],
             'inputType'        => 'text',
             'eval'             => array('rgxp' => 'digit', 'tl_class' => 'w50'),
-            'sql'              => "double NOT NULL default '0'"
+            'sql'              => "double NOT NULL default '0'",
         ),
         'individuell_04_dauer' => array
         (
             'label'            => &$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['indi04Dauer'],
             'inputType'        => 'checkbox',
-            'exclude'          => TRUE,
+            'exclude'          => true,
             'eval'             => array('tl_class' => 'w50 clr'),
-            'sql'              => "char(1) NOT NULL default '0'"
+            'sql'              => "char(1) NOT NULL default '0'",
         ),
     )
 );
@@ -381,222 +396,171 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_garten_data'] = array(
 /**
  * DCA- Klasser der Tabelle tl_nlsh_garten_garten_data
  *
- * @package   nlsh/nlsh_kleingartenverwaltung-bundle
+ * @package nlsh/nlsh_kleingartenverwaltung-bundle
  */
 
 /**
  * Class tl_nlsh_garten_garten_data
  *
  * Enthält Funktionen einzelner Felder der Konfiguration
- *
- * @copyright Nils Heinold (c) 2017
- * @author    Nils Heinold
- * @package   nlsh/nlsh_kleingartenverwaltung-bundle
- * @link      https://github.com/nlsh/nlsh_kleingartenverwaltung-bundle
- * @license   LGPL
  */
 class tl_nlsh_garten_garten_data extends Backend
 {
-
-
     /**
      * Den Backenduser importieren
      *
      * Contao Core Funktion
      */
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
         $this->import('BackendUser', 'User');
-    }
 
+    }//end __construct()
 
     /**
-     * Feld 'name' auf 'readonly' => TRUE setzen
+     * Feld 'name' auf 'readonly' => true setzen
      *
      * Sollte es sich nicht um eine Neuanlage eines Gartens handeln,
      * soll so verhindert werden, die Nr zu ändern
      *
      * onload_callback des DataContainers
      *
-     * @param \DataContainer  $dc Contao- DataContainer- Objekt
+     * @param \DataContainer $dc Contao- DataContainer- Objekt.
      *
      * @return void
      */
-    public function nameReadonly(\DataContainer $dc) {
+    public function nameReadonly(\DataContainer $dc)
+    {
          // Neuenlage eines Garten kontrollieren
-         // dazu den tstamp des Datensatzes heraussuchen
-        $tstamp = $this->Database->prepare("
+         // dazu den tstamp des Datensatzes heraussuchen.
+        $tstamp = $this->Database->prepare('
                                         SELECT  `tstamp`
                                         FROM    `tl_nlsh_garten_garten_data`
-                                        WHERE   `id` = ?")
+                                        WHERE   `id` = ?')
                     ->execute($dc->id);
 
-         // wenn tstamp = '0', dann Nr veränderbar
+         // Wenn tstamp != '0', dann Nr nur lesbar.
         if ($tstamp->tstamp !== '0') {
             $GLOBALS['TL_DCA']['tl_nlsh_garten_garten_data']['fields']['nr']['eval'] = array(
                                                                             'readonly' => true,
-                                                                            'tl_class' => 'w50'
+                                                                            'tl_class' => 'w50',
             );
         }
-    }
 
+    }//end nameReadonly()
 
     /**
-     * DCA- Aufbau korrigieren
+     * Ist ein button_callback: Ermöglicht das Löschen eines Gartens nur in der höchsten Periode
+     * und wenn er erst im vorhgerigen Jahr angelegt.
      *
-     * - Löschsymbol anzeigen ja/nein
+     * @param array  $arrRow     The current row.
+     * @param string $href       The url of the embedded link of the button.
+     * @param string $label      Label text for the button.
+     * @param string $title      Title value for the button.
+     * @param string $icon       Url of the image for the button.
+     * @param string $attributes Additional attributes for the button (fetched from the array key "attributes" in the DCA).
+     * @param string $strTable   The name of the current table.
      *
-     *      da das Löschen eines Gartens nur im höchsten Jahr möglich sein soll,
-     *      wird das Symbol zum löschen auch nur dann angezeigt
-     *
-     * - Neuanlage eines Gartens erlauben
-     *
-     *      Die Neuanlage eines Gartens ist ebenfalls nur im höchsten Jahr möglich,
-     *      ansonsten Fehlermeldung und Abbruch
-     *
-     * onload_callback des DataContainers
-     *
-     * @param   \DataContainer  $dc  Contao DataContainer- Objekt
-     *
-     * @return  void
+     * @return var
      */
-    public function loeschGartenNeuerGarten(\DataContainer $dc) {
-         // Kontrolle, ob auch nur in der Übersicht der tl_nlsh_garten_garten
-        if ($this->Input->get('act') != 'edit') {
-            $aktJahr = 0;
-            $topJahr = 0;
+    public function bottomDelete(array $arrRow, string $href, string $label, string $title, string $icon, string $attributes, string $strTable)
+    {
+         // Höchstest Jahr abfragen.
+        $modelTopStammdatenYear = NlshGartenVereinStammdatenModel::findAll(array('order' => '`jahr` DESC'));
 
-             // das Jahr holen
-            $aktJahr = $this->Database->prepare("
-                                    SELECT      `jahr`
-                                    FROM        `tl_nlsh_garten_verein_stammdaten`
-                                    WHERE `id` = ?")
-                    ->execute($dc->id);
+         // Wenn höchstest Jahr, Kontrolle, ob im vorherigem Jahr angelegt.
+        if ($modelTopStammdatenYear->id === $arrRow['pid']) {
+             // Zuerst Abfrage Stammdaten zwei Jahre vorher, wegen ID.
+            $modelStammdaten2YearsBefore = NlshGartenVereinStammdatenModel::findOneByJahr(($modelTopStammdatenYear->jahr) - 2);
 
-            $aktJahr = $aktJahr->jahr;
+             // Abfrage Garten zwei Jahre vorher.
+            $modelGarten2YearsBefore = NlshGartenGartenDataModel::findBy(array('nr=?', 'pid=?'), array($arrRow['nr'], $modelStammdaten2YearsBefore->id));
 
-             // jetzt das höchste Jahr der Gärten ermittel
-            $topJahr = $this->Database->query('
-                                    SELECT      `jahr`
-                                    FROM        `tl_nlsh_garten_verein_stammdaten`
-                                    ORDER BY    `jahr` DESC'
-            );
+             // Kontrolle, ob Garten nicht existierte!
+            if ($modelGarten2YearsBefore === null) {
+                 // Wenn nicht, Löschen ermöglichen.
+                return '<a href="' . $this->addToUrl($href . '&amp;id=' . $arrRow['id']) . '" title="' . StringUtil::specialchars($title) . '"' . $attributes . '>' . \Image::getHtml($icon, $label) . '</a> ';
+            }
 
-            $topJahr = $topJahr->jahr;
+            // Ansonsten kein löschen möglich.
+            $attributes = 'onclick="confirm(\'' . $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['cantDelete'][1] . '\');return false;Backend.getScrollOffset()"';
+            $title      = $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['cantDelete'][1];
 
-             // wenn gleich, dann Löschsymbol anzeigen
-            if ($aktJahr == $topJahr) {
-                $GLOBALS['TL_DCA']['tl_nlsh_garten_garten_data']['list']['operations']['delete'] = array
-                 (
-                    'label'      => &$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['delete'],
-                    'href'       => 'act=delete',
-                    'icon'       => 'delete.gif',
-                    'attributes' => 'onclick="if (!confirm(\'' .
-                                                  $GLOBALS['TL_LANG']['MSC']['deleteConfirm'] .
-                                                  '\')) return false; Backend.getScrollOffset();"'
-                );
-            };
-
-             // damit die Reihenfolge stimmt, jetzt die Ausgabe des Info- Icons
-            $GLOBALS['TL_DCA']['tl_nlsh_garten_garten_data']['list']['operations']['show'] = array
-            (
-                'label'          => &$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['show'],
-                'href'           => 'act=show',
-                'icon'           => 'show.gif'
-            );
+            return '<a href="' . $this->addToUrl($href) . '" title="' . StringUtil::specialchars($title) . '"' . $attributes . '>' . Contao\Image::getHtml(preg_replace('/\.svg/i', '_.svg', $icon)) . '</a> ';
         }
 
-         // Jetzt Neuanlage verhindern
-         // wenn das aktuelle Jahr kleiner als das höchste Jahr ist
-        if ($this->Input->get('act') === 'create' && $aktJahr < $topJahr) {
-            Message::addError($GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['neuanlageNicht']);
-            $this->redirect("contao/main.php?do=Garten_garten&table=tl_nlsh_garten_garten_data&amp;id=" . $dc->id);
-        }
-    }
-
+    }//end bottomDelete()
 
     /**
      * Auflistung der Gärten in der Übersicht erzeugen
      *
      * Child_record_callback des List
      *
-     * @param  array   $arrRow Mit kompletten Daten des aktuell anzuzeigendem Gartens
+     * @param array $arrRow Mit kompletten Daten des aktuell anzuzeigendem Gartens.
      *
      * @return string  html- Text für Auflistung der Gärten
      */
-    public function listGarten(array $arrRow) {
-        
+    public function listGarten(array $arrRow)
+    {
          // Gartennummer und Gartennutzer.
-        $line  = '<span>';
+        $line  = '<div>';
         $line .= $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['listGarten'];
-        $line .= '</span>';
-        
-        $line .= '<strong>';
-        $line .= '<span style ="width:20em; float:left;margin-left: 1em;">';
-        $line .= $arrRow['nr'] . '</span>&nbsp;&nbsp;';
+        $line .= '<span style ="display:inline-block; width:21em; margin-left: 1em;">';
+        $line .= $arrRow['nr'] . '</span>';
 
-         // kompletten Namen des Gartenbesitzers, oder Text, Garten nicht vergeben
+         // Kompletten Namen des Gartenbesitzers, oder Text, Garten nicht vergeben.
         if (empty($arrRow['name_komplett']) === false) {
-            $line .= '<span style ="float:left;margin-left: 1em;">';
+            $line .= '<span style =" margin-left: 1em;">';
             $line .= $arrRow['name_komplett'] . '</span>';
         } else {
-            $line .= '<span style ="float:left;margin-left: 1em;color:red;">';
+            $line .= '<span style ="margin-left: 1em;color:red;">';
             $line .= $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['nichtVergeben'];
             $line .= '</span>';
         }
-        $line .= '</strong>';
-        $line .= '<table style = "float:right"><tr>';
 
          // Ende Gartennummer und Gartennutzer.
-        if (empty($arrRow['strom']) === false) {
-            $line.= '<td>';
-            $line .= '<span style = "float: left; padding-right: 15px;">';
-            $line .= $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['listGartenStrom'];
-            $line .= '<img src="bundles/nlshkleingartenverwaltung/accept.png"';
-            $line .= ' width="16" height="16" title="';
-            $line .= $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['listGartenAltImgStrom'] . '"';
-            $line .= ' alt="';
-            $line .= $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['listGartenAltImgStrom'];
-            $line .= '" /></span>';
-            $line .= '</td>';
-        } else {
-            $line.= '<td>';
-            $line .= '<span style = "float: left; padding-right: 15px;">';
-            $line .= $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['listGartenStrom'];
-            $line .= '<img src="bundles/nlshkleingartenverwaltung/noaccept.png"';
-            $line .= ' width="16" height="16" title="';
-            $line .= $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['listGartenAltImgStrome'] . '"';
-            $line .= ' alt="';
-            $line .= $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['listGartenAltImgStrome'];
-            $line .= '" /></span>';
-            $line .= '</td>';
-        }
-        // Anzeige, ob Wasser abgerechnet wurde.
-        if (empty($arrRow['wasser']) === false) {
-            $line .= '<td>';
-            $line .= '<span style = "float: right; padding-right: 15px;">';
-            $line .= $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['listGartenWasser'];
-            $line .= '<img src="bundles/nlshkleingartenverwaltung/accept.png" width="16" height="16" title="';
-            $line .= $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['listGartenAltImgWasser'] . '"';
-            $line .= ' alt="';
-            $line .= $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['listGartenAltImgWasser'];
-            $line .= '" /></span>';
-            $line .= '<td>';
-        } else {
-            $line .= '<td>';
-            $line .= '<span style = "float: right; padding-right: 15px;">';
-            $line .= $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['listGartenWasser'];
-            $line .= '<img src="bundles/nlshkleingartenverwaltung/noaccept.png" width="16" height="16" title="';
-            $line .= $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['listGartenAltImgWassere'] . '"';
-            $line .= ' alt="';
-            $line .= $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['listGartenAltImgWasseer'];
-            $line .= '" /></span>';
-            $line .= '<td>';
-        }
-        $line .= '</tr></table>';
-        return($line);
-    }
+         // Beginn Tabelle, ob Strom/ Wasser abgerechnet wurde.
+        $line .= '<span style = "float:right">';
 
+        if (empty($arrRow['strom']) === false) {
+            $line .= '<span style = "padding-right: 15px; color: green">';
+            $line .= $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['listGartenStrom'];
+            $line .= '<img src="bundles/nlshkleingartenverwaltung/check-circle.svg" width="16" height="16" ';
+            $line .= 'title="' . $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['listGartenAltImgStrom'] . '" ';
+            $line .= 'alt="' . $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['listGartenAltImgStrom'] . '" />';
+            $line .= '</span>';
+        } else {
+            $line .= '<span style = "padding-right: 15px; color: red">';
+            $line .= $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['listGartenStrom'];
+            $line .= '<img src="bundles/nlshkleingartenverwaltung/x-circle.svg" width="16" height="16" ';
+            $line .= 'title="' . $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['listGartenAltImgNoStrom'] . '" ';
+            $line .= 'alt="' . $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['listGartenAltImgNoStrom'] . '" />';
+            $line .= '</span>';
+        }//end if
+
+         // Anzeige, ob Wasser abgerechnet wurde.
+        if (empty($arrRow['wasser']) === false) {
+            $line .= '<span style = "padding-right: 15px; color: green">';
+            $line .= $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['listGartenWasser'];
+            $line .= '<img src="bundles/nlshkleingartenverwaltung/check-circle.svg" width="16" height="16" ';
+            $line .= 'title="' . $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['listGartenAltImgWasser'] . '" ';
+            $line .= ' alt="' . $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['listGartenAltImgWasser'] . '" />';
+            $line .= '</span>';
+        } else {
+            $line .= '<span style = "padding-right: 15px; color: red">';
+            $line .= $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['listGartenWasser'];
+            $line .= '<img src="bundles/nlshkleingartenverwaltung/x-circle.svg" width="16" height="16" ';
+            $line .= 'title="' . $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['listGartenAltImgNoWasser'] . '" ';
+            $line .= ' alt="' . $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['listGartenAltImgNoWasser'] . '" />';
+            $line .= '</span>';
+        }//end if
+
+        $line .= '</span>';
+        $line .= '</div>';
+        return($line);
+
+    }//end listGarten()
 
     /**
      * Array mit den Namen, Vornamen aller Mitglieder der Mitgliedergruppe
@@ -604,57 +568,56 @@ class tl_nlsh_garten_garten_data extends Backend
      *
      * Options_callback des nutzung_user_id- Felder
      *
-     * @param   \DataContainer  $dc Contao DataContainer- Objekt
+     * @param \DataContainer $dc Contao DataContainer- Objekt.
      *
-     * @return  array           Array mit Namen, Vornamen
+     * @return array         Array mit Namen, Vornamen
      */
-    public function holeNamen(\DataContainer $dc) {
+    public function holeNamen(\DataContainer $dc)
+    {
         $couples = array();
         $jahr    = array();
         $gruppe  = array();
 
          // Tabelle der Gartenbesitzer auslesen
-         // zuerst das Jahr holen
-        $jahr = $this->Database->prepare("
+         // zuerst das Jahr holen.
+        $jahr = $this->Database->prepare('
                                     SELECT      `jahr`
                                     FROM        `tl_nlsh_garten_verein_stammdaten`
-                                    WHERE       `id` = ?")
+                                    WHERE       `id` = ?')
                      ->execute($dc->activeRecord->pid);
 
-         // jetzt die Mitgliedergruppe des Jahres
-        $gruppe = $this->Database->prepare("
+         // Jetzt die Mitgliedergruppe des Jahres.
+        $gruppe = $this->Database->prepare('
                                     SELECT      `mitgliedergruppe_id`
                                     FROM        `tl_nlsh_garten_verein_stammdaten`
-                                    WHERE       `jahr` = ?")
+                                    WHERE       `jahr` = ?')
                      ->execute($jahr->jahr);
 
-         // jetzt die Namen der Mitgliedergruppe
+         // Jetzt die Namen der Mitgliedergruppe.
         $objCouples = $this->Database->query('
                                     SELECT      *
                                     FROM        `tl_member`
                                     ORDER BY    lastname, firstname ASC');
 
-         // jetzt die Namen und Vornamen der Mitgliedergruppe zusammenbasteln
+         // Jetzt die Namen und Vornamen der Mitgliedergruppe zusammenbasteln.
         while ($objCouples->next()) {
-            if (strpos($objCouples->groups, '"' . $gruppe->mitgliedergruppe_id . '";') == TRUE) {
-                {
-                    $k = $objCouples->id;
-                    $v = $objCouples->lastname;
-                     if ($objCouples->firstname) {
-                        $v .= ', ' . $objCouples->firstname;
-                     }
-
-                    $couples[$k] = $v;
+            if (strpos($objCouples->groups, '"' . $gruppe->mitgliedergruppe_id . '";') == true) {
+                $k = $objCouples->id;
+                $v = $objCouples->lastname;
+                if ($objCouples->firstname) {
+                    $v .= ', ' . $objCouples->firstname;
                 }
+
+                $couples[$k] = $v;
             }
         }
 
         return $couples;
-    }
 
+    }//end holeNamen()
 
     /**
-     * Speichern von 'Nachname, Vorname' in seperatem Dantenbankfeld
+     * Speichern von 'Nachname, Vorname' in seperatem Datenbankfeld
      *
      * Speichern im nicht sichtbaren Feld name_komplett,
      *
@@ -662,63 +625,65 @@ class tl_nlsh_garten_garten_data extends Backend
      *
      * save_callback des Feldes nutzung_user_id
      *
-     * @param  string          $field  ID des Gartennutzers, oder nichts
-     * @param  \DataContainer  $dc     Contao DataContainer- Objekt
+     * @param string         $field ID des Gartennutzers, oder nichts.
+     * @param \DataContainer $dc    Contao DataContainer- Objekt.
      *
-     * @return string          ID des Gartennutzers, oder nichts
+     * @return string        ID des Gartennutzers, oder nichts
      */
-    public function saveNameKomplett($field, \DataContainer $dc) {
-         if ($field == TRUE) {
-             $nameKomplett = $this->Database->prepare("SELECT * FROM `tl_member` WHERE `id` = ?")
-                         ->execute($field);
+    public function saveNameKomplett(string $field, \DataContainer $dc)
+    {
+        if ($field !== '') {
+            $nameKomplett = $this->Database->prepare('SELECT * FROM `tl_member` WHERE `id` = ?')
+                        ->execute($field);
 
-             $nameKomplett = $nameKomplett->lastname . ', ' . $nameKomplett->firstname;
+            $nameKomplett = $nameKomplett->lastname . ', ' . $nameKomplett->firstname;
 
-             $speichern = $this->Database->prepare("
-                                     UPDATE      `tl_nlsh_garten_garten_data`
-                                     SET         `name_komplett` = ?
-                                     WHERE        tl_nlsh_garten_garten_data.`id` = ?")
-                         ->execute($nameKomplett, $dc->id);
-         } else {
-             $speichern = $this->Database->prepare("
-                                     UPDATE      `tl_nlsh_garten_garten_data`
-                                     SET         `name_komplett` = ''
-                                     WHERE       tl_nlsh_garten_garten_data.`id` = ?")
-                         ->execute($dc->id);
-         }
+            $speichern = $this->Database->prepare('
+                                    UPDATE      `tl_nlsh_garten_garten_data`
+                                    SET         `name_komplett` = ?
+                                    WHERE        tl_nlsh_garten_garten_data.`id` = ?')
+                        ->execute($nameKomplett, $dc->id);
+        } else {
+            $speichern = $this->Database->prepare("
+                                    UPDATE      `tl_nlsh_garten_garten_data`
+                                    SET         `name_komplett` = ''
+                                    WHERE       tl_nlsh_garten_garten_data.`id` = ?")
+                        ->execute($dc->id);
+        }
 
-     return $field;
-    }
+        return $field;
 
+    }//end saveNameKomplett()
 
     /**
      * Vorhandene Jahresverbrauchsdaten zum Vergleich ausgeben
      *
      * Input_field_callback
      *
-     * @param  \DataContainer  $dc Contao DataContainer- Objekt
+     * @param \DataContainer $dc Contao DataContainer- Objekt.
      *
-     * @return string          HTML- Text der Vorjahre
+     * @return string        HTML- Text der Vorjahre
      */
-    public function getOutYears(\DataContainer $dc) {
-         $objJahre = $this->Database->prepare("
+    public function getOutYears(\DataContainer $dc)
+    {
+         $objJahre = $this->Database->prepare('
                                      SELECT      `pid` ,
-                                         (SELECT     jahr
-                                          FROM       tl_nlsh_garten_verein_stammdaten
-                                          WHERE      id = tl_nlsh_garten_garten_data.pid
+                                         (SELECT     `jahr`
+                                          FROM       `tl_nlsh_garten_verein_stammdaten`
+                                          WHERE      `id` = tl_nlsh_garten_garten_data.pid
                                      )
                                                  `jahr`,
                                                  `strom` ,
                                                  `wasser`
                                      FROM        `tl_nlsh_garten_garten_data`
                                      WHERE       (`nr` = ?)
-                                             AND (pid != ?)
-                                     ORDER BY    `pid` DESC")
+                                             AND (`pid` != ?)
+                                     ORDER BY    `pid` DESC')
                      ->execute($dc->activeRecord->nr, $dc->activeRecord->pid);
 
-         $actYear = $this->Database->prepare("
-                                     SELECT      jahr
-                                     FROM        tl_nlsh_garten_verein_stammdaten WHERE id = ?")
+         $actYear = $this->Database->prepare('
+                                     SELECT      `jahr`
+                                     FROM        `tl_nlsh_garten_verein_stammdaten` WHERE `id` = ?')
                     ->execute($dc->activeRecord->pid);
 
          $arrOutYears[] = array(

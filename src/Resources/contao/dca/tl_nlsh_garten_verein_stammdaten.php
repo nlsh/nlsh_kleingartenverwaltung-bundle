@@ -730,7 +730,7 @@ class tl_nlsh_garten_verein_stammdaten extends Backend
         $tableConfig = NlshGartenConfigModel::findOneByPid($arrRow['id']);
 
         // Und Link zusammenbasteln.
-        return '<a href="' . $this->addToUrl($href . '&amp;id=' . $tableConfig->id) . '" title="' . specialchars($title) . '"' . $attributes . '>' . \Image::getHtml($icon, $label) . '</a> ';
+        return '<a href="' . $this->addToUrl($href . '&amp;id=' . $tableConfig->id) . '" title="' . StringUtil::specialchars($title) . '"' . $attributes . '>' . \Image::getHtml($icon, $label) . '</a> ';
 
     }//end bottomConfigOutput()
 
@@ -754,14 +754,14 @@ class tl_nlsh_garten_verein_stammdaten extends Backend
 
         if ($objStammdatenJahr->jahr === $arrRow['jahr']) {
             // Und Link zusammenbasteln.
-            return '<a href="' . $this->addToUrl($href . '&amp;id=' . $arrRow['id']) . '" title="' . specialchars($title) . '"' . $attributes . '>' . \Image::getHtml($icon, $label) . '</a> ';
+            return '<a href="' . $this->addToUrl($href . '&amp;id=' . $arrRow['id']) . '" title="' . StringUtil::specialchars($title) . '"' . $attributes . '>' . \Image::getHtml($icon, $label) . '</a> ';
         }
 
          // Ansonsten kein löschen möglich.
         $attributes = 'onclick="confirm(\'' . $GLOBALS['TL_LANG']['tl_nlsh_garten_verein_stammdaten']['cantDelete'][1] . '\');return false;Backend.getScrollOffset()"';
         $title      = $GLOBALS['TL_LANG']['tl_nlsh_garten_verein_stammdaten']['cantDelete'][1];
 
-        return '<a href="' . $this->addToUrl($href) . '" title="' . specialchars($title) . '"' . $attributes . '>' . Contao\Image::getHtml(preg_replace('/\.svg/i', '_.svg', $icon)) . '</a> ';
+        return '<a href="' . $this->addToUrl($href) . '" title="' . StringUtil::specialchars($title) . '"' . $attributes . '>' . Contao\Image::getHtml(preg_replace('/\.svg/i', '_.svg', $icon)) . '</a> ';
 
     }//end bottomDeletPeriode()
 

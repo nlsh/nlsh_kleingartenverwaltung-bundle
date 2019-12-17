@@ -9,12 +9,13 @@
  * @license   LGPL
  */
 
-$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['listGarten']             = 'Garten Nr. ';
-$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['listGartenStrom']        = 'Strom ';
-$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['listGartenAltImgStrom']  = 'Strom wurde abgerechnet ';
-$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['listGartenWasser']       = 'Wasser ';
-$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['listGartenAltImgWasser'] = 'Wasser wurde abgerechnet ';
-
+$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['listGarten']               = 'Garten Nr. ';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['listGartenStrom']          = 'Strom ';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['listGartenAltImgStrom']    = 'Strom wurde abgerechnet ';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['listGartenAltImgNoStrom']  = 'Es wurde kein Strom abgerechnet ';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['listGartenWasser']         = 'Wasser ';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['listGartenAltImgWasser']   = 'Wasser wurde abgerechnet ';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['listGartenAltImgNoWasser'] = 'Es wurde kein Wasser abgerechnet';
 /*
  * Fields
  */
@@ -119,7 +120,8 @@ $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['show'][0]       = 'Informatio
 $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['show'][1]       = 'Informationen zum Garten ID %s anzeigen';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['edit'][0]       = 'Bearbeiten';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['edit'][1]       = 'Garten ID %s bearbeiten';
-$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['delete'][0]     = 'L&ouml;schen';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['delete'][0]     = 'Soll der Garten ID %s wirklich gel&ouml;scht werden?';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['delete'][1]     = 'Garten ID %s l&ouml;schen';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['editheader'][0] = 'Stammdaten bearbeiten';
-$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['editheader'][1] = 'Stammdaten bearbeiten';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['editheader'][1] = 'Stammdaten dieser Periode bearbeiten';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['cantDelete'][1] = 'Ein Garten kann nur in der h&ouml;chsten Periode und wenn er im vorherigem Jahr angelegt wurde gel&ouml;scht werden!';

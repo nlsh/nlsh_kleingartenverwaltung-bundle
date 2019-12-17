@@ -15,7 +15,7 @@
          padding-bottom:1em;
 }
 
-.mod_nlsh_gesamtausgabe tr {
+.mod_nlsh_gesamtausgabe tr{
          vertical-align:top;
          text-align: right;
 }
@@ -24,6 +24,10 @@
          padding: 0 5px 2px;
          border: 1px solid black;
 }
+.mod_nlsh_gesamtausgabe .error{
+         color:red;
+}
+
 .mod_nlsh_gesamtausgabe .nr{
          text-align:center;
 }

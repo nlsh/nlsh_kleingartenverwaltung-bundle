@@ -26,7 +26,7 @@ $GLOBALS['TL_LANG']['MOD']['Kleingartenverwaltung'] = 'Kleingartenverwaltung';
  */
 
 $GLOBALS['TL_LANG']['MOD']['Garten_garten'][0] = 'Garten Verwaltung';
-$GLOBALS['TL_LANG']['MOD']['Garten_garten'][1] = 'Anlage, Verbrauchsdaten- Erfassung und Verwaltung einer G&auml;rtenanlage';
+$GLOBALS['TL_LANG']['MOD']['Garten_garten'][1] = 'Anlage, Verbrauchsdaten- Erfassung und Verwaltung einer Gartenanlage';
 $GLOBALS['TL_LANG']['MOD']['Garten_config'][0] = 'Einstellungen';
 $GLOBALS['TL_LANG']['MOD']['Garten_config'][1] = 'Grunds&auml;tzliche Voreinstellungen t&auml;tigen.';
 
