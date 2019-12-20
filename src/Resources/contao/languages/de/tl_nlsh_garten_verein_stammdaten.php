@@ -19,6 +19,8 @@ $GLOBALS['TL_LANG']['tl_nlsh_garten_verein_stammdaten']['jahr'][0]              
 $GLOBALS['TL_LANG']['tl_nlsh_garten_verein_stammdaten']['jahr'][1]                           = 'Geben Sie bitte das Jahr ein!';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_verein_stammdaten']['name'][0]                           = 'Name des Vereines';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_verein_stammdaten']['name'][1]                           = 'Geben Sie bitte den Namen Ihres Vereines ein!';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_verein_stammdaten']['adresszusatz'][0]                   = 'Adresszusatz';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_verein_stammdaten']['adresszusatz'][1]                   = 'Geben Sie bitte den Adresszusatz Ihres Vereines ein, zum Beispiel c/o!';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_verein_stammdaten']['strasse'][0]                        = 'Stra&szlig;e';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_verein_stammdaten']['strasse'][1]                        = 'Geben Sie bitte die Stra&szlig;e Ihres Vereines ein!';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_verein_stammdaten']['plzort'][0]                         = 'PLZ und Ort';

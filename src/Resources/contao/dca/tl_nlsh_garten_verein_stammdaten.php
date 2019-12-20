@@ -95,7 +95,7 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_verein_stammdaten'] = array(
         '__selector__'  => array(''),
         'default'       =>      'jahr;
                             {Adresse_legend},
-                                name,strasse,plzort;
+                                name,adresszusatz,strasse,plzort;
                             {Kommunikation_legend},
                                 telefon,email;
                             {Bank_legend:hide},
@@ -166,10 +166,20 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_verein_stammdaten'] = array(
                                     ),
             'sql'               => "varchar(80) NOT NULL default ''",
         ),
+        'adresszusatz' => array
+        (
+            'label'             => &$GLOBALS['TL_LANG']['tl_nlsh_garten_verein_stammdaten']['adresszusatz'],
+            'inputType'         => 'text',
+            'eval'              => array(
+                                        'maxlength' => 80,
+                                        'tl_class'  => 'w50',
+            ),
+            'sql'               => "varchar(80) NOT NULL default ''",
+        ),
         'strasse' => array
         (
             'label'             => &$GLOBALS['TL_LANG']['tl_nlsh_garten_verein_stammdaten']['strasse'],
-            'inputType'         > 'text',
+            'inputType'         => 'text',
             'eval'              => array(
                                         'mandatory' => true,
                                         'maxlength' => 50,

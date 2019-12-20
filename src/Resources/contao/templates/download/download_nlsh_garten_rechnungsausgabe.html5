@@ -1,10 +1,8 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de" lang="de">
+<!DOCTYPE html>
+<html lang="de">
 <head>
 <title>Rechnungsausgabe</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta http-equiv="Content-Style-Type" content="text/css" />
-<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<meta charset="UTF-8" />
 <link rel="stylesheet" href="<?php echo $this->replaceInsertTags('{{env::path}}'); ?>bundles/nlshkleingartenverwaltung/style.css" type="text/css" media="all" />
 </head>
 <body class = "rg_body">
@@ -13,18 +11,23 @@
         <?php echo $this->rg_outPut['stammdaten_verein']['name']; ?>
     </div>
     <div class = "adress">
-    <div class = "header_adress">
-        <?php echo $this->rg_outPut['stammdaten_verein']['name'] . " * " . $this->rg_outPut['stammdaten_verein']['strasse'] . " * " . $this->rg_outPut['stammdaten_verein']['plzort']; ?>
-     </div>
-    <div class = "adress_adress">
-        <?php echo $this->rg_outPut['garten_abrechnung']['member']['nlsh_member_anrede'] . '<br />'; ?>
-        <?php echo $this->rg_outPut['garten_abrechnung']['member']['lastname'] . ", " . $this->rg_outPut['garten_abrechnung']['member']['firstname'] . '<br />'; ?>
-        <?php echo $this->rg_outPut['garten_abrechnung']['member']['street'] . '<br />'; ?>
-        <?php echo $this->rg_outPut['garten_abrechnung']['member']['postal'] . " " . $this->rg_outPut['garten_abrechnung']['member']['city'] . '<br />'; ?>
-     </div>
-    <div class = "adress_date">
-        <?php echo date("d.m.Y", $this->rg_outPut['einstellungen']['nlsh_rgvorbelegung_datum']) ?>
-    </div>
+        <div class = "header_adress">
+            <?php $headerAdress = $this->rg_outPut['stammdaten_verein']['name']; ?>
+            <?php if ($this->rg_outPut['stammdaten_verein']['adresszusatz'] == true): ?>
+                <?php $headerAdress .= " * " . $this->rg_outPut['stammdaten_verein']['adresszusatz']; ?>
+            <?php endif; ?>
+            <?php $headerAdress .= " * " . $this->rg_outPut['stammdaten_verein']['strasse'] . " * " . $this->rg_outPut['stammdaten_verein']['plzort']; ?>
+            <?php echo $headerAdress; ?>
+        </div>
+        <div class = "adress_adress">
+            <?php echo $this->rg_outPut['garten_abrechnung']['member']['nlsh_member_anrede'] . '<br />'; ?>
+            <?php echo $this->rg_outPut['garten_abrechnung']['member']['lastname'] . ", " . $this->rg_outPut['garten_abrechnung']['member']['firstname'] . '<br />'; ?>
+            <?php echo $this->rg_outPut['garten_abrechnung']['member']['street'] . '<br />'; ?>
+            <?php echo $this->rg_outPut['garten_abrechnung']['member']['postal'] . " " . $this->rg_outPut['garten_abrechnung']['member']['city'] . '<br />'; ?>
+         </div>
+        <div class = "adress_date">
+            <?php echo date("d.m.Y", $this->rg_outPut['einstellungen']['nlsh_rgvorbelegung_datum']) ?>
+        </div>
     </div>
     <div class = "rg_betreff">
         <?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['rg_betreff'] . " " . $this->rg_outPut['ausgabejahr'] . "/" . $this->rg_outPut['garten_abrechnung']['nr'] ?>
@@ -51,18 +54,6 @@
     <!--jetzt die Ausgabe der einezelnen Abrechnungseinheiten -->
     <div class = "rg_table_ausgabe">
         <table class = "table_ausgabe">
-
-            <!--Tabellenfuß-->
-            <tfoot>
-                <tr class = "rg_gesamt">
-                    <td class = "td_1">
-                        <?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['rg_gesamt'] ?>
-                    </td>
-                    <td class = "td_2">
-                        <?php echo $this->rg_outPut['garten_abrechnung']['gesamt_einzel_garten_formated'] ?>
-                    </td>
-                </tr>
-            </tfoot>
 
             <!--Tabellen- Body-->
             <tbody>
@@ -215,6 +206,18 @@
                     </tr>
                 <?php endif; ?>
             </tbody>
+
+            <!--Tabellenfuß-->
+            <tfoot>
+                <tr class = "rg_gesamt">
+                    <td class = "td_1">
+                        <?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['rg_gesamt'] ?>
+                    </td>
+                    <td class = "td_2">
+                        <?php echo $this->rg_outPut['garten_abrechnung']['gesamt_einzel_garten_formated'] ?>
+                    </td>
+                </tr>
+            </tfoot>
         </table>
     </div>
     <div class = "rg_hinweis">
@@ -227,7 +230,7 @@
         <table class = "table_bank">
         <tbody>
             <tr>
-                <td colspan = "2">
+                <td colspan = "4">
                     <?php echo $this->rg_outPut['stammdaten_verein']['bankname']; ?>
                 </td>
             </tr>
@@ -250,7 +253,7 @@
                 </tr>
             <?php endif; ?>
 
-            <!--Ausgabe vin IBAN und BIC wenn vorhanden-->
+            <!--Ausgabe von IBAN und BIC wenn vorhanden-->
             <?php if ( ($this->rg_outPut['stammdaten_verein']['iban'] == true && $this->rg_outPut['stammdaten_verein']['bic'] == true)): ?>
                 <tr>
                     <td class = "td_1">
@@ -290,6 +293,10 @@
                  <?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['email'] . ": " . $this->rg_outPut['stammdaten_verein']['email']; ?>
             <?php endif; ?>
             <br />
+            <?php if ($this->rg_outPut['stammdaten_verein']['adresszusatz'] == true): ?>
+                <?php echo $this->rg_outPut['stammdaten_verein']['adresszusatz']; ?>
+                <br />
+            <?php endif; ?>
             <?php echo $this->rg_outPut['stammdaten_verein']['strasse']; ?>
             <br />
             <?php echo $this->rg_outPut['stammdaten_verein']['plzort']; ?>

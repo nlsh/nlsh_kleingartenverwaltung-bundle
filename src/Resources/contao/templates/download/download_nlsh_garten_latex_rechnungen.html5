@@ -68,11 +68,22 @@
 
 %Absender
 \setkomavar{fromname}   {<?php echo $this->latex_outPut['stammdaten_verein']['name'];?>}
-\setkomavar{fromaddress}{<?php echo $this->latex_outPut['stammdaten_verein']['strasse'] . '\\\ ' . $this->latex_outPut['stammdaten_verein']['plzort'];?>}
+<?php
+$fromAdress  = '';
+$backadress  = $this->latex_outPut['stammdaten_verein']['name']. ', ';
+
+if($this->latex_outPut['stammdaten_verein']['adresszusatz'] !== ''){
+    $fromAdress .= $this->latex_outPut['stammdaten_verein']['adresszusatz'] . '\\\ ';
+    $backAdress .= $this->latex_outPut['stammdaten_verein']['adresszusatz']. ', ';
+}
+$fromAdress .= $this->latex_outPut['stammdaten_verein']['strasse'] . '\\\ ' . $this->latex_outPut['stammdaten_verein']['plzort'];
+$backAdress .= $this->latex_outPut['stammdaten_verein']['strasse'] . ', ' . $this->latex_outPut['stammdaten_verein']['plzort'];
+?>
+\setkomavar{fromaddress}{<?php echo $fromAdress ?>}
 \setkomavar{fromphone}  {<?php echo $this->latex_outPut['stammdaten_verein']['telefon'];?>}
 \setkomavar{fromemail}  {<?php echo $this->latex_outPut['stammdaten_verein']['email'];?>}
 \setkomavar{frombank}   {<?php echo $this->latex_outPut['stammdaten_verein']['bankname'] . '\\\ IBAN ' . $this->latex_outPut['stammdaten_verein']['iban'];?>}
-
+\setkomavar{backaddress}{\parbox[c]{70mm}{ <?php echo $this->latex_outPut['stammdaten_verein']['name'];?>\\<?php echo $backAdress ?>}}
 %Layout
 
 % Kopfzeile --------------------------------------------------------
