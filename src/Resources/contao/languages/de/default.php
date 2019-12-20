@@ -40,6 +40,9 @@
  $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['nr']             = 'Garten Nr.:';
  $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['name_adresse']   = 'Name/ Adresse';
  $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['telefon']        = 'Telefon';
+ $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['contact']        = 'Kontaktdaten';
+ $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['phone']          = 'Telefon:';
+ $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['mobile']         = 'Handy:';
  $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['email']          = 'Email';
  $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['beitrag']        = 'Beitrag';
  $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['pacht']          = 'Pacht';

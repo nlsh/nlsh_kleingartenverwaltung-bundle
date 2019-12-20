@@ -36,6 +36,19 @@
          text-align:left;
 }
 
+.mod_nlsh_gesamtausgabe .adrkommu{
+         margin-top: 10px;
+         width: 100%;
+         border-top: 1px black solid;
+         display: inline-block;
+}
+
+.mod_nlsh_gesamtausgabe .adrkontakt{
+         padding-bottom: 3px;
+         display: inline-block;
+}
+}
+
 .mod_nlsh_gesamtausgabe .betrag{
          font-weight:bold;
 }
