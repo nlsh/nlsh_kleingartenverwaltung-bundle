@@ -140,7 +140,7 @@ $backAdress .= $this->latex_outPut['stammdaten_verein']['strasse'] . ', ' . $thi
 % Global
 
 %\setkomavar{place}{Prenzlau} % den Ort vor das Datum des Briefes stellen
-\setkomavar{date}{<?php echo date("d.m.Y", $this->latex_outPut['einstellungen']['nlsh_rgvorbelegung_datum']);?>} % Datum des Briefes, wenn nicht gesetzt, aktuelles
+\setkomavar{date}{<?php echo $this->latex_outPut['einstellungen']['nlsh_garten_time_rgvorbelegung_datum_formated'];?>} % Datum des Briefes, wenn nicht gesetzt, aktuelles
 						      % wenn gesetzt, dann numericaldate außer Kraft
 						      % S. 196
 

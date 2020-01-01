@@ -25,6 +25,8 @@ $GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlshGartenVerbrauchsdatenVorjahr']
 $GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlshGartenVerbrauchsdatenVorjahr'][1] = 'Geben Sie an, ob die Abrechnung der Verbrauchsdaten f&uuml;r das Vorjahr abgerechnet werden sollen!';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlshRgvorbelegungDatum'][0]           = 'Rechnungsdatum';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlshRgvorbelegungDatum'][1]           = 'Geben Sie hier bitte das Rechnungsdatum ein, ansonsten wird das aktuelle Datum herangezogen!';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlshRgvorbelegungZahlZiel'][0]        = 'Zahlungsziel';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlshRgvorbelegungZahlZiel'][1]        = 'Geben Sie hier bitte das Zahlungsziel in Tagen ein!';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlshGartenTextRgVerbrauchsdaten'][0]  = 'Text f&uuml;r Abrechnung der Verbrauchsdaten';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlshGartenTextRgVerbrauchsdaten'][1]  = 'Geben Sie hier bitte Ihren Text f&uuml;r die Abrechnung der Verbrauchsdaten ein!';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlshGartenTextRgPachtBeitrag'][0]     = 'Text f&uuml;r Abrechnung des Beitrages und der Pacht';
@@ -33,6 +35,9 @@ $GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlshGartenTextRgAufforderZahlung']
 $GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlshGartenTextRgAufforderZahlung'][1] = 'Geben Sie hier bitte Ihren Text zur Aufforderung zur Zahlung ein!';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlshGartenTextRgHinweis'][0]          = 'Text f&uuml;r einen Hinweis';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlshGartenTextRgHinweis'][1]          = 'Geben Sie hier bitte Ihren Text f&uuml;r einen Hinweis ein!';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlshGartenTextZahlungZiel'][0]        = 'Text f&uuml;r Zahlungsziel';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlshGartenTextZahlungZiel'][1]        = 'Geben Sie hier bitte den Text f&uuml;r das Zahlungsziel ein!';
+
 $GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlshGartenBeraternummer'][0]          = 'Beraternummer in DATEV';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlshGartenBeraternummer'][1]          = 'Geben Sie hier bitte die Beraternummer aus DATEV- Rechnungswesen ein!';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlshGartenMandantennummer'][0]        = 'Mandantennummer in DATEV';

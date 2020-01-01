@@ -62,6 +62,7 @@
  $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['rg_pacht_beitrag']     = 'Es sind die Mitgliedsbeitr&auml;ge f&uuml;r das Jahr %jahrbeitrag und die Pacht f&uuml;r das Jahr %jahrpacht f&auml;llig.';
  $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['rg_aufforder_zahlung'] = 'Im Einzelnen bitten wir Sie, folgende Betr&auml;ge zu entrichten:';
  $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['rg_hinweis']           = 'Sollten von Ihnen Abbuchungsauftr&auml;ge f&uuml;r Mitgliedsbeitrags- und Pachtzahlungen erteilt worden sein, bitten wir diese entsprechend zu ber&uuml;cksichtigen.';
+ $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['rg_zahlungs_ziel']     = 'Der Rechnungsbetrag wird bis zum %zahlfallig f&auml;llig!';
  $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['rg_zahlung_wohin']     = 'Ihre Zahlung ist auf folgende Bankverbindung zu leisten:';
  $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['rg_gruss']             = 'Mit freundlichen Gr&uuml;&szlig;en';
  $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['rg_gruss_funktion']    = 'Vereinsvorsitzender';

@@ -75,11 +75,13 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_config'] = array(
                                            {Verbrauchsdaten_vorjahr_legend:hide},
                                                 nlsh_garten_verbrauchsdaten_vorjahr;
                                            {Rechnung_vorbelegung_legend:hide},
-                                                nlsh_rgvorbelegung_datum,
+                                                nlsh_garten_rgvorbelegung_datum,
+                                                nlsh_garten_rgvorbelegung_zahlungsziel,
                                                 nlsh_garten_text_rg_verbrauchsdaten,
                                                 nlsh_garten_text_rg_pacht_beitrag,
                                                 nlsh_garten_text_rg_aufforder_zahlung,
-                                                nlsh_garten_text_rg_hinweis;
+                                                nlsh_garten_text_rg_hinweis,
+                                                nlsh_garten_text_rg_zahlungsziel;
                                            {DATEV_allgemein_legend:hide},
                                                 nlsh_garten_beraternummer,
                                                 nlsh_garten_mandantennummer,
@@ -154,7 +156,7 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_config'] = array(
             'inputType'                 => 'checkbox',
             'sql'                       => "char(1) NOT NULL default '0'",
         ),
-        'nlsh_rgvorbelegung_datum' => array
+        'nlsh_garten_rgvorbelegung_datum' => array
         (
             'label'                     => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlshRgvorbelegungDatum'],
             'exclude'                   => true,
@@ -166,6 +168,18 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_config'] = array(
                                                 'tl_class'   => 'w50 wizard',
                                             ),
             'sql'                       => "varchar(11) NOT NULL default ''",
+        ),
+        'nlsh_garten_rgvorbelegung_zahlungsziel' => array
+        (
+            'label'                     => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlshRgvorbelegungZahlZiel'],
+            'exclude'                   => true,
+            'inputType'                 => 'text',
+            'eval'                      => array
+                                            (
+                                                'rgxp'       => 'natural',
+                                                'tl_class'   => 'w50 wizard',
+                                            ),
+            'sql'                       => "varchar(2) NOT NULL default ''",
         ),
         'nlsh_garten_text_rg_verbrauchsdaten' => array(
             'label'                     => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlshGartenTextRgVerbrauchsdaten'],
@@ -209,7 +223,7 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_config'] = array(
                                             ),
             'sql'                       => "varchar(255) NOT NULL default ''",
         ),
-        'nlsh_garten_text_rg_hinweis' => array(
+        'nlsh_garten_text_rg_hinweis'   => array(
             'label'                     => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlshGartenTextRgHinweis'],
             'inputType'                 => 'textarea',
             'load_callback'             => array(array('tl_nlsh_garten_config', 'loadTextRgHinweis'),
@@ -221,6 +235,19 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_config'] = array(
                                                 'rows'      => 3,
                                                 'tl_class'  => 'long',
                                             ),
+            'sql'                       => "varchar(255) NOT NULL default ''",
+        ),
+        'nlsh_garten_text_rg_zahlungsziel' => array(
+            'label'                     => &$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlshGartenTextZahlungZiel'],
+            'inputType'                 => 'textarea',
+            'load_callback'             => array(array('tl_nlsh_garten_config', 'loadTextZahlungsZiel'),),
+            'eval'                      => array(
+                                            'style'     => 'height:60px;',
+                                            'maxlength' => 255,
+                                            'allowHtml' => true,
+                                            'rows'      => 3,
+                                            'tl_class'  => 'long',
+                                        ),
             'sql'                       => "varchar(255) NOT NULL default ''",
         ),
         'nlsh_garten_beraternummer' => array(
@@ -514,5 +541,26 @@ class tl_nlsh_garten_config extends Backend
         return ($field);
 
     }//end loadTextRgHinweis()
+
+    /**
+     * Vorbelegung des Rechnungstextes für dem Zahlungsziel
+     *
+     * Sollte kein Text bereits gespeichert sein, wird vorbelegt
+     *
+     * load_callback des Feldes nlsh_rgvorbelegung_zahlungsziel
+     *
+     * @param string $field Aktuelles Textfeld.
+     *
+     * @return string  Text
+     */
+    public function loadTextZahlungsZiel(string $field)
+    {
+        if ($field === '') {
+            $field = $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['rg_zahlungs_ziel'];
+        }
+
+        return ($field);
+
+    }//end loadTextZahlungsZiel()
 
 }//end class

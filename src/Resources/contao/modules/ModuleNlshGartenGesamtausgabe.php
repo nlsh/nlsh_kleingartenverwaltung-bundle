@@ -20,6 +20,7 @@ use Symfony\Bundle\FrameworkBundle\Templating\GlobalVariables;
 use Contao\NlshGartenGartenDataModel;
 use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\VarDumper\VarDumper;
+use Contao\Date;
 
 /**
  * Die Gesamtausgabe der Abrechnungsdaten erstellen
@@ -380,8 +381,19 @@ class ModuleNlshGartenGesamtausgabe extends \Module
                 $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_text_rg_pacht_beitrag_formated']
             );
              // Datum setzen.
-            if (empty($gartenGesamtAbrechnung['einstellungen']['nlsh_rgvorbelegung_datum']) === true) {
-                $gartenGesamtAbrechnung['einstellungen']['nlsh_rgvorbelegung_datum'] = time();
+            if ($gartenGesamtAbrechnung['einstellungen']['nlsh_garten_rgvorbelegung_datum'] === '') {
+                $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_time_rgvorbelegung_datum'] = time();
+                $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_time_rgvorbelegung_datum_formated'] = Date::parse($GLOBALS['TL_CONFIG']['dateFormat'], $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_time_rgvorbelegung_datum']);
+            }
+             // Fälligkeit setzen
+            if ($gartenGesamtAbrechnung['einstellungen']['nlsh_garten_rgvorbelegung_zahlungsziel'] !== '') {
+                $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_time_rgvorbelegung_zahlungsziel_datum'] = $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_time_rgvorbelegung_datum'] + ($gartenGesamtAbrechnung['einstellungen']['nlsh_garten_rgvorbelegung_zahlungsziel'] * (60 * 60 * 24));
+                $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_text_rgvorbelegung_zahlungsziel_datum'] = Date::parse($GLOBALS['TL_CONFIG']['dateFormat'], $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_time_rgvorbelegung_zahlungsziel_datum']);
+                $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_text_rgzahlungsziel_formated']         = str_replace(
+                    '%zahlfallig',
+                    $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_text_rgvorbelegung_zahlungsziel_datum'],
+                    $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_text_rg_zahlungsziel']);
+                VarDumper::dump($gartenGesamtAbrechnung);
             }
         } else {
             $gartenGesamtAbrechnung['einstellungen'] = false;

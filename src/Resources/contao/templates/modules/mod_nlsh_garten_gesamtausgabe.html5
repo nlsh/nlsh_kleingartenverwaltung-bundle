@@ -6,7 +6,7 @@ $GLOBALS['TL_JAVASCRIPT']['nlsh_Kleingartenverwaltung'] = 'bundles/nlshkleingart
 <?php if ($this->headline): ?>
 <<?php echo $this->hl; ?>><?php echo $this->headline; ?></<?php echo $this->hl; ?>>
 <?php endif; ?>
-
+<?php echo $this->gesamtAusgabe['einstellungen']['nlsh_garten_text_rgvorbelegung_zahlungsziel']; ?>
 <!--Fehlermeldung ausgeben-->
 <?php if ($this->gesamtAusgabe['error'] == true): ?>
     <p class = "error">
