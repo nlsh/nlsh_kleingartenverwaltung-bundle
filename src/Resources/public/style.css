@@ -144,7 +144,7 @@ width: 80%;
 text-align: right;
 }
 
-.rg_verbrauch, .rg_pacht_beitrag, .rg_aufforder_zahlung , .rg_zahlung_wohin, .rg_hinweis, .rg_zahlziel, {
+.rg_verbrauch, .rg_pacht_beitrag, .rg_aufforder_zahlung , .rg_zahlung_wohin, .rg_hinweis, .rg_zahlziel {
 margin-top: 1em;
 }
 

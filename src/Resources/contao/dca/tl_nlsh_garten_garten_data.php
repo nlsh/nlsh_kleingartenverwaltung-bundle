@@ -1,6 +1,6 @@
 <?php
 /**
- * Erweiterung des tl_nlsh_garten_verein_stammdaten DCA`s
+ * Erweiterung des tl_nlsh_garten_garten_data DCA`s
  *
  * @package   nlsh/nlsh_kleingartenverwaltung-bundle
  * @author    Nils Heinold
@@ -12,6 +12,7 @@
 use Symfony\Component\VarDumper\VarDumper;
 use Contao\NlshGartenVereinStammdatenModel;
 use Contao\NlshGartenGartenDataModel;
+use Contao\UserModel;
 
 /*
  * Table tl_nlsh_garten_garten_data
@@ -406,6 +407,7 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_garten_data'] = array(
  */
 class tl_nlsh_garten_garten_data extends Backend
 {
+
     /**
      * Den Backenduser importieren
      *
@@ -432,21 +434,23 @@ class tl_nlsh_garten_garten_data extends Backend
      */
     public function nameReadonly(\DataContainer $dc)
     {
-         // Neuenlage eines Garten kontrollieren
-         // dazu den tstamp des Datensatzes heraussuchen.
-        $tstamp = $this->Database->prepare('
+        // Neuenlage eines Garten kontrollieren
+        // dazu den tstamp des Datensatzes heraussuchen.
+        $tstamp = $this->Database->prepare(
+            '
                                         SELECT  `tstamp`
                                         FROM    `tl_nlsh_garten_garten_data`
-                                        WHERE   `id` = ?')
-                    ->execute($dc->id);
+                                        WHERE   `id` = ?'
+            )
+            ->execute($dc->id);
 
-         // Wenn tstamp != '0', dann Nr nur lesbar.
-        if ($tstamp->tstamp !== '0') {
-            $GLOBALS['TL_DCA']['tl_nlsh_garten_garten_data']['fields']['nr']['eval'] = array(
-                                                                            'readonly' => true,
-                                                                            'tl_class' => 'w50',
-            );
-        }
+            // Wenn tstamp != '0', dann Nr nur lesbar.
+            if ($tstamp->tstamp !== '0') {
+                $GLOBALS['TL_DCA']['tl_nlsh_garten_garten_data']['fields']['nr']['eval'] = array(
+                    'readonly' => true,
+                    'tl_class' => 'w50',
+                );
+            }
 
     }//end nameReadonly()
 
@@ -466,20 +470,20 @@ class tl_nlsh_garten_garten_data extends Backend
      */
     public function bottomDelete(array $arrRow, string $href, string $label, string $title, string $icon, string $attributes, string $strTable)
     {
-         // Höchstest Jahr abfragen.
+        // Höchstest Jahr abfragen.
         $modelTopStammdatenYear = NlshGartenVereinStammdatenModel::findAll(array('order' => '`jahr` DESC'));
 
-         // Wenn höchstest Jahr, Kontrolle, ob im vorherigem Jahr angelegt.
+        // Wenn höchstest Jahr, Kontrolle, ob im vorherigem Jahr angelegt.
         if ($modelTopStammdatenYear->id === $arrRow['pid']) {
-             // Zuerst Abfrage Stammdaten zwei Jahre vorher, wegen ID.
+            // Zuerst Abfrage Stammdaten zwei Jahre vorher, wegen ID.
             $modelStammdaten2YearsBefore = NlshGartenVereinStammdatenModel::findOneByJahr(($modelTopStammdatenYear->jahr) - 2);
 
-             // Abfrage Garten zwei Jahre vorher.
+            // Abfrage Garten zwei Jahre vorher.
             $modelGarten2YearsBefore = NlshGartenGartenDataModel::findBy(array('nr=?', 'pid=?'), array($arrRow['nr'], $modelStammdaten2YearsBefore->id));
 
-             // Kontrolle, ob Garten nicht existierte!
+            // Kontrolle, ob Garten nicht existierte!
             if ($modelGarten2YearsBefore === null) {
-                 // Wenn nicht, Löschen ermöglichen.
+                // Wenn nicht, Löschen ermöglichen.
                 return '<a href="' . $this->addToUrl($href . '&amp;id=' . $arrRow['id']) . '" title="' . StringUtil::specialchars($title) . '"' . $attributes . '>' . \Image::getHtml($icon, $label) . '</a> ';
             }
 
@@ -503,13 +507,13 @@ class tl_nlsh_garten_garten_data extends Backend
      */
     public function listGarten(array $arrRow)
     {
-         // Gartennummer und Gartennutzer.
+        // Gartennummer und Gartennutzer.
         $line  = '<div>';
         $line .= $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['listGarten'];
         $line .= '<span style ="display:inline-block; width:21em; margin-left: 1em;">';
         $line .= $arrRow['nr'] . '</span>';
 
-         // Kompletten Namen des Gartenbesitzers, oder Text, Garten nicht vergeben.
+        // Kompletten Namen des Gartenbesitzers, oder Text, Garten nicht vergeben.
         if (empty($arrRow['name_komplett']) === false) {
             $line .= '<span style =" margin-left: 1em;">';
             $line .= $arrRow['name_komplett'] . '</span>';
@@ -519,8 +523,8 @@ class tl_nlsh_garten_garten_data extends Backend
             $line .= '</span>';
         }
 
-         // Ende Gartennummer und Gartennutzer.
-         // Beginn Tabelle, ob Strom/ Wasser abgerechnet wurde.
+        // Ende Gartennummer und Gartennutzer.
+        // Beginn Tabelle, ob Strom/ Wasser abgerechnet wurde.
         $line .= '<span style = "float:right">';
 
         if (empty($arrRow['strom']) === false) {
@@ -539,7 +543,7 @@ class tl_nlsh_garten_garten_data extends Backend
             $line .= '</span>';
         }//end if
 
-         // Anzeige, ob Wasser abgerechnet wurde.
+        // Anzeige, ob Wasser abgerechnet wurde.
         if (empty($arrRow['wasser']) === false) {
             $line .= '<span style = "padding-right: 15px; color: green">';
             $line .= $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['listGartenWasser'];
@@ -578,41 +582,47 @@ class tl_nlsh_garten_garten_data extends Backend
         $jahr    = array();
         $gruppe  = array();
 
-         // Tabelle der Gartenbesitzer auslesen
-         // zuerst das Jahr holen.
-        $jahr = $this->Database->prepare('
+        // Tabelle der Gartenbesitzer auslesen
+        // zuerst das Jahr holen.
+        $jahr = $this->Database->prepare(
+            '
                                     SELECT      `jahr`
                                     FROM        `tl_nlsh_garten_verein_stammdaten`
-                                    WHERE       `id` = ?')
-                     ->execute($dc->activeRecord->pid);
+                                    WHERE       `id` = ?'
+            )
+            ->execute($dc->activeRecord->pid);
 
-         // Jetzt die Mitgliedergruppe des Jahres.
-        $gruppe = $this->Database->prepare('
+            // Jetzt die Mitgliedergruppe des Jahres.
+            $gruppe = $this->Database->prepare(
+                '
                                     SELECT      `mitgliedergruppe_id`
                                     FROM        `tl_nlsh_garten_verein_stammdaten`
-                                    WHERE       `jahr` = ?')
-                     ->execute($jahr->jahr);
+                                    WHERE       `jahr` = ?'
+                )
+                ->execute($jahr->jahr);
 
-         // Jetzt die Namen der Mitgliedergruppe.
-        $objCouples = $this->Database->query('
+                // Jetzt die Namen der Mitgliedergruppe.
+                $objCouples = $this->Database->query(
+                    '
                                     SELECT      *
                                     FROM        `tl_member`
-                                    ORDER BY    lastname, firstname ASC');
+                                    ORDER BY    lastname, firstname ASC'
+                    );
 
-         // Jetzt die Namen und Vornamen der Mitgliedergruppe zusammenbasteln.
-        while ($objCouples->next()) {
-            if (strpos($objCouples->groups, '"' . $gruppe->mitgliedergruppe_id . '";') == true) {
-                $k = $objCouples->id;
-                $v = $objCouples->lastname;
-                if ($objCouples->firstname) {
-                    $v .= ', ' . $objCouples->firstname;
+                // Jetzt die Namen und Vornamen der Mitgliedergruppe zusammenbasteln.
+                while ($objCouples->next()) {
+                    if (strpos($objCouples->groups, '"' . $gruppe->mitgliedergruppe_id . '";') == true) {
+                        $k = $objCouples->id;
+                        $v = $objCouples->lastname;
+                        if ($objCouples->firstname) {
+                            $v .= ', ' . $objCouples->firstname;
+                        }
+
+                        $couples[$k] = $v;
+                    }
                 }
 
-                $couples[$k] = $v;
-            }
-        }
-
-        return $couples;
+                return $couples;
 
     }//end holeNamen()
 
@@ -634,22 +644,26 @@ class tl_nlsh_garten_garten_data extends Backend
     {
         if ($field !== '') {
             $nameKomplett = $this->Database->prepare('SELECT * FROM `tl_member` WHERE `id` = ?')
-                        ->execute($field);
+            ->execute($field);
 
             $nameKomplett = $nameKomplett->lastname . ', ' . $nameKomplett->firstname;
 
-            $speichern = $this->Database->prepare('
+            $speichern = $this->Database->prepare(
+                '
                                     UPDATE      `tl_nlsh_garten_garten_data`
                                     SET         `name_komplett` = ?
-                                    WHERE        tl_nlsh_garten_garten_data.`id` = ?')
-                        ->execute($nameKomplett, $dc->id);
+                                    WHERE        tl_nlsh_garten_garten_data.`id` = ?'
+                )
+                ->execute($nameKomplett, $dc->id);
         } else {
-            $speichern = $this->Database->prepare("
+            $speichern = $this->Database->prepare(
+                "
                                     UPDATE      `tl_nlsh_garten_garten_data`
                                     SET         `name_komplett` = ''
-                                    WHERE       tl_nlsh_garten_garten_data.`id` = ?")
-                        ->execute($dc->id);
-        }
+                                    WHERE       tl_nlsh_garten_garten_data.`id` = ?"
+                )
+                ->execute($dc->id);
+        }//end if
 
         return $field;
 
@@ -666,79 +680,96 @@ class tl_nlsh_garten_garten_data extends Backend
      */
     public function getOutYears(\DataContainer $dc)
     {
-         $objJahre = $this->Database->prepare('
+        $objJahre = $this->Database->prepare(
+            '
                                      SELECT      `pid` ,
                                          (SELECT     `jahr`
                                           FROM       `tl_nlsh_garten_verein_stammdaten`
                                           WHERE      `id` = tl_nlsh_garten_garten_data.pid
                                      )
                                                  `jahr`,
+                                                 `name_komplett`,
                                                  `strom` ,
                                                  `wasser`
                                      FROM        `tl_nlsh_garten_garten_data`
                                      WHERE       (`nr` = ?)
                                              AND (`pid` != ?)
-                                     ORDER BY    `pid` DESC')
-                     ->execute($dc->activeRecord->nr, $dc->activeRecord->pid);
+                                     ORDER BY    `pid` DESC'
+            )
+            ->execute($dc->activeRecord->nr, $dc->activeRecord->pid);
 
-         $actYear = $this->Database->prepare('
+            $actYear = $this->Database->prepare(
+                '
                                      SELECT      `jahr`
-                                     FROM        `tl_nlsh_garten_verein_stammdaten` WHERE `id` = ?')
-                    ->execute($dc->activeRecord->pid);
+                                     FROM        `tl_nlsh_garten_verein_stammdaten` WHERE `id` = ?'
+                )
+                ->execute($dc->activeRecord->pid);
 
-         $arrOutYears[] = array(
-             'jahr'    => $actYear->jahr,
-             'wasser'  => $dc->activeRecord->wasser,
-             'strom'   => $dc->activeRecord->strom,
-             'tdClass' => 'style = "text-align: right; color:red;"',
-         );
+                $arrOutYears[] = array(
+                    'jahr'    => $actYear->jahr,
+                    'wasser'  => $dc->activeRecord->wasser,
+                    'strom'   => $dc->activeRecord->strom,
+                    'nutzer'  => $dc->activeRecord->name_komplett,
+                    'tdClass' => 'class = "active"',
+                );
 
-         while ($objJahre->next()) {
-             $arrOutYears[] = array(
-                 'jahr'    => $objJahre->jahr,
-                 'wasser'  => $objJahre->wasser,
-                 'strom'   => $objJahre->strom,
-                 'tdClass' => 'style = "text-align: right;"',
-             );
-         }
+                while ($objJahre->next()) {
+                    $arrOutYears[] = array(
+                        'jahr'    => $objJahre->jahr,
+                        'wasser'  => $objJahre->wasser,
+                        'strom'   => $objJahre->strom,
+                        'nutzer'  => $objJahre->name_komplett,
+                        'tdClass' => '',
+                    );
+                }
 
-          // Sortieren lassen.
-         rsort($arrOutYears);
+                // Sortieren lassen.
+                rsort($arrOutYears);
 
-          // Ausgabe starten für Verbrauch vorhandene Jahre.
-         $getOut  = '<div style="float:left; width:50%; margin: 0px 0 0px 2%;">';
-         $getOut .= '<span style="font-weight:bold; display: block; margin-top:1em;">';
-         $getOut .= $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['vorjahreswerte'] . '</span>';
-         $getOut .= '<table style = "margin:10px 2px; text-align: right;">';
-         $getOut .= '<colgroup><col /><col style = "width:2em"/><col /><col style = "width:2em"/><col /></colgroup>';
-         $getOut .= '<thead><tr><th>';
-         $getOut .= $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['jahr'];
-         $getOut .= '</th><th>&nbsp;</th><th>';
-         $getOut .= $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['verbrauchstrom'] . '</th>';
-         $getOut .= '<th>&nbsp;</th><th>';
-         $getOut .= $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['verbrauchwasser'];
-         $getOut .= '</th></tr></thead>';
-         $getOut .= '<tbody><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>';
+                // Ausgabe starten für Verbrauch vorhandene Jahre.
+                // Div- Starten.
+                $getOut = '<div class = "nlshStatistik" style="float:left; width:50%; margin: 0px 0 0px 2%;">';
 
-         $count = count($arrOutYears);
-         for ($i = 0; $i < $count; $i++) {
-             $getOut .= '<tr><td ' . $arrOutYears[$i]['tdClass'] . '>';
-             $getOut .= $arrOutYears[$i]['jahr'] . '</td><td>&nbsp;</td>';
-             $getOut .= '<td ' . $arrOutYears[$i]['tdClass'] . '>';
-             $getOut .= number_format($arrOutYears[$i]['strom'], 2, ',', '.') . ' ';
-             $getOut .= $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['strom_einheit'];
-             $getOut .= '</td><td>&nbsp;</td>';
-             $getOut .= '<td ' . $arrOutYears[$i]['tdClass'] . '>';
-             $getOut .= number_format($arrOutYears[$i]['wasser'], 2, ',', '.') . ' ';
-             $getOut .= $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['wasser_einheit'];
-             $getOut .= '</td></tr>';
-         }
+                // Ausgabe Überschrift.
+                $getOut .= '<span style="font-weight:bold; display: block; margin-top:1em;">';
+                $getOut .= $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['vorjahreswerte'] . '</span>';
 
-         $getOut .= '</tbody>';
-         $getOut .= '</table>';
-         $getOut .= '</div>';
+                // Tabelle zur Ausgabe erzeugen.
+                $getOut .= '<table style = "margin:10px 2px; text-align: right;">';
+                $getOut .= '<colgroup><col /><col style = "width:2em;"/><col /><col style = "width:2em"/><col /><col style = "width:2em"/><col /></colgroup>';
+                $getOut .= '<thead><tr><th>';
+                $getOut .= $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['jahr'];
+                $getOut .= '</th><th>&nbsp;</th><th>';
+                $getOut .= $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['verbrauchstrom'] . '</th>';
+                $getOut .= '<th>&nbsp;</th><th>';
+                $getOut .= $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['verbrauchwasser'];
+                $getOut .= '<th>&nbsp;</th><th>';
+                $getOut .= $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['nutzungUserId'][0];
+                $getOut .= '</th></tr></thead>';
+                $getOut .= '<tbody><tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>';
 
-         return $getOut;
+                $count = count($arrOutYears);
+                for ($i = 0; $i < $count; $i++) {
+                    $getOut .= '<tr><td ' . $arrOutYears[$i]['tdClass'] . ' style = "text-align:right;">';
+                    $getOut .= $arrOutYears[$i]['jahr'] . '</td><td>&nbsp;</td>';
+                    $getOut .= '<td ' . $arrOutYears[$i]['tdClass'] . ' style = "text-align:right;">';
+                    $getOut .= number_format($arrOutYears[$i]['strom'], 2, ',', '.') . ' ';
+                    $getOut .= $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['strom_einheit'];
+                    $getOut .= '</td><td>&nbsp;</td>';
+                    $getOut .= '<td ' . $arrOutYears[$i]['tdClass'] . ' style = "text-align:right;">';
+                    $getOut .= number_format($arrOutYears[$i]['wasser'], 2, ',', '.') . ' ';
+                    $getOut .= $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['wasser_einheit'];
+                    $getOut .= '</td><td>&nbsp;</td>';
+                    $getOut .= '<td ' . $arrOutYears[$i]['tdClass'] . ' style = "text-align:left;">';
+                    $getOut .= $arrOutYears[$i]['nutzer'];
+                    $getOut .= '</td></tr>';
+                }
+
+                $getOut .= '</tbody>';
+                $getOut .= '</table>';
+                $getOut .= '</div>';
+
+                return $getOut;
 
     }//end getOutYears()
 

@@ -526,27 +526,28 @@ class tl_nlsh_garten_verein_stammdaten extends Backend
      */
     public function newYear(\DataContainer $dc)
     {
-         // Neu angelegten Datensatz holen.
-         // In ihm existiert nur die ID!
+        // Neu angelegten Datensatz holen.
+        // In ihm existiert nur die ID!
         $newStammdatenJahr = NlshGartenVereinStammdatenModel::findOneById($dc->id);
 
-         // Neuanlage, wenn tstamp = 0, deshalb nur dann weiter.
+        // Neuanlage, wenn tstamp = 0, deshalb nur dann weiter.
         if ($newStammdatenJahr->tstamp === '0') {
-             // Anzahl der Datensätze herausfinden.
+            // Anzahl der Datensätze herausfinden.
             $arrAnz = NlshGartenVereinStammdatenModel::countAll();
 
-             // Wenn mehr als ein Datensatz,
-             // dann vorbelegen des neuen Jahres mit den Daten des alten Jahr.
+            // Wenn mehr als ein Datensatz,
+            // dann vorbelegen des neuen Jahres mit den Daten des alten Jahr.
             if ($arrAnz > 1) {
-                 // Das höchste Jahr abfragen.
+                // Das höchste Jahr abfragen.
                 $lastYear = $this->Database->prepare('SELECT MAX(jahr) FROM tl_nlsh_garten_verein_stammdaten')->execute()->fetchAssoc();
 
                 $lastStammdatenJahr = NlshGartenVereinStammdatenModel::findOneByJahr($lastYear['MAX(jahr)']);
 
-                 // Und Daten übernehmen.
-                $newStammdatenJahr->jahr                = $lastStammdatenJahr->jahr + 1;
+                // Und Daten übernehmen.
+                $newStammdatenJahr->jahr                = ($lastStammdatenJahr->jahr + 1);
                 $newStammdatenJahr->tstamp              = time();
                 $newStammdatenJahr->name                = $lastStammdatenJahr->name;
+                $newStammdatenJahr->adresszusatz        = $lastStammdatenJahr->adresszusatz;
                 $newStammdatenJahr->vereinsvorsitzender = $lastStammdatenJahr->vereinsvorsitzender;
                 $newStammdatenJahr->strasse             = $lastStammdatenJahr->strasse;
                 $newStammdatenJahr->plzort              = $lastStammdatenJahr->plzort;
@@ -570,11 +571,11 @@ class tl_nlsh_garten_verein_stammdaten extends Backend
                 $newStammdatenJahr->amtsgericht         = $lastStammdatenJahr->amtsgericht;
                 $newStammdatenJahr->amtsgericht_nummer  = $lastStammdatenJahr->amtsgericht_nummer;
 
-                 // Und sichern.
+                // Und sichern.
                 $newStammdatenJahr->save();
 
-                 // Jetzt auch die Gärten vortragen, wenn vorhanden
-                 // jetzt alle Gärten des Vorjahres auslesen.
+                // Jetzt auch die Gärten vortragen, wenn vorhanden
+                // jetzt alle Gärten des Vorjahres auslesen.
                 $garten = NlshGartenGartenDataModel::findByPid($lastStammdatenJahr->id);
 
                 if ($garten !== null) {
@@ -654,10 +655,10 @@ class tl_nlsh_garten_verein_stammdaten extends Backend
      */
     public function firstNewYear(\DataContainer $dc)
     {
-         // Kontrolle, ob es einen Eintrag mit der aktuellen ID gibt.
+        // Kontrolle, ob es einen Eintrag mit der aktuellen ID gibt.
         $modelGartenConfig = NlshGartenConfigModel::findOneByPid($dc->id);
 
-         // Wenn nicht, Neuanlage und Vorbelegung.
+        // Wenn nicht, Neuanlage und Vorbelegung.
         if ($modelGartenConfig === null) {
             $newModelStammdatenConfig         = new NlshGartenConfigModel();
             $newModelStammdatenConfig->pid    = $dc->id;
@@ -688,21 +689,21 @@ class tl_nlsh_garten_verein_stammdaten extends Backend
      */
     public function optionStammdatenjahr(\DataContainer $dc)
     {
-         // Wenn Eintrag vorhanden, dann diesen wieder zurück.
+        // Wenn Eintrag vorhanden, dann diesen wieder zurück.
         $jahr = array();
 
         if (empty($dc->activeRecord->jahr) !== true) {
             $jahr[] = $dc->activeRecord->jahr;
         } else {
-             // Wenn keiner vorhanden, dann Kontrolle ob Stammdaten schon vorhanden
-             // dummerweise ist immer mindestens ein Wert vorhanden,
-             // wenn die Dateneingabe aufgerufen wird
-             // daher nur wenn einer (der Erste) vorhanden, dann Jahr wählbar
-             // else brauch ich nicht, da wenn mehr als zwei Einträge,
-             // schlägt der onload_callback zu.
+            // Wenn keiner vorhanden, dann Kontrolle ob Stammdaten schon vorhanden
+            // dummerweise ist immer mindestens ein Wert vorhanden,
+            // wenn die Dateneingabe aufgerufen wird
+            // daher nur wenn einer (der Erste) vorhanden, dann Jahr wählbar
+            // else brauch ich nicht, da wenn mehr als zwei Einträge,
+            // schlägt der onload_callback zu.
             $arrAnz = NlshGartenVereinStammdatenModel::countAll();
 
-             // Wenn nur ein Eintrag, dann ab aktuellem Jahr bis -5 Jahre wählbar.
+            // Wenn nur ein Eintrag, dann ab aktuellem Jahr bis -5 Jahre wählbar.
             if ($arrAnz === 1) {
                 $datum   = getdate();
                 $aktJahr = $datum['year'];
@@ -759,7 +760,7 @@ class tl_nlsh_garten_verein_stammdaten extends Backend
      */
     public function bottomDeletPeriode(array $arrRow, string $href, string $label, string $title, string $icon, string $attributes, string $strTable)
     {
-         // Höchsten Datensatz herauslesen.
+        // Höchsten Datensatz herauslesen.
         $objStammdatenJahr = NlshGartenVereinStammdatenModel::findAll(array('order' => '`jahr` DESC'));
 
         if ($objStammdatenJahr->jahr === $arrRow['jahr']) {
@@ -767,7 +768,7 @@ class tl_nlsh_garten_verein_stammdaten extends Backend
             return '<a href="' . $this->addToUrl($href . '&amp;id=' . $arrRow['id']) . '" title="' . StringUtil::specialchars($title) . '"' . $attributes . '>' . \Image::getHtml($icon, $label) . '</a> ';
         }
 
-         // Ansonsten kein löschen möglich.
+        // Ansonsten kein löschen möglich.
         $attributes = 'onclick="confirm(\'' . $GLOBALS['TL_LANG']['tl_nlsh_garten_verein_stammdaten']['cantDelete'][1] . '\');return false;Backend.getScrollOffset()"';
         $title      = $GLOBALS['TL_LANG']['tl_nlsh_garten_verein_stammdaten']['cantDelete'][1];
 

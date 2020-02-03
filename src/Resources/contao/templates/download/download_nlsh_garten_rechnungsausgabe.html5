@@ -26,7 +26,7 @@
             <?php echo $this->rg_outPut['garten_abrechnung']['member']['postal'] . " " . $this->rg_outPut['garten_abrechnung']['member']['city'] . '<br />'; ?>
          </div>
         <div class = "adress_date">
-            <?php echo $this->rg_outPut['einstellungen']['nlsh_garten_time_rgvorbelegung_datum_formated'] ?>
+            <?php echo $this->rg_outPut['einstellungen']['nlsh_garten_text_rgvorbelegung_datum_formated'] ?>
         </div>
     </div>
     <div class = "rg_betreff">

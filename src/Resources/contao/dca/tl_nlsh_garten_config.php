@@ -1,6 +1,6 @@
 <?php
 /**
- * Erweiterung des tl_nlsh_garten_verein_stammdaten DCA`s
+ * Erweiterung des tl_nlsh_garten_config DCA`s
  *
  * @package   nlsh/nlsh_kleingartenverwaltung-bundle
  * @author    Nils Heinold
@@ -68,7 +68,7 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_config'] = array(
      // Palettes.
     'palettes'    => array(
         '__selector__' => array(''),
-        'default'      => ' jahr;
+        'default'      =>                       'jahr;
                                            {Vorschuss_beitrag_pacht_legend:hide},
                                                 nlsh_garten_vorschuss_beitrag,
                                                 nlsh_garten_vorschuss_pacht;

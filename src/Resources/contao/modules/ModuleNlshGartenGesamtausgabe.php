@@ -231,9 +231,9 @@ class ModuleNlshGartenGesamtausgabe extends \Module
             $objBuchungssatz->editFirstLine('Erzeugt am', date('YmdHiu'));
             $objBuchungssatz->editFirstLine('Berater', $this->dataOutput['einstellungen']['nlsh_garten_beraternummer']);
             $objBuchungssatz->editFirstLine('Mandant', $this->dataOutput['einstellungen']['nlsh_garten_mandantennummer']);
-            $objBuchungssatz->editFirstLine('WjBeginn', date('Y', $this->dataOutput['einstellungen']['nlsh_rgvorbelegung_datum']) . '0101');
-            $objBuchungssatz->editFirstLine('Datum von', date('Ymd', $this->dataOutput['einstellungen']['nlsh_rgvorbelegung_datum']));
-            $objBuchungssatz->editFirstLine('Datum bis', date('Ymd', $this->dataOutput['einstellungen']['nlsh_rgvorbelegung_datum']));
+            $objBuchungssatz->editFirstLine('WjBeginn', date('Y', $this->dataOutput['einstellungen']['nlsh_garten_time_rgvorbelegung_datum']) . '0101');
+            $objBuchungssatz->editFirstLine('Datum von', date('Ymd', $this->dataOutput['einstellungen']['nlsh_garten_time_rgvorbelegung_datum']));
+            $objBuchungssatz->editFirstLine('Datum bis', date('Ymd', $this->dataOutput['einstellungen']['nlsh_garten_time_rgvorbelegung_datum']));
             $objBuchungssatz->editFirstLine('Bezeichnung', 'Gartenabrechnung');
 
              // Jetzt die Daten einfügen.
@@ -346,19 +346,19 @@ class ModuleNlshGartenGesamtausgabe extends \Module
             $gartenGesamtAbrechnung['einstellungen'] = $this->arrEinstellungen;
 
              // Abrechnungsjahr für Beitrag, Pacht und Verbrauchsdaten eintragen.
-            if (isset($gartenGesamtAbrechnung['einstellungen']['nlsh_garten_vorschuss_beitrag']) === true) {
+            if ($gartenGesamtAbrechnung['einstellungen']['nlsh_garten_vorschuss_beitrag'] !== '') {
                 $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_ausgabejahr_beitrag'] = ($gartenGesamtAbrechnung['ausgabejahr'] + 1);
             } else {
                 $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_ausgabejahr_beitrag'] = $gartenGesamtAbrechnung['ausgabejahr'];
             }
 
-            if (isset($gartenGesamtAbrechnung['einstellungen']['nlsh_garten_vorschuss_pacht']) === true) {
+            if ($gartenGesamtAbrechnung['einstellungen']['nlsh_garten_vorschuss_pacht'] !== '') {
                 $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_ausgabejahr_pacht'] = ($gartenGesamtAbrechnung['ausgabejahr'] + 1);
             } else {
                 $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_ausgabejahr_pacht'] = $gartenGesamtAbrechnung['ausgabejahr'];
             }
 
-            if (isset($gartenGesamtAbrechnung['einstellungen']['nlsh_garten_verbrauchsdaten_vorjahr']) === true) {
+            if ($gartenGesamtAbrechnung['einstellungen']['nlsh_garten_verbrauchsdaten_vorjahr'] !== '') {
                 $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_ausgabejahr_verbrauchsdaten'] = ($gartenGesamtAbrechnung['ausgabejahr'] - 1);
             } else {
                 $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_ausgabejahr_verbrauchsdaten'] = $gartenGesamtAbrechnung['ausgabejahr'];
@@ -383,17 +383,20 @@ class ModuleNlshGartenGesamtausgabe extends \Module
              // Datum setzen.
             if ($gartenGesamtAbrechnung['einstellungen']['nlsh_garten_rgvorbelegung_datum'] === '') {
                 $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_time_rgvorbelegung_datum'] = time();
-                $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_time_rgvorbelegung_datum_formated'] = Date::parse($GLOBALS['TL_CONFIG']['dateFormat'], $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_time_rgvorbelegung_datum']);
+                $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_text_rgvorbelegung_datum_formated'] = Date::parse($GLOBALS['TL_CONFIG']['dateFormat'], $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_time_rgvorbelegung_datum']);
+            } else {
+                $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_time_rgvorbelegung_datum'] = $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_rgvorbelegung_datum'];
+                $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_text_rgvorbelegung_datum_formated'] = Date::parse($GLOBALS['TL_CONFIG']['dateFormat'], $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_rgvorbelegung_datum']);
             }
              // Fälligkeit setzen
             if ($gartenGesamtAbrechnung['einstellungen']['nlsh_garten_rgvorbelegung_zahlungsziel'] !== '') {
                 $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_time_rgvorbelegung_zahlungsziel_datum'] = $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_time_rgvorbelegung_datum'] + ($gartenGesamtAbrechnung['einstellungen']['nlsh_garten_rgvorbelegung_zahlungsziel'] * (60 * 60 * 24));
                 $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_text_rgvorbelegung_zahlungsziel_datum'] = Date::parse($GLOBALS['TL_CONFIG']['dateFormat'], $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_time_rgvorbelegung_zahlungsziel_datum']);
-                $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_text_rgzahlungsziel_formated']         = str_replace(
+                $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_text_rgzahlungsziel_formated']          = str_replace(
                     '%zahlfallig',
                     $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_text_rgvorbelegung_zahlungsziel_datum'],
                     $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_text_rg_zahlungsziel']);
-                VarDumper::dump($gartenGesamtAbrechnung);
+                // VarDumper::dump($gartenGesamtAbrechnung);
             }
         } else {
             $gartenGesamtAbrechnung['einstellungen'] = false;
