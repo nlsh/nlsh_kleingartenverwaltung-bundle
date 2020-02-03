@@ -32,6 +32,8 @@ $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['nutzungUserId'][0]           
 $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['nutzungUserId'][1]              = 'Geben Sie hier bitte den Nutzer des Gartens ein!';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['nameKomplett'][0]               = 'Name';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['nameKomplett'][1]               = '';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['editNutzungUserId'][0]          = 'Quellelement bearbeiten';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['editNutzungUserId'][1]          = 'Das Quellelement ID %s bearbeiten';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['pachtJaNein'][0]                = 'Pacht berechnen?';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['pachtJaNein'][1]                = 'Soll f&uuml;r dieses Jahr die Pacht berechnet werden?';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['beitragJaNein'][0]              = 'Beitrag berechnen?';

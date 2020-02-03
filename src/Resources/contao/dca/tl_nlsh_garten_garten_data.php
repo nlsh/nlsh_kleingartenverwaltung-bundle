@@ -216,6 +216,9 @@ $GLOBALS['TL_DCA']['tl_nlsh_garten_garten_data'] = array(
                                      'blankOptionLabel'   => $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['nichtVergeben'],
                                      'tl_class'           => 'w50',
             ),
+            'wizard'           => array(
+                                   array('tl_nlsh_garten_garten_data', 'editNutzungUserId')
+            ),
             'sql'              => "int(11) NOT NULL default '0'",
         ),
         'name_komplett' => array
@@ -495,6 +498,21 @@ class tl_nlsh_garten_garten_data extends Backend
         }
 
     }//end bottomDelete()
+
+    /**
+     * Bearbeitung des Nutzers ermöglichen
+     *
+     * Rückgabe des Edit- Wizards
+     *
+     * @param \DataContainer $dc Contao- DataContainer- Objekt.
+     *
+     * @return string  html- Text für den Wizard
+     */
+    public function editNutzungUserId(\DataContainer $dc)
+    {VarDumper::dump($dc);
+    return ($dc->value < 1) ? '' : ' <a href="contao/main.php?do=member&amp;act=edit&amp;id=' . $dc->value . '&amp;popup=1&amp;nb=1&amp;rt=' . REQUEST_TOKEN . '" title="' . sprintf(StringUtil::specialchars($GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['editNutzungUserId'][1]), $dc->value) . '" onclick="Backend.openModalIframe({\'title\':\'' . StringUtil::specialchars(str_replace("'", "\\'", sprintf($GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['editNutzungUserId'][1], $dc->value))) . '\',\'url\':this.href});return false">' . Image::getHtml('alias.svg', $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['editNutzungUserId'][0]) . '</a>';
+
+    }//end editNutzungUserId()
 
     /**
      * Auflistung der Gärten in der Übersicht erzeugen
