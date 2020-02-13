@@ -509,7 +509,7 @@ class tl_nlsh_garten_garten_data extends Backend
      * @return string  html- Text für den Wizard
      */
     public function editNutzungUserId(\DataContainer $dc)
-    {VarDumper::dump($dc);
+    {
     return ($dc->value < 1) ? '' : ' <a href="contao/main.php?do=member&amp;act=edit&amp;id=' . $dc->value . '&amp;popup=1&amp;nb=1&amp;rt=' . REQUEST_TOKEN . '" title="' . sprintf(StringUtil::specialchars($GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['editNutzungUserId'][1]), $dc->value) . '" onclick="Backend.openModalIframe({\'title\':\'' . StringUtil::specialchars(str_replace("'", "\\'", sprintf($GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['editNutzungUserId'][1], $dc->value))) . '\',\'url\':this.href});return false">' . Image::getHtml('alias.svg', $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['editNutzungUserId'][0]) . '</a>';
 
     }//end editNutzungUserId()
