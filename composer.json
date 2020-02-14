@@ -1,61 +1,64 @@
 {
-    "name" : "nlsh/nlsh_kleingartenverwaltung-bundle",
-    "type" : "contao-bundle",
-    "description" : "Contao 4 Bundle zur Abrechnung eines Gartenvereines - Contao 4 bundle to invoise a garden club",
-    "keywords" : [
-        "contao",
-        "extension",
-        "garden",
-        "garden club",
-        "Garten",
-        "Gartenverein",
-        "Kleingarten",
-        "Kleingartenverein"
-    ],
-    "license" : "LGPL-3.0+",
-    "version" : "0.1.2",
-    "authors" : [{
-            "name" : "Nils Heinold",
-            "homepage" : "https://github.com/nlsh"
-        }
-    ],
-    "support" : {
-        "email" : "github@nilsheinold.de",
-        "issues" : "https://github.com/nlsh/nlsh_kleingartenverwaltung-bundle/issues",
-        "wiki" : "https://nlsh.gitbooks.io/nlsh_kleingartenverwaltung-bundle",
-        "source" : "https://github.com/nlsh/nlsh_kleingartenverwaltung-bundle"
-    },
-    "require" : {
-        "contao/core-bundle" : "^4.4"
-    },
-    "require-dev" : {
-        "contao/manager-plugin" : "^2.0"
-    },
-    "conflict" : {
-        "contao/core" : "*",
-        "contao/manager-plugin" : "<2.0 || >=3.0"
-    },
-    "autoload" : {
-        "psr-4" : {
-            "Nlsh\\KleingartenverwaltungBundle\\" : "src/"
-        },
-        "classmap" : [
-            "src/Resources/contao/"
-        ],
-        "exclude-from-classmap" : [
-            "src/Resources/contao/config/",
-            "src/Resources/contao/dca/",
-            "src/Resources/contao/languages/",
-            "src/Resources/contao/templates/"
-        ]
-    },
-    "config" : {
-        "preferred-install" : "dist"
-    },
-    "extra" : {
-        "branch-alias" : {
-            "dev-develop" : "0.0.x-dev"
-        },
-        "contao-manager-plugin" : "Nlsh\\KleingartenverwaltungBundle\\ContaoManager\\Plugin"
-    }
+	"name" : "nlsh/nlsh_kleingartenverwaltung-bundle",
+	"type" : "contao-bundle",
+	"description" : "Contao 4 Bundle zur Abrechnung eines Gartenvereines - Contao 4 bundle to invoise a garden club",
+	"keywords" : [
+		"contao",
+		"extension",
+		"garden",
+		"garden club",
+		"Garten",
+		"Gartenverein",
+		"Kleingarten",
+		"Kleingartenverein"
+	],
+	"license" : "LGPL-3.0+",
+	"version" : "0.1.2",
+	"authors" : [{
+			"name" : "Nils Heinold",
+			"homepage" : "https://github.com/nlsh"
+		}
+	],
+	"support" : {
+		"email" : "github@nilsheinold.de",
+		"issues" : "https://github.com/nlsh/nlsh_kleingartenverwaltung-bundle/issues",
+		"wiki" : "https://nlsh.gitbooks.io/nlsh_kleingartenverwaltung-bundle",
+		"source" : "https://github.com/nlsh/nlsh_kleingartenverwaltung-bundle"
+	},
+	"require" : {
+		"contao/core-bundle" : "^4.4"
+	},
+	"require-dev" : {
+		"contao/manager-plugin" : "^2.0"
+	},
+	"conflict" : {
+		"contao/core" : "*",
+		"contao/manager-plugin" : "<2.0 || >=3.0"
+	},
+	"autoload" : {
+		"psr-4" : {
+			"Nlsh\\KleingartenverwaltungBundle\\" : "src/"
+		},
+		"classmap" : [
+			"src/Resources/contao/"
+		],
+		"exclude-from-classmap" : [
+			"src/Resources/contao/config/",
+			"src/Resources/contao/dca/",
+			"src/Resources/contao/languages/",
+			"src/Resources/contao/templates/"
+		]
+	},
+	"config" : {
+		"preferred-install" : "dist"
+	},
+	"extra" : {
+		"branch-alias" : {
+			"dev-develop" : "0.0.x-dev"
+		},
+		"contao-manager-plugin" : "Nlsh\\KleingartenverwaltungBundle\\ContaoManager\\Plugin",
+		"runonce" : [
+			"src/Resources/contao/runonce/runonce.php"
+		]
+	}
 }
