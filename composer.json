@@ -57,8 +57,10 @@
 			"dev-develop" : "0.0.x-dev"
 		},
 		"contao-manager-plugin" : "Nlsh\\KleingartenverwaltungBundle\\ContaoManager\\Plugin",
-		"runonce" : [
-			"src/Resources/contao/runonce/NlshGartenRunonce.php"
-		]
+		"contao": {
+		      "runonce" : [
+			         "src/Resources/contao/runonce/NlshGartenRunonce.php"
+		      ]
+		  }
 	}
 }
