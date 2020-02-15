@@ -11,6 +11,11 @@
     * @license   LGPL
     */
 
+   /**
+    * Namespace
+    */
+namespace Nlsh\KleingartenverwaltungBundle;
+
 use Contao\System;
 use Symfony\Component\VarDumper\VarDumper;
 use Symfony\Component\Validator\Constraints\Time;
