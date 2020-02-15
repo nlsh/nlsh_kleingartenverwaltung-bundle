@@ -11,6 +11,10 @@
     * @license   LGPL
     */
 
+use Contao\System;
+use Symfony\Component\VarDumper\VarDumper;
+use Symfony\Component\Validator\Constraints\Time;
+
    /**
     * Einmalige Anpassung an eine neue Version
     */
@@ -35,7 +39,7 @@ class NlshGartenRunonce extends Controller
     public function run()
     {
         // Update der neuen Kindstabelle 'tl_nlsh_garten_config'.
-        $this->updateTlNlshGartenConfig();
+        $this->updateNlshGartenConfig();
 
     }//end run()
 
@@ -47,13 +51,38 @@ class NlshGartenRunonce extends Controller
      *
      * @return void
      */
-    private function updateTlNlshGartenConfig()
+    private function updateNlshGartenConfig()
     {
-        if ($this->Database->fieldExists('pid', 'tl_nlsh_garten_config') !== true) {
-            echo 'nils';
-        }
+         // Kontrolle, ob Elterntabelle vorhanden (Neuinstallation).
+        if ($this->Database->tableExists('tl_nlsh_garten_config') === true) {
+             // Wenn die Spalte 'pid' nicht vorhanden, dann Update.
+            if ($this->Database->fieldExists('pid', 'tl_nlsh_garten_config') !== true) {
+                 // Spalte 'pid' anlegen .
+                $this->Database->execute('ALTER TABLE tl_nlsh_garten_config ADD pid INT UNSIGNED DEFAULT 0 NOT NULL  AFTER `id`');
 
-    }//end updateTlNlshGartenConfig()
+                 // Indizieren.
+                $this->Database->execute('CREATE INDEX pid ON tl_nlsh_garten_config (pid)');
+
+                 // Eltern- Tabelle 'tl_nlsh_garten_verein_stammdaten' einlesen.
+                $objGartenVereinStammdaten = $this->Database->execute('SELECT * FROM `tl_nlsh_garten_verein_stammdaten` ORDER BY `tl_nlsh_garten_verein_stammdaten`.`jahr` DESC ');
+
+                 // Kinds- Tabelle 'tl_nlsh_garten_config' mit Eltern- Tabelle `tl_nlsh_garten_verein_stammdaten` synchronisieren.
+                while ($objGartenVereinStammdaten->next()) {
+                    // Kontrolle, ob Eintrag in 'tl_nlsh_garten_config' für das Stammdatenjahr existiert.
+                    $objGartenConfig      = $this->Database->prepare('SELECT * FROM `tl_nlsh_garten_config` WHERE `jahr` LIKE ? ORDER BY `jahr` ASC ')->execute($objGartenVereinStammdaten->jahr);
+                    $objGartenConfigCount = $objGartenConfig->count();
+
+                     // Wenn Datensatz vorhanden.
+                    if ($objGartenConfigCount > 0) {
+                        $this->Database->prepare('UPDATE `tl_nlsh_garten_config` SET `pid` = ? WHERE `tl_nlsh_garten_config`.`id` = ?; ')->execute($objGartenVereinStammdaten->id, $objGartenConfig->id);
+                    } else {
+                        $this->Database->prepare('INSERT INTO `tl_nlsh_garten_config` (`id`, `pid`, `tstamp`, `jahr`) VALUES (NULL, ?, ?, ?)')->execute($objGartenVereinStammdaten->id, time(), $objGartenVereinStammdaten->jahr);
+                    }
+                }
+            }//end if
+        }//end if
+
+    }//end updateNlshGartenConfig()
 
 }//end class
 
