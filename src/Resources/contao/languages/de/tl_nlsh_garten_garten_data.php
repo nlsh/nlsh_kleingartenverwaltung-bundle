@@ -4,7 +4,7 @@
  *
  * @package   nlsh/nlsh_kleingartenverwaltung-bundle
  * @author    Nils Heinold
- * @copyright Nils Heinold (c) 2019
+ * @copyright Nils Heinold (c) 2020
  * @link      https://github.com/nlsh/nlsh_kleingartenverwaltung-bundle
  * @license   LGPL
  */
@@ -16,36 +16,37 @@ $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['listGartenAltImgNoStrom']  = 
 $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['listGartenWasser']         = 'Wasser ';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['listGartenAltImgWasser']   = 'Wasser wurde abgerechnet ';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['listGartenAltImgNoWasser'] = 'Es wurde kein Wasser abgerechnet';
+
 /*
  * Fields
  */
 
-$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['nr'][0]                         = 'Garten Nr.';
-$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['nr'][1]                         = 'Geben Sie hier eine Nummer f&uuml;r den Garten ein!';
-$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['grosse'][0]                     = 'Gr&ouml;&szlig;e in qm';
-$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['grosse'][1]                     = 'Geben Sie bitte die Gartengr&ouml;&szlig;e in qm an!';
-$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['strom'][0]                      = 'Stromverbrauch in kwh';
-$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['strom'][1]                      = 'Geben Sie hier bitte den Stromverbrauch in kwh an!';
-$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['wasser'][0]                     = 'Wasserverbrauch in m&sup3;';
-$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['wasser'][1]                     = 'Geben Sie bitte den Wasserverbrauch in  m&sup3; an!';
-$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['nutzungUserId'][0]              = 'Gartennutzer';
-$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['nutzungUserId'][1]              = 'Geben Sie hier bitte den Nutzer des Gartens ein!';
-$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['nameKomplett'][0]               = 'Name';
-$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['nameKomplett'][1]               = '';
-$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['editNutzungUserId'][0]          = 'Quellelement bearbeiten';
-$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['editNutzungUserId'][1]          = 'Das Quellelement ID %s bearbeiten';
-$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['pachtJaNein'][0]                = 'Pacht berechnen?';
-$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['pachtJaNein'][1]                = 'Soll f&uuml;r dieses Jahr die Pacht berechnet werden?';
-$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['beitragJaNein'][0]              = 'Beitrag berechnen?';
-$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['beitragJaNein'][1]              = 'Soll f&uuml;r dieses Jahr der Beitrag berechnet werden?';
-$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['wasserzaehler1'][0]             = 'Zählernummer der 1. Wasseruhr';
-$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['wasserzaehler1'][1]             = 'Bitte geben Sie die Z&auml;hlernummer der 1. Wasseruhr ein!';
-$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['wasserzaehler2'][0]             = 'Z&auml;hlernummer der 2. Wasseruhr';
-$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['wasserzaehler2'][1]             = 'Bitte geben Sie die Z&auml;hlernummer der 2. Wasseruhr ein!';
-$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['stromzaehler1'][0]              = 'Z&auml;hlernummer des 1. Stromz&auml;hlers';
-$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['stromzaehler1'][1]              = 'Bitte geben Sie die Z&auml;hlernummer des 1. Stromz&auml;hlers ein!';
-$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['stromzaehler2'][0]              = 'Z&auml;hlernummer des 2. Stromz&auml;hlers';
-$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['stromzaehler2'][1]              = 'Bitte geben Sie die Z&auml;hlernummer des 2. Stromz&auml;hlers ein!';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['nr'][0]                = 'Garten Nr.';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['nr'][1]                = 'Geben Sie hier eine Nummer f&uuml;r den Garten ein!';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['grosse'][0]            = 'Gr&ouml;&szlig;e in qm';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['grosse'][1]            = 'Geben Sie bitte die Gartengr&ouml;&szlig;e in qm an!';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['strom'][0]             = 'Stromverbrauch in kwh';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['strom'][1]             = 'Geben Sie hier bitte den Stromverbrauch in kwh an!';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['wasser'][0]            = 'Wasserverbrauch in m&sup3;';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['wasser'][1]            = 'Geben Sie bitte den Wasserverbrauch in  m&sup3; an!';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['nutzungUserId'][0]     = 'Gartennutzer';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['nutzungUserId'][1]     = 'Geben Sie hier bitte den Nutzer des Gartens ein!';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['nameKomplett'][0]      = 'Name';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['nameKomplett'][1]      = '';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['editNutzungUserId'][0] = 'Quellelement bearbeiten';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['editNutzungUserId'][1] = 'Das Quellelement ID %s bearbeiten';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['pachtJaNein'][0]       = 'Pacht berechnen?';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['pachtJaNein'][1]       = 'Soll f&uuml;r dieses Jahr die Pacht berechnet werden?';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['beitragJaNein'][0]     = 'Beitrag berechnen?';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['beitragJaNein'][1]     = 'Soll f&uuml;r dieses Jahr der Beitrag berechnet werden?';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['wasserzaehler1'][0]    = 'Zählernummer der 1. Wasseruhr';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['wasserzaehler1'][1]    = 'Bitte geben Sie die Z&auml;hlernummer der 1. Wasseruhr ein!';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['wasserzaehler2'][0]    = 'Z&auml;hlernummer der 2. Wasseruhr';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['wasserzaehler2'][1]    = 'Bitte geben Sie die Z&auml;hlernummer der 2. Wasseruhr ein!';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['stromzaehler1'][0]     = 'Z&auml;hlernummer des 1. Stromz&auml;hlers';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['stromzaehler1'][1]     = 'Bitte geben Sie die Z&auml;hlernummer des 1. Stromz&auml;hlers ein!';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['stromzaehler2'][0]     = 'Z&auml;hlernummer des 2. Stromz&auml;hlers';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['stromzaehler2'][1]     = 'Bitte geben Sie die Z&auml;hlernummer des 2. Stromz&auml;hlers ein!';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['indi01GartenstammJaNein'][0]    = 'Individuell 01 aus Gartenstamm berechnen?';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['indi01GartenstammJaNein'][1]    = 'Soll Individuell 01 aus den Jahresstammdaten des Vereines berechnet werden?';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['indi02GartenstammJaNein'][0]    = 'Individuell 02 aus Gartenstamm berechnen?';
@@ -83,12 +84,12 @@ $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['indi04Dauer'][1]             
  * Legends
  */
 
-$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['gartennummer_legend']                  = 'Bezeichnung des Gartens';
-$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['groesse_legend']                       = 'Gartengr&ouml;&szlig;e in qm';
-$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['verbrauchsdaten_legend']               = 'Verbrauchsdaten';
-$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['gartenbesitzer_legend']                = 'Nutzer des Gartens';
-$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['zaehler_legend']                       = 'Z&auml;hlernummern der Wasseruhren und Stromz&auml;hler (nur Informativ, noch keine Auswertung!)';
-$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['besonderheiten_legend']                = 'Besonderheiten bei der Jahresbrechnung';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['gartennummer_legend']    = 'Bezeichnung des Gartens';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['groesse_legend']         = 'Gartengr&ouml;&szlig;e in qm';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['verbrauchsdaten_legend'] = 'Verbrauchsdaten';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['gartenbesitzer_legend']  = 'Nutzer des Gartens';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['zaehler_legend']         = 'Z&auml;hlernummern der Wasseruhren und Stromz&auml;hler (nur Informativ, noch keine Auswertung!)';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['besonderheiten_legend']  = 'Besonderheiten bei der Jahresbrechnung';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_garten_data']['abrechnung_garten_individuell_legend'] = 'Individuelle Abrechnungsdaten f&uuml;r dieses Jahr';
 
 /*

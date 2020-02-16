@@ -4,7 +4,7 @@
  *
  * @package   nlsh/nlsh_kleingartenverwaltung-bundle
  * @author    Nils Heinold
- * @copyright Nils Heinold (c) 2019
+ * @copyright Nils Heinold (c) 2020
  * @link      https://github.com/nlsh/nlsh_kleingartenverwaltung-bundle
  * @license   LGPL
  */
@@ -15,8 +15,8 @@ $GLOBALS['TL_LANG']['tl_nlsh_garten_config']['configLabel'] = 'Einstellungen f&u
  * Fields
  */
 
-$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['jahr'][0]                             = 'Jahr';
-$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['jahr'][1]                             = 'Geben Sie bitte das Jahr an, f&uuml;r das diese Einstellungen gelten sollen!';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['jahr'][0] = 'Jahr';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_config']['jahr'][1] = 'Geben Sie bitte das Jahr an, f&uuml;r das diese Einstellungen gelten sollen!';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlshGartenVorschussBeitrag'][0]       = 'Beitrag f&uuml;r das n&auml;chste Jahr?';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlshGartenVorschussBeitrag'][1]       = 'Geben Sie an, ob der Beitrag f&uuml;r das n&auml;chste Jahr abkassiert werden soll!';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_config']['nlshGartenVorschussPacht'][0]         = 'Pacht f&uuml;r das n&auml;chste Jahr?';

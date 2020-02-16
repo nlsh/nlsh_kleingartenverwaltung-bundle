@@ -1,9 +1,13 @@
 <?php
-
-/*
+/**
  * This file is part of nlsh/nlsh_kleingartenverwaltung-bundle.
  * (c) Nils Heinold
- * @license LGPL-3.0-or-later
+ *
+ * @package   nlsh/nlsh_kleingartenverwaltung-bundle
+ * @author    Nils Heinold
+ * @copyright Nils Heinold (c) 2020
+ * @link      https://github.com/nlsh/nlsh_kleingartenverwaltung-bundle
+ * @license   LGPL
  */
 
 namespace Nlsh\KleingartenverwaltungBundle\ContaoManager;
@@ -14,11 +18,10 @@ use Contao\ManagerPlugin\Bundle\Parser\ParserInterface;
 
 /**
  * Plugin for the Contao Manager.
- *
- * @author Andreas Schempp <https://github.com/aschempp>
  */
 class Plugin implements BundlePluginInterface
 {
+
     /**
      * {@inheritdoc}
      */
@@ -29,5 +32,7 @@ class Plugin implements BundlePluginInterface
                 ->setLoadAfter(['Contao\CoreBundle\ContaoCoreBundle'])
                 ->setReplace(['kleingartenverwaltung']),
         ];
-    }
-}
+
+    }//end getBundles()
+
+}//end class
