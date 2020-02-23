@@ -19,6 +19,7 @@ namespace Nlsh\KleingartenverwaltungBundle;
 use Contao\System;
 use Symfony\Component\VarDumper\VarDumper;
 use Symfony\Component\Validator\Constraints\Time;
+use Contao\Controller;
 
    /**
     * Einmalige Anpassung an eine neue Version
