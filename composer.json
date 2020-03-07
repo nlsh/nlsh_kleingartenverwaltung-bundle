@@ -54,7 +54,7 @@
 	},
 	"extra" : {
 		"branch-alias" : {
-			"dev-develop" : "0.0.x-dev"
+			"dev-develop" : "develop"
 		},
 		"contao-manager-plugin" : "Nlsh\\KleingartenverwaltungBundle\\ContaoManager\\Plugin",
 		"contao": {

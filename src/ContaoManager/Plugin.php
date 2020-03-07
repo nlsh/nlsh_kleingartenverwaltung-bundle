@@ -24,6 +24,8 @@ class Plugin implements BundlePluginInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @return none
      */
     public function getBundles(ParserInterface $parser)
     {

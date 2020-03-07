@@ -8,9 +8,11 @@ Diese Erweiterung soll hauptsächlich die Arbeit des Kassierers erleichtern!
 Mit dieser Erweiterung werden die Stammdaten des Gartenvereines, die Daten aller Gärten, sowie aller Mitglieder des Vereines je Jahr erfasst.
 Es können die Mitgliedsbeiträge, die Pacht, die Jahresverbräuche an Strom und Wasser, sowie individuelle Abrechnungseinheiten je Jahr für den gesamten Verein oder einzelnen Vereinsmitgliedern gegenüber in Rechnung gestellt werden.
 
-Ein Modul "Gesamtausgabe der Abrechnungsdaten"  je Jahr ist vorhanden.
+Ein Modul "Gesamtausgabe der Abrechnungsdaten"  zur Ausgabe aller berechneten Daten pro Jahr ist vorhanden.
 
-Für die zu erstellenden Rechnungen existiert ein Template zur Ausgabe der Rechnung.
+Für die zu erstellenden Rechnungen existiert zwei Template zur Ausgabe der Rechnung.
+Eines zur Ansicht drucken einer Rechnung im HTML- Format (Klick auf die Gartennummer in der Übersicht).
+Ein weiteres zur Erstellung einer LATEX- Datei zur Ausgabe aller Rechnungen.
 
 Die so erstellten Abrechnungen können im DATEV- Standardformat an eine Finanzbuchhaltungssoftware detailliert übergeben werden.
 Eine individuelle Vorbelegung der Konten in der Finanzbuchhaltung für die einzelnen, abgerechneten Posten ist dafür natürlich Pflicht!
