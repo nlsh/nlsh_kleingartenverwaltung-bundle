@@ -1,3 +1,11 @@
-#tl_navigation .tl_level_1_group .group-Kleingartenverwaltung{
+#tl_navigation .tl_level_1_group .group-Kleingartenverwaltung {
 background: url(sunrise.svg) 3px  2px no-repeat;
+}
+
+.nlshStatistik th {
+    text-align: left;
+}
+
+.nlshStatistik .active {
+    color:red;
 }

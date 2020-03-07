@@ -1,15 +1,13 @@
 <?php
-
 /**
- * Erweiterung des tl_module DCA`s
+ * Erweiterung des tl_member DCA`s
  *
- * @copyright Nils Heinold (c) 2017
- * @author    Nils Heinold
  * @package   nlsh/nlsh_kleingartenverwaltung-bundle
+ * @author    Nils Heinold
+ * @copyright Nils Heinold (c) 2019
  * @link      https://github.com/nlsh/nlsh_kleingartenverwaltung-bundle
  * @license   LGPL
  */
-
 
 /**
  * Add palettes to tl_module

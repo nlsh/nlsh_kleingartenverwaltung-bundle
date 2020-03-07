@@ -4,7 +4,7 @@
  *
  * @package   nlsh/nlsh_kleingartenverwaltung-bundle
  * @author    Nils Heinold
- * @copyright Nils Heinold (c) 2013
+ * @copyright Nils Heinold (c) 2020
  * @link      https://github.com/nlsh/nlsh_kleingartenverwaltung-bundle
  * @license   LGPL
  */
@@ -20,6 +20,7 @@ use Symfony\Bundle\FrameworkBundle\Templating\GlobalVariables;
 use Contao\NlshGartenGartenDataModel;
 use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\VarDumper\VarDumper;
+use Contao\Date;
 
 /**
  * Die Gesamtausgabe der Abrechnungsdaten erstellen
@@ -34,7 +35,7 @@ class ModuleNlshGartenGesamtausgabe extends \Module
      *
      * @var string
      */
-    protected $strTemplate = 'mod_nlsh_gesamtausgabe';
+    protected $strTemplate = 'mod_nlsh_garten_gesamtausgabe';
 
     /**
      * Existierende Jahre
@@ -161,7 +162,7 @@ class ModuleNlshGartenGesamtausgabe extends \Module
             for ($i = 0, $count = count($this->dataOutput['garten_abrechnung']); $i < $count; $i++) {
                 if ($this->dataOutput['garten_abrechnung'][$i]['id'] === $getRechnungen) {
                      // Neues Template initialisieren.
-                    $objTemplate = new \FrontendTemplate('mod_nlsh_rechnungsausgabe');
+                    $objTemplate = new \FrontendTemplate('download_nlsh_garten_rechnungsausgabe');
 
                     $data = $this->dataOutput;
                     $data['garten_abrechnung'] = $this->dataOutput['garten_abrechnung'][$i];
@@ -189,7 +190,7 @@ class ModuleNlshGartenGesamtausgabe extends \Module
         $getLatexAusgabe = \Input::get('LatexAusgabe');
         if (isset($getLatexAusgabe) === true) {
                      // Neues Template initialisieren.
-                    $objTemplate = new \FrontendTemplate('mod_nlsh_latex_rechnungen');
+                    $objTemplate = new \FrontendTemplate('download_nlsh_garten_latex_rechnungen');
 
                     $objTemplate->latex_outPut = $this->dataOutput;
 
@@ -230,9 +231,9 @@ class ModuleNlshGartenGesamtausgabe extends \Module
             $objBuchungssatz->editFirstLine('Erzeugt am', date('YmdHiu'));
             $objBuchungssatz->editFirstLine('Berater', $this->dataOutput['einstellungen']['nlsh_garten_beraternummer']);
             $objBuchungssatz->editFirstLine('Mandant', $this->dataOutput['einstellungen']['nlsh_garten_mandantennummer']);
-            $objBuchungssatz->editFirstLine('WjBeginn', date('Y', $this->dataOutput['einstellungen']['nlsh_rgvorbelegung_datum']) . '0101');
-            $objBuchungssatz->editFirstLine('Datum von', date('Ymd', $this->dataOutput['einstellungen']['nlsh_rgvorbelegung_datum']));
-            $objBuchungssatz->editFirstLine('Datum bis', date('Ymd', $this->dataOutput['einstellungen']['nlsh_rgvorbelegung_datum']));
+            $objBuchungssatz->editFirstLine('WjBeginn', date('Y', $this->dataOutput['einstellungen']['nlsh_garten_time_rgvorbelegung_datum']) . '0101');
+            $objBuchungssatz->editFirstLine('Datum von', date('Ymd', $this->dataOutput['einstellungen']['nlsh_garten_time_rgvorbelegung_datum']));
+            $objBuchungssatz->editFirstLine('Datum bis', date('Ymd', $this->dataOutput['einstellungen']['nlsh_garten_time_rgvorbelegung_datum']));
             $objBuchungssatz->editFirstLine('Bezeichnung', 'Gartenabrechnung');
 
              // Jetzt die Daten einfügen.
@@ -345,19 +346,19 @@ class ModuleNlshGartenGesamtausgabe extends \Module
             $gartenGesamtAbrechnung['einstellungen'] = $this->arrEinstellungen;
 
              // Abrechnungsjahr für Beitrag, Pacht und Verbrauchsdaten eintragen.
-            if (isset($gartenGesamtAbrechnung['einstellungen']['nlsh_garten_vorschuss_beitrag']) === true) {
+            if ($gartenGesamtAbrechnung['einstellungen']['nlsh_garten_vorschuss_beitrag'] !== '') {
                 $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_ausgabejahr_beitrag'] = ($gartenGesamtAbrechnung['ausgabejahr'] + 1);
             } else {
                 $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_ausgabejahr_beitrag'] = $gartenGesamtAbrechnung['ausgabejahr'];
             }
 
-            if (isset($gartenGesamtAbrechnung['einstellungen']['nlsh_garten_vorschuss_pacht']) === true) {
+            if ($gartenGesamtAbrechnung['einstellungen']['nlsh_garten_vorschuss_pacht'] !== '') {
                 $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_ausgabejahr_pacht'] = ($gartenGesamtAbrechnung['ausgabejahr'] + 1);
             } else {
                 $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_ausgabejahr_pacht'] = $gartenGesamtAbrechnung['ausgabejahr'];
             }
 
-            if (isset($gartenGesamtAbrechnung['einstellungen']['nlsh_garten_verbrauchsdaten_vorjahr']) === true) {
+            if ($gartenGesamtAbrechnung['einstellungen']['nlsh_garten_verbrauchsdaten_vorjahr'] !== '') {
                 $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_ausgabejahr_verbrauchsdaten'] = ($gartenGesamtAbrechnung['ausgabejahr'] - 1);
             } else {
                 $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_ausgabejahr_verbrauchsdaten'] = $gartenGesamtAbrechnung['ausgabejahr'];
@@ -380,8 +381,22 @@ class ModuleNlshGartenGesamtausgabe extends \Module
                 $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_text_rg_pacht_beitrag_formated']
             );
              // Datum setzen.
-            if (empty($gartenGesamtAbrechnung['einstellungen']['nlsh_rgvorbelegung_datum']) === true) {
-                $gartenGesamtAbrechnung['einstellungen']['nlsh_rgvorbelegung_datum'] = time();
+            if ($gartenGesamtAbrechnung['einstellungen']['nlsh_garten_rgvorbelegung_datum'] === '') {
+                $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_time_rgvorbelegung_datum'] = time();
+                $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_text_rgvorbelegung_datum_formated'] = Date::parse($GLOBALS['TL_CONFIG']['dateFormat'], $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_time_rgvorbelegung_datum']);
+            } else {
+                $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_time_rgvorbelegung_datum'] = $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_rgvorbelegung_datum'];
+                $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_text_rgvorbelegung_datum_formated'] = Date::parse($GLOBALS['TL_CONFIG']['dateFormat'], $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_rgvorbelegung_datum']);
+            }
+             // Fälligkeit setzen
+            if ($gartenGesamtAbrechnung['einstellungen']['nlsh_garten_rgvorbelegung_zahlungsziel'] !== '') {
+                $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_time_rgvorbelegung_zahlungsziel_datum'] = $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_time_rgvorbelegung_datum'] + ($gartenGesamtAbrechnung['einstellungen']['nlsh_garten_rgvorbelegung_zahlungsziel'] * (60 * 60 * 24));
+                $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_text_rgvorbelegung_zahlungsziel_datum'] = Date::parse($GLOBALS['TL_CONFIG']['dateFormat'], $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_time_rgvorbelegung_zahlungsziel_datum']);
+                $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_text_rgzahlungsziel_formated']          = str_replace(
+                    '%zahlfallig',
+                    $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_text_rgvorbelegung_zahlungsziel_datum'],
+                    $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_text_rg_zahlungsziel']);
+                // VarDumper::dump($gartenGesamtAbrechnung);
             }
         } else {
             $gartenGesamtAbrechnung['einstellungen'] = false;
@@ -396,7 +411,7 @@ class ModuleNlshGartenGesamtausgabe extends \Module
         );
 
          // Zur Optimierung
-         // Erzeugung eines Array, welches indiziert wir mit seinem id
+         // Erzeugung eines Array, welches indiziert wird mit seinem id
          // wird benutzt, um im $newArr jedem Garten sein Member- Array
          // zu übergeben, ohne bei jedem Durchlauf der while Schleife
          // auf die Datenbank zugreifen zu müssen.

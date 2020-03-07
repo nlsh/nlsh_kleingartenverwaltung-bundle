@@ -15,7 +15,7 @@
          padding-bottom:1em;
 }
 
-.mod_nlsh_gesamtausgabe tr {
+.mod_nlsh_gesamtausgabe tr{
          vertical-align:top;
          text-align: right;
 }
@@ -24,12 +24,29 @@
          padding: 0 5px 2px;
          border: 1px solid black;
 }
+.mod_nlsh_gesamtausgabe .error{
+         color:red;
+}
+
 .mod_nlsh_gesamtausgabe .nr{
          text-align:center;
 }
 
 .mod_nlsh_gesamtausgabe .adresse{
          text-align:left;
+}
+
+.mod_nlsh_gesamtausgabe .adrkommu{
+         margin-top: 10px;
+         width: 100%;
+         border-top: 1px black solid;
+         display: inline-block;
+}
+
+.mod_nlsh_gesamtausgabe .adrkontakt{
+         padding-bottom: 3px;
+         display: inline-block;
+}
 }
 
 .mod_nlsh_gesamtausgabe .betrag{
@@ -127,7 +144,7 @@ width: 80%;
 text-align: right;
 }
 
-.rg_verbrauch, .rg_pacht_beitrag, .rg_aufforder_zahlung , .rg_zahlung_wohin, .rg_hinweis{
+.rg_verbrauch, .rg_pacht_beitrag, .rg_aufforder_zahlung , .rg_zahlung_wohin, .rg_hinweis, .rg_zahlziel {
 margin-top: 1em;
 }
 
