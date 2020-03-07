@@ -13,7 +13,7 @@
 		"Kleingartenverein"
 	],
 	"license" : "LGPL-3.0+",
-	"version" : "0.1.2",
+	"version" : "0.2.0",
 	"authors" : [{
 			"name" : "Nils Heinold",
 			"homepage" : "https://github.com/nlsh"
@@ -54,7 +54,7 @@
 	},
 	"extra" : {
 		"branch-alias" : {
-			"dev-develop" : "develop-dev"
+			"dev-develop" : "0.2.x-dev"
 		},
 		"contao-manager-plugin" : "Nlsh\\KleingartenverwaltungBundle\\ContaoManager\\Plugin",
 		"contao": {
