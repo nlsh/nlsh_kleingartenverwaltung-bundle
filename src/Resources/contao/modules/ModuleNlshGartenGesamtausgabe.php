@@ -147,7 +147,7 @@ class ModuleNlshGartenGesamtausgabe extends \Module
             );
         }
 
-         // Und Übergabe.
+         // Und Ãœbergabe.
         $this->Template->gesamtAusgabe = $this->dataOutput;
 
         /*
@@ -213,7 +213,7 @@ class ModuleNlshGartenGesamtausgabe extends \Module
                      // HTML- Entity decodieren.
                     $this->Template->latex_outPut = html_entity_decode($this->Template->latex_outPut);
 
-                     // Und Downlöoad.
+                     // Und Download.
                     $this->downloadString($this->Template->latex_outPut, 'nils.tex');
         }//end if
 
@@ -382,21 +382,22 @@ class ModuleNlshGartenGesamtausgabe extends \Module
             );
              // Datum setzen.
             if ($gartenGesamtAbrechnung['einstellungen']['nlsh_garten_rgvorbelegung_datum'] === '') {
-                $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_time_rgvorbelegung_datum'] = time();
+                $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_time_rgvorbelegung_datum']          = time();
                 $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_text_rgvorbelegung_datum_formated'] = Date::parse($GLOBALS['TL_CONFIG']['dateFormat'], $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_time_rgvorbelegung_datum']);
             } else {
-                $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_time_rgvorbelegung_datum'] = $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_rgvorbelegung_datum'];
+                $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_time_rgvorbelegung_datum']          = $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_rgvorbelegung_datum'];
                 $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_text_rgvorbelegung_datum_formated'] = Date::parse($GLOBALS['TL_CONFIG']['dateFormat'], $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_rgvorbelegung_datum']);
             }
-             // Fälligkeit setzen
+
+             // Fälligkeit setzen.
             if ($gartenGesamtAbrechnung['einstellungen']['nlsh_garten_rgvorbelegung_zahlungsziel'] !== '') {
-                $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_time_rgvorbelegung_zahlungsziel_datum'] = $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_time_rgvorbelegung_datum'] + ($gartenGesamtAbrechnung['einstellungen']['nlsh_garten_rgvorbelegung_zahlungsziel'] * (60 * 60 * 24));
+                $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_time_rgvorbelegung_zahlungsziel_datum'] = ($gartenGesamtAbrechnung['einstellungen']['nlsh_garten_time_rgvorbelegung_datum'] + ($gartenGesamtAbrechnung['einstellungen']['nlsh_garten_rgvorbelegung_zahlungsziel'] * (60 * 60 * 24)));
                 $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_text_rgvorbelegung_zahlungsziel_datum'] = Date::parse($GLOBALS['TL_CONFIG']['dateFormat'], $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_time_rgvorbelegung_zahlungsziel_datum']);
                 $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_text_rgzahlungsziel_formated']          = str_replace(
                     '%zahlfallig',
                     $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_text_rgvorbelegung_zahlungsziel_datum'],
-                    $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_text_rg_zahlungsziel']);
-                // VarDumper::dump($gartenGesamtAbrechnung);
+                    $gartenGesamtAbrechnung['einstellungen']['nlsh_garten_text_rg_zahlungsziel']
+                );
             }
         } else {
             $gartenGesamtAbrechnung['einstellungen'] = false;
@@ -415,12 +416,9 @@ class ModuleNlshGartenGesamtausgabe extends \Module
          // wird benutzt, um im $newArr jedem Garten sein Member- Array
          // zu übergeben, ohne bei jedem Durchlauf der while Schleife
          // auf die Datenbank zugreifen zu müssen.
-        while ($member->next()) {
-            $idIndiMember[$member->id] = $member->row();
+        foreach ($member as $value) {
+            $idIndiMember[$value->id] = $value->row();
         }
-
-         // Model_Collection $member zurücksetzen.
-        $member->reset();
 
          // Daten der Gärten holen.
         $gartenGartenData = \NlshGartenGartenDataModel::findBy(
@@ -430,8 +428,8 @@ class ModuleNlshGartenGesamtausgabe extends \Module
         );
 
          // Jetzt lesen wir ein.
-        while ($gartenGartenData->next()) {
-            $newArr = $gartenGartenData->row();
+        foreach ($gartenGartenData as $value) {
+            $newArr = $value->row();
 
              // Gärten um formatierte Felder erweitern.
             $newArr['grosse_formated'] = $this->formatedNumber(
@@ -655,7 +653,7 @@ class ModuleNlshGartenGesamtausgabe extends \Module
 
              // Und rein damit.
             $gartenGesamtAbrechnung['garten_abrechnung'][] = $newArr;
-        }//end while
+        }//end foreach
 
         $gartenGesamtAbrechnung['gesamt_beitrag']          = $gesamtBeitrag;
         $gartenGesamtAbrechnung['gesamt_beitrag_formated'] = $this->formatedNumber(
