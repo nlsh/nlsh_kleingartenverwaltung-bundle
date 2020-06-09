@@ -147,7 +147,7 @@ class ModuleNlshGartenGesamtausgabe extends \Module
             );
         }
 
-         // Und Ãœbergabe.
+         // Und Übergabe.
         $this->Template->gesamtAusgabe = $this->dataOutput;
 
         /*

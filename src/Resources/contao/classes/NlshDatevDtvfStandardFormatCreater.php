@@ -295,6 +295,8 @@ class NlshDatevDtvfStandardFormatCreater
                  // Da in PHP Zahlen zum Rechnen int oder float (im englischen Format mit Punkt als Dezimaltrenner
                  // weitergegeben werden), müssen diese jetzt ins Deutsche, da DATEV ein Komma möchte.
                 if ($arrDataRowTemplate[$key]['FormatType'] === 'Betrag') {
+                     // Betrag darf nicht mit Vorzeichen behaftet sein.
+                    $value = abs($value);
                      // Wenn String ('5.5' ist ein String) zu Sicherheit Punkt mit Komma ersetzen.
                     if (is_string($value) === true) {
                         $value = str_replace('.', ',', $value);
