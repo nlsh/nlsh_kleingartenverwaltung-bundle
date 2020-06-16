@@ -105,6 +105,7 @@ $GLOBALS['TL_LANG']['tl_nlsh_garten_verein_stammdaten']['new'][1]               
 $GLOBALS['TL_LANG']['tl_nlsh_garten_verein_stammdaten']['show'][1]                 = 'Informationen zur Abrechnungsperiode ID %s anzeigen lassen';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_verein_stammdaten']['editGarten'][1]           = 'G&auml;rten der Periode ID %s bearbeiten';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_verein_stammdaten']['edit'][1]                 = 'Stammdaten der Periode ID %s bearbeiten';
+$GLOBALS['TL_LANG']['tl_nlsh_garten_verein_stammdaten']['configOutput'][0]         = 'Warum[0]?  Eigenschaften der Ausgabe für die Periode ID %s bearbeiten';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_verein_stammdaten']['configOutput'][1]         = 'Eigenschaften der Ausgabe für die Periode ID %s bearbeiten';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_verein_stammdaten']['editheaderStammDaten'][1] = 'Stammdaten der Periode ID %s bearbeiten';
 $GLOBALS['TL_LANG']['tl_nlsh_garten_verein_stammdaten']['delete'][0]               = 'Soll die Abrechnungsperiode ID %s wirklich gel&ouml;scht werden?';
