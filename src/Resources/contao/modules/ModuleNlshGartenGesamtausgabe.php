@@ -21,6 +21,7 @@ use Contao\NlshGartenGartenDataModel;
 use Symfony\Component\Validator\Constraints\NotNull;
 use Symfony\Component\VarDumper\VarDumper;
 use Contao\Date;
+use PhpParser\Node\Stmt\Static_;
 
 /**
  * Die Gesamtausgabe der Abrechnungsdaten erstellen
@@ -812,6 +813,7 @@ class ModuleNlshGartenGesamtausgabe extends \Module
         }
 
          // Tabelle tl_form- Eintrag vervollständigen.
+        $formModel->tstamp     = time();
         $formModel->title      = $GLOBALS['TL_LANG']['MSC']['nlsh_htmlSelect']['formTitle'];
         $formModel->alias      = $GLOBALS['TL_LANG']['MSC']['nlsh_htmlSelect']['formAlias'];
         $formModel->jumpTo     = $GLOBALS['objPage']->id;
@@ -829,6 +831,7 @@ class ModuleNlshGartenGesamtausgabe extends \Module
         $formModel->save();
 
         $formFieldModel->pid      = $formModel->id;
+        $formFieldModel->tstamp   = time();
         $formFieldModel->type     = 'select';
         $formFieldModel->name     = 'Ausgabejahr';
         $formFieldModel->label    = $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['auswahljahr'];
@@ -837,7 +840,7 @@ class ModuleNlshGartenGesamtausgabe extends \Module
         $formFieldModel->onchange = 'this.form.submit()';
         $formFieldModel->save();
 
-         // HTML für Formulat erzeugen.
+         // HTML für Formular erzeugen.
         $return = $this->getform($formModel);
 
         return $return;
