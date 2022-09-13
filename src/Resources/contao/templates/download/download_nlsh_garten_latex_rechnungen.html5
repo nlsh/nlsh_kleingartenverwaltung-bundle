@@ -170,7 +170,7 @@ $backAdress .= $this->latex_outPut['stammdaten_verein']['strasse'] . ', ' . $thi
 <?php for ( $i = 0; $i < count($this->latex_outPut['garten_abrechnung']); $i++ ): ?>
 
     % wenn Garten belegt, dann Rechnung ausgeben
-    <?php if ($this->latex_outPut['garten_abrechnung'][$i]['nutzung_user_id'] !== '0'): ?>
+    <?php if ($this->latex_outPut['garten_abrechnung'][$i]['nutzung_user_id'] != '0'): ?>
 
     	\begin{letter}{<?php echo $this->latex_outPut['garten_abrechnung'][$i]['member']['name_komplett']?>\\
                        <?php echo $this->latex_outPut['garten_abrechnung'][$i]['member']['street']?>\\

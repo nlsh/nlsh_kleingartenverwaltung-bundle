@@ -102,7 +102,7 @@ $GLOBALS['TL_JAVASCRIPT'][] = 'assets/simplemodal/js/simplemodal.min.js'; ?>
                         $buttonNr .= "&amp;";
                 }
                 $buttonNr .= "rechnung=" . $this->gesamtAusgabe['garten_abrechnung'][$i]['id'];
-                $buttonNr .= "&amp;ausgabejahr=" . $this->gesamtAusgabe['ausgabejahr'];
+                $buttonNr .= "&amp;Ausgabejahr=" . $this->gesamtAusgabe['ausgabejahr'];
                 $buttonNr .= "',-1,-1,800,500);\" method = \"post\">\n";
                 $buttonNr .= "<div class =\"garten_button\">\n";
                 $buttonNr .= "<input type=\"hidden\" name=\"FORM_SUBMIT\" value=\"Rechnung$i\" />\n";
@@ -269,7 +269,7 @@ $GLOBALS['TL_JAVASCRIPT'][] = 'assets/simplemodal/js/simplemodal.min.js'; ?>
                             echo '&amp;';
                         }
 
-                        ?>LatexAusgabe=true&amp;ausgabejahr=<?php echo $this->gesamtAusgabe['ausgabejahr']; ?>;" method = "post">
+                        ?>LatexAusgabe=true&amp;Ausgabejahr=<?php echo $this->gesamtAusgabe['ausgabejahr']; ?>" method = "post">
                         <div class ="garten_button">
                             <input type="hidden" name="FORM_SUBMIT" value="LatexAusgabe">
                             <input type="submit" value= "<?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['LatexAusgabe']; ?>">
@@ -289,7 +289,7 @@ $GLOBALS['TL_JAVASCRIPT'][] = 'assets/simplemodal/js/simplemodal.min.js'; ?>
                             echo '&amp;';
                         }
 
-                        ?>Buchungssatz=true&amp;ausgabejahr=<?php echo $this->gesamtAusgabe['ausgabejahr']; ?>;" method = "post">
+                        ?>Buchungssatz=true&amp;Ausgabejahr=<?php echo $this->gesamtAusgabe['ausgabejahr']; ?>" method = "post">
                         <div class ="garten_button">
                             <input type="hidden" name="FORM_SUBMIT" value="Buchungssatz">
                             <input type="submit" value= "<?php echo $GLOBALS['TL_LANG']['MSC']['nlsh_gesamtausgabe']['AusgabeDatev']; ?>">
