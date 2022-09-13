@@ -161,7 +161,7 @@ class ModuleNlshGartenGesamtausgabe extends \Module
         $getRechnungen = \Input::get('rechnung');
         if (isset($getRechnungen) === true) {
             for ($i = 0, $count = count($this->dataOutput['garten_abrechnung']); $i < $count; $i++) {
-                if ($this->dataOutput['garten_abrechnung'][$i]['id'] === $getRechnungen) {
+                if ($this->dataOutput['garten_abrechnung'][$i]['id'] == $getRechnungen) {
                      // Neues Template initialisieren.
                     $objTemplate = new \FrontendTemplate('download_nlsh_garten_rechnungsausgabe');
 
